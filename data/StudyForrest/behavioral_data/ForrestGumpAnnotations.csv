@@ -1,0 +1,871 @@
+time,major_location,setting,locale,int_or_ext,flow_of_time,time_of_day
+0,Paramount,mountain logo,mountain logo,ext,0,day
+17,Savannah,sky over Savannah,sky over Savannah,ext,++,day
+168.08,Savannah,bench at bus stop,bench at bus stop,ext,0,day
+272.2,Greenbow Alabama,doctor's office,doctor's office,int,-,day
+286.32,Greenbow Alabama,doctor's office,doctor's office,int,0,day
+300.56,Greenbow Alabama,doctor's office,doctor's office,int,0,day
+311.96,Greenbow Alabama,main street,crossroads,ext,+,day
+318.28,United States,flashback countryside,flashback countryside,ext,-,day
+343.04,Greenbow Alabama,main street,in front of barbershop,ext,++,day
+353.08,Greenbow Alabama,main street,in front of barbershop,ext,0,day
+358.08,Greenbow Alabama,main street,in front of barbershop,ext,0,day
+360.04,Greenbow Alabama,main street,in front of barbershop,ext,0,day
+361.84,Greenbow Alabama,main street,in front of barbershop,ext,0,day
+363.04,Greenbow Alabama,main street,in front of barbershop,ext,0,day
+385.64,Gump property,access-road,at the mail boxes,ext,+,day
+402.8,Gump property,access-road,alley to Gump House,ext,+,day
+425.6,Gump property,Gump House,front of Gump House,ext,0,day
+434.48,Greenbow Alabama,school,Hancock's office,int,++,day
+438.56,Greenbow Alabama,school,Hancock's office,int,0,day
+443.44,Greenbow Alabama,school,Hancock's office,int,0,day
+447.76,Greenbow Alabama,school,school hallway,int,0,day
+462.44,Greenbow Alabama,school,Hancock's office,int,0,day
+466.84,Greenbow Alabama,school,Hancock's office,int,0,day
+471.36,Greenbow Alabama,school,Hancock's office,int,0,day
+475.52,Greenbow Alabama,school,Hancock's office,int,0,day
+492.68,Greenbow Alabama,school,Hancock's office,int,0,day
+496.08,Greenbow Alabama,school,Hancock's office,int,0,day
+500.16,Greenbow Alabama,school,school hallway,int,0,day
+507.68,Greenbow Alabama,school,Hancock's office,int,0,day
+512.32,Greenbow Alabama,school,Hancock's office,int,0,day
+516.88,Gump property,Gump House,front of Gump House,ext,++,night
+522.24,Gump property,Gump House,front of Gump House,ext,0,night
+526.76,Gump property,Gump House,front of Gump House,ext,+,night
+555.72,Gump property,Gump House,Forrest's bedroom,int,+,night
+586.48,Gump property,Gump House,front of Gump House,ext,++,day
+594.84,Gump property,Gump House,corridor downstairs,int,0,day
+612.08,Gump property,Gump House,corridor upstairs,int,+,day
+630.4,Gump property,Gump House,Jenny's bedroom,int,0,day
+632.48,Gump property,Gump House,Jenny's bedroom,int,0,day
+633.64,Gump property,Gump House,Jenny's bedroom,int,0,day
+636.36,Gump property,Gump House,Jenny's bedroom,int,0,day
+656.88,Gump property,Gump House,Jenny's bedroom,int,0,day
+659.44,Gump property,Gump House,Jenny's bedroom,int,0,day
+669.56,Greenbow Alabama,main street,in front of electronic store,ext,++,night
+675,Greenbow Alabama,main street,in front of electronic store,ext,0,night
+679.8,Greenbow Alabama,main street,in front of electronic store,ext,0,night
+681.56,Greenbow Alabama,main street,in front of electronic store,ext,0,night
+686.2,Greenbow Alabama,main street,in front of electronic store,ext,0,night
+692.52,Greenbow Alabama,main street,in front of electronic store,ext,0,night
+702.56,Savannah,bench at bus stop,bench at bus stop,ext,++,day
+712.68,Gump property,access-road,at the mail boxes,ext,-,day
+721.36,Gump property,access-road,at the mail boxes,ext,0,day
+727.44,Gump property,access-road,at the mail boxes,ext,0,day
+730.08,Gump property,access-road,at the mail boxes,ext,0,day
+732.88,Gump property,access-road,at the mail boxes,ext,0,day
+738.44,Gump property,access-road,at the mail boxes,ext,0,day
+740.68,Gump property,access-road,at the mail boxes,ext,0,day
+743.08,Gump property,access-road,at the mail boxes,ext,0,day
+745.16,Gump property,access-road,at the mail boxes,ext,0,day
+752.24,Greenbow Alabama,school bus,inside driving bus,int,0,day
+755.24,Greenbow Alabama,school bus,inside driving bus,int,0,day
+757.88,Greenbow Alabama,school bus,inside driving bus,int,0,day
+759.32,Greenbow Alabama,school bus,inside driving bus,int,0,day
+760.64,Greenbow Alabama,school bus,inside driving bus,int,0,day
+761.64,Greenbow Alabama,school bus,inside driving bus,int,0,day
+770.24,Greenbow Alabama,school bus,inside driving bus,int,0,day
+771.28,Greenbow Alabama,school bus,inside driving bus,int,0,day
+778.52,Savannah,bench at bus stop,bench at bus stop,ext,++,day
+791.04,Greenbow Alabama,school bus,inside driving bus,int,-,day
+799.56,Greenbow Alabama,school bus,inside driving bus,int,0,day
+801.76,Greenbow Alabama,school bus,inside driving bus,int,0,day
+806.28,Greenbow Alabama,school bus,inside driving bus,int,0,day
+808,Greenbow Alabama,school bus,inside driving bus,int,0,day
+813.44,Greenbow Alabama,school bus,inside driving bus,int,0,day
+829.32,Greenbow Alabama,school bus,inside driving bus,int,0,day
+833.48,Greenbow Alabama,school bus,inside driving bus,int,0,day
+836.96,Greenbow Alabama,school bus,inside driving bus,int,0,day
+839.88,Greenbow Alabama,school bus,inside driving bus,int,0,day
+847.32,Greenbow Alabama,tree on a field,tree on a field,ext,++,day
+852.12,Greenbow Alabama,tree on a field,tree on a field,ext,+,day
+857.2,Greenbow Alabama,tree on a field,tree on a field,ext,++,day
+861.16,Greenbow Alabama,tree on a field,tree on a field,ext,+,day
+865.2,Greenbow Alabama,tree on a field,tree on a field,ext,++,day
+872.32,Greenbow Alabama,tree on a field,tree on a field,ext,0,day
+886.08,Savannah,bench at bus stop,bench at bus stop,ext,++,day
+891.16,Savannah,bench at bus stop,bench at bus stop,ext,0,day
+899.8,Gump property,access-road,alley to Gump House,ext,-,day
+901.8,Gump property,access-road,alley to Gump House,ext,0,day
+902.96,Gump property,access-road,alley to Gump House,ext,0,day
+904.88,Gump property,access-road,alley to Gump House,ext,0,day
+906,Gump property,access-road,alley to Gump House,ext,0,day
+907.96,Gump property,access-road,alley to Gump House,ext,0,day
+909.04,Gump property,access-road,alley to Gump House,ext,0,day
+910.48,Gump property,access-road,alley to Gump House,ext,0,day
+911.28,Gump property,access-road,alley to Gump House,ext,0,day
+912.72,Gump property,access-road,alley to Gump House,ext,0,day
+914.8,Gump property,access-road,alley to Gump House,ext,0,day
+916.4,Gump property,access-road,alley to Gump House,ext,0,day
+919.96,Gump property,access-road,alley to Gump House,ext,0,day
+924.88,Gump property,access-road,alley to Gump House,ext,0,day
+928.16,Gump property,access-road,alley to Gump House,ext,0,day
+931.16,Gump property,access-road,alley to Gump House,ext,0,day
+932.56,Gump property,access-road,alley to Gump House,ext,0,day
+933.92,Gump property,access-road,alley to Gump House,ext,0,day
+935.56,Gump property,access-road,alley to Gump House,ext,0,day
+937.32,Gump property,access-road,alley to Gump House,ext,0,day
+943.32,Gump property,access-road,alley to Gump House,ext,0,day
+945.64,Gump property,access-road,alley to Gump House,ext,0,day
+948.16,Gump property,access-road,alley to Gump House,ext,0,day
+951.08,Gump property,access-road,alley to Gump House,ext,0,day
+953.84,Gump property,access-road,alley to Gump House,ext,0,day
+959.6,Gump property,access-road,alley to Gump House,ext,0,day
+961.44,Gump property,access-road,alley to Gump House,ext,0,day
+963.24,Gump property,access-road,alley to Gump House,ext,0,day
+964.88,Gump property,access-road,alley to Gump House,ext,0,day
+968.72,Gump property,access-road,alley to Gump House,ext,0,day
+972.56,Gump property,access-road,alley to Gump House,ext,0,day
+975.08,Gump property,access-road,alley to Gump House,ext,0,day
+980,Savannah,bench at bus stop,bench at bus stop,ext,++,day
+983.28,Savannah,bench at bus stop,bench at bus stop,ext,0,day
+984.88,Savannah,bench at bus stop,bench at bus stop,ext,0,day
+991.24,Gump property,access-road,alley to Gump House,ext,-,day
+1000.6,Gump property,access-road,meadow near Gump House,ext,0,day
+1008.96,Greenbow Alabama,road with bridge,road with bridge,ext,+,day
+1015.48,Greenbow Alabama,road between trees,road between trees,ext,+,day
+1018.72,Greenbow Alabama,main street,in front of barbershop,ext,+,day
+1026.76,Greenbow Alabama,Jenny's house,front of Jenny's house,ext,+,day
+1040.28,Greenbow Alabama,Jenny's house,front of Jenny's house,ext,0,day
+1061.2,Greenbow Alabama,Jenny's house,front of Jenny's house,ext,0,day
+1072.92,Greenbow Alabama,Jenny's house,field near Jenny's house,ext,0,day
+1074.96,Greenbow Alabama,Jenny's house,field near Jenny's house,ext,0,day
+1078.64,Greenbow Alabama,Jenny's house,field near Jenny's house,ext,0,day
+1083.32,Greenbow Alabama,Jenny's house,field near Jenny's house,ext,0,day
+1084.72,Greenbow Alabama,Jenny's house,field near Jenny's house,ext,0,day
+1086.84,Greenbow Alabama,Jenny's house,field near Jenny's house,ext,0,day
+1094.68,Greenbow Alabama,Jenny's house,field near Jenny's house,ext,0,day
+1110.28,Greenbow Alabama,Jenny's grandma's trailer,Jenny's grandma's trailer,ext,++,day
+1123.88,Gump property,Gump House,front of Gump House,ext,++,night
+1135.8,Gump property,Gump House,Forrest's bedroom,int,+,night
+1144.4,Gump property,access-road,alley to Gump House,ext,++,day
+1149.36,Gump property,access-road,alley to Gump House,ext,0,day
+1150.2,Gump property,access-road,alley to Gump House,ext,0,day
+1153.04,Gump property,access-road,alley to Gump House,ext,0,day
+1154.36,Gump property,access-road,alley to Gump House,ext,0,day
+1155.08,Gump property,access-road,alley to Gump House,ext,0,day
+1157.36,Gump property,access-road,alley to Gump House,ext,0,day
+1160.64,Gump property,access-road,alley to Gump House,ext,0,day
+1162,Gump property,access-road,alley to Gump House,ext,0,day
+1163.16,Gump property,access-road,alley to Gump House,ext,0,day
+1164.08,Gump property,access-road,alley to Gump House,ext,0,day
+1165.04,Gump property,access-road,alley to Gump House,ext,0,day
+1166.36,Gump property,access-road,alley to Gump House,ext,0,day
+1167.64,Gump property,access-road,alley to Gump House,ext,0,day
+1169.8,Gump property,access-road,alley to Gump House,ext,0,day
+1171.64,Gump property,access-road,inside the pursuing car,int,0,day
+1173,Gump property,access-road,alley to Gump House,ext,0,day
+1174.44,Gump property,access-road,alley to Gump House,ext,0,day
+1175.48,Gump property,access-road,alley to Gump House,ext,0,day
+1177.8,Gump property,access-road,alley to Gump House,ext,0,day
+1178.68,Gump property,access-road,alley to Gump House,ext,0,day
+1180.4,Gump property,access-road,alley to Gump House,ext,0,day
+1189.56,Gump property,access-road,alley to Gump House,ext,0,day
+1192.12,Gump property,access-road,meadow near Gump House,ext,0,day
+1194,Savannah,bench at bus stop,bench at bus stop,ext,++,day
+1201.8,Greenbow Alabama,football field,road next to football field,ext,-,day
+1210.76,Greenbow Alabama,football field,road next to football field,ext,0,day
+1218.24,Greenbow Alabama,football field,stands,ext,0,day
+1219.12,Greenbow Alabama,football field,on the football field,ext,0,day
+1219.96,Greenbow Alabama,football field,stands,ext,0,day
+1222.48,Greenbow Alabama,football field,on the football field,ext,0,day
+1226.68,Greenbow Alabama,football field,stands,ext,0,day
+1231.12,Greenbow Alabama,football field,stands,ext,0,day
+1232.84,Greenbow Alabama,football field,stands,ext,0,day
+1235.88,Greenbow Alabama,football field,on the football field,ext,0,day
+1241.04,University of Alabama,football stadium,football field in stadium,ext,++,day
+1241.92,University of Alabama,football stadium,stands,ext,0,day
+1244.84,University of Alabama,football stadium,football field in stadium,ext,0,day
+1250.84,University of Alabama,football stadium,technical area,ext,0,day
+1253.72,University of Alabama,football stadium,football field in stadium,ext,0,day
+1258.4,University of Alabama,football stadium,football field in stadium,ext,0,day
+1261.28,University of Alabama,football stadium,stands,ext,0,day
+1265.88,University of Alabama,football stadium,technical area,ext,0,day
+1268.84,University of Alabama,football stadium,football field in stadium,ext,0,day
+1270.76,University of Alabama,football stadium,football field in stadium,ext,0,day
+1273.52,University of Alabama,football stadium,football field in stadium,ext,0,day
+1277.08,University of Alabama,football stadium,football field in stadium,ext,0,day
+1279.28,University of Alabama,football stadium,end zone,ext,0,day
+1284.28,University of Alabama,football stadium,technical area,ext,0,day
+1292.56,University of Alabama,Margaret Mitchell Hall,Margaret Mitchell Hall,ext,++,night
+1297.84,University of Alabama,Margaret Mitchell Hall,Margaret Mitchell Hall,ext,0,night
+1300.64,University of Alabama,Margaret Mitchell Hall,Margaret Mitchell Hall,ext,0,night
+1302.88,University of Alabama,Margaret Mitchell Hall,Margaret Mitchell Hall,ext,0,night
+1306.24,University of Alabama,Margaret Mitchell Hall,Margaret Mitchell Hall,ext,0,night
+1310.8,University of Alabama,Margaret Mitchell Hall,Margaret Mitchell Hall,ext,0,night
+1314.44,University of Alabama,Margaret Mitchell Hall,Margaret Mitchell Hall,ext,0,night
+1319.84,University of Alabama,Margaret Mitchell Hall,Margaret Mitchell Hall,ext,0,night
+1323.2,University of Alabama,Margaret Mitchell Hall,Margaret Mitchell Hall,ext,0,night
+1324.16,University of Alabama,Margaret Mitchell Hall,Margaret Mitchell Hall,ext,0,night
+1329.56,University of Alabama,Margaret Mitchell Hall,Margaret Mitchell Hall,ext,0,night
+1384.8,University of Alabama,girl's dormitory,corrridor,int,+,night
+1397.72,University of Alabama,girl's dormitory,Jenny's room,int,+,night
+1440.08,University of Alabama,girl's dormitory,Jenny's room,int,0,night
+1446.92,University of Alabama,girl's dormitory,Jenny's room,int,0,night
+1452.6,University of Alabama,girl's dormitory,Jenny's room,int,0,night
+1457.76,University of Alabama,girl's dormitory,Jenny's room,int,0,night
+1482.6,University of Alabama,girl's dormitory,Jenny's room,int,0,night
+1491.96,University of Alabama,girl's dormitory,Jenny's room,int,0,night
+1515.44,University of Alabama,girl's dormitory,Jenny's room,int,0,night
+1525.28,University of Alabama,football stadium,stands,ext,++,day
+1528.6,University of Alabama,football stadium,football field in stadium,ext,0,day
+1531.96,University of Alabama,football stadium,end zone,ext,0,day
+1533.32,University of Alabama,football stadium,football field in stadium,ext,0,day
+1534.68,University of Alabama,football stadium,end zone,ext,0,day
+1540.16,University of Alabama,football stadium,end zone,ext,0,day
+1545.2,Washington D.C.,White House,front of White House (broadcast),ext,++,day
+1549.6,Washington D.C.,White House,unknown_1 (broadcast),int,0,day
+1556.4,Washington D.C.,White House,room with buffet,int,+,day
+1576.24,Washington D.C.,White House,room with buffet,int,+,day
+1580.04,Washington D.C.,White House,Oval Office (broadcast),int,+,day
+1588.4,Washington D.C.,White House,Oval Office (broadcast),int,0,day
+1594.32,Washington D.C.,White House,Oval Office (broadcast),int,0,day
+1599.2,Washington D.C.,White House,president's bathroom,int,+,day
+1619.08,Dallas,downtown Dallas,Dealey Plaza (broadcast),ext,++,day
+1623.28,Los Angeles,Ambassador Hotel,ballroom (broadcast),int,++,day
+1628,Savannah,bench at bus stop,bench at bus stop,ext,++,day
+1634.12,University of Alabama,college graduation,stage and audience,ext,-,day
+1643.4,University of Alabama,college graduation,stage and audience,ext,0,day
+1645.52,University of Alabama,college graduation,in front of statue,ext,+,day
+1658.52,University of Alabama,college graduation,in front of statue,ext,0,day
+1661.16,United States,army bus,inside army bus,int,++,day
+1667.48,United States,army bus,inside army bus,int,0,day
+1681.84,United States,army bus,inside army bus,int,0,day
+1683.76,United States,army bus,inside army bus,int,0,day
+1685.8,United States,army bus,inside army bus,int,0,day
+1690.12,United States,army bus,inside army bus,int,0,day
+1692.48,United States,army bus,inside army bus,int,0,day
+1735.44,Bayou La Batre,fine house,fine house's dining room,int,-,day
+1739.52,Bayou La Batre,fine house,fine house's dining room,int,-,day
+1744.8,United States,army bus,inside army bus,int,++,day
+1759.12,United States,barracks,dormitory,int,++,day
+1796.4,United States,barracks,dormitory,int,++,day
+1845.52,United States,barracks,dormitory,int,++,day
+1856.36,United States,barracks,dormitory,int,++,day
+1871.8,United States,barracks,dormitory,int,++,night
+1876.6,United States,barracks,dormitory,int,0,night
+1898.4,United States,barracks,dormitory,int,0,night
+1901.68,United States,barracks,dormitory,int,0,night
+1907.32,United States,barracks,dormitory,int,0,night
+1915.8,Memphis,night club,inside the night club,int,++,night
+1951.44,Memphis,night club,inside the night club,int,0,night
+1952.56,Memphis,night club,inside the night club,int,0,night
+1966.76,Memphis,night club,inside the night club,int,0,night
+1978.44,Memphis,night club,inside the night club,int,0,night
+1984.48,Memphis,night club,inside the night club,int,0,night
+1990.32,Memphis,night club,inside the night club,int,0,night
+1993.48,Memphis,night club,inside the night club,int,0,night
+1998.8,Memphis,night club,inside the night club,int,0,night
+2001.44,Memphis,night club,inside the night club,int,0,night
+2002.88,Memphis,night club,inside the night club,int,0,night
+2004.8,Memphis,night club,inside the night club,int,0,night
+2005.44,Memphis,night club,inside the night club,int,0,night
+2013.64,Memphis,night club,inside the night club,int,0,night
+2017.16,Memphis,night club,inside the night club,int,0,night
+2020.28,Memphis,night club,inside the night club,int,0,night
+2025,Memphis,night club,inside the night club,int,0,night
+2028.96,Memphis,bridge near club,bridge near club,ext,+,night
+2037.96,Memphis,bridge near club,bridge near club,ext,0,night
+2041.88,Memphis,bridge near club,bridge near club,ext,0,night
+2045.32,Memphis,bridge near club,bridge near club,ext,0,night
+2049.52,Memphis,bridge near club,bridge near club,ext,0,night
+2073.24,Memphis,bridge near club,bridge near club,ext,0,night
+2083.12,Memphis,bridge near club,bridge near club,ext,0,night
+2089.6,Memphis,bridge near club,bridge near club,ext,0,night
+2103.28,Memphis,bridge near club,bridge near club,ext,0,night
+2105.68,Memphis,bridge near club,bridge near club,ext,0,night
+2107.28,Memphis,bridge near club,bridge near club,ext,0,night
+2111.36,Memphis,bridge near club,bridge near club,ext,0,night
+2112.92,Memphis,bridge near club,bridge near club,ext,0,night
+2115.72,Memphis,bridge near club,bridge near club,ext,0,night
+2127.4,Memphis,bridge near club,bridge near club,ext,0,night
+2131.64,Memphis,bridge near club,bridge near club,ext,0,night
+2135.64,Memphis,bridge near club,bridge near club,ext,0,night
+2137.12,Memphis,bridge near club,bridge near club,ext,0,night
+2138.52,Memphis,bridge near club,bridge near club,ext,0,night
+2142.36,Memphis,bridge near club,bridge near club,ext,0,night
+2146.12,Memphis,bridge near club,bridge near club,ext,0,night
+2147.64,Memphis,bridge near club,bridge near club,ext,0,night
+2150.6,Vietnam,Military Base,helicopter,ext,++,day
+2166.48,Vietnam,Military Base,helicopter,ext,+,day
+2193.16,Vietnam,Military Base,barbecue near river,ext,0,day
+2217.68,Vietnam,Military Base,at Dan's tent,ext,0,day
+2256.84,Vietnam,Military Base,at Dan's tent,ext,0,day
+2261.48,Vietnam,Military Base,at Dan's tent,ext,0,day
+2266.04,Vietnam,Military Base,at Dan's tent,ext,0,day
+2279.28,Vietnam,Military Base,at Dan's tent,ext,0,day
+2281.28,Vietnam,Military Base,at Dan's tent,ext,0,day
+2286.72,Vietnam,Military Base,at Dan's tent,ext,0,day
+2306.48,Vietnam,Military Base,at Dan's tent,ext,0,day
+2308.96,United States,battlefield in Revolutionary War,battlefield in Revolutionary War,ext,-,day
+2310.44,United States,battlefield in American Zivil War,battlefield in American Zivil War,ext,++,day
+2312.04,Europe,battlefield in World War 1,battlefield in World War 1,ext,++,day
+2313.2,Europe,battlefield in World War 2,battlefield in World War 2,ext,++,day
+2315.28,Vietnam,Military Base,at Dan's tent,ext,++,day
+2359.56,Vietnam,rice field in front of mountains,rice field in front of mountains,ext,++,day
+2367.88,Vietnam,rice field in front of mountains,rice field in front of mountains,ext,0,day
+2375.36,Vietnam,road betweeen rice fields,road betweeen rice fields,ext,++,day
+2386.72,Vietnam,road betweeen rice fields,road betweeen rice fields,ext,0,day
+2396.68,Vietnam,road betweeen rice fields,road betweeen rice fields,ext,0,day
+2398.72,Vietnam,road betweeen rice fields,road betweeen rice fields,ext,0,day
+2405.88,Vietnam,road betweeen rice fields,road betweeen rice fields,ext,0,day
+2421.16,Vietnam,road betweeen rice fields,road betweeen rice fields,ext,0,day
+2423.04,Vietnam,road betweeen rice fields,road betweeen rice fields,ext,0,day
+2431.08,Vietnam,road betweeen rice fields,road betweeen rice fields,ext,0,day
+2434.28,Vietnam,road betweeen rice fields,road betweeen rice fields,ext,0,day
+2441.28,Vietnam,road betweeen rice fields,road betweeen rice fields,ext,0,day
+2442.88,Vietnam,road betweeen rice fields,road betweeen rice fields,ext,0,day
+2445.92,Vietnam,road betweeen rice fields,road betweeen rice fields,ext,0,day
+2447.44,Vietnam,road betweeen rice fields,road betweeen rice fields,ext,0,day
+2449.04,Vietnam,road betweeen rice fields,road betweeen rice fields,ext,0,day
+2451.2,Vietnam,road betweeen rice fields,road betweeen rice fields,ext,0,day
+2455.32,Vietnam,road betweeen rice fields,road betweeen rice fields,ext,0,day
+2461,Vietnam,road betweeen rice fields,road betweeen rice fields,ext,0,day
+2463.84,Vietnam,road betweeen rice fields,road betweeen rice fields,ext,0,day
+2476.88,Vietnam,field with NLF tunnel,field with NLF tunnel,ext,++,day
+2488.6,Vietnam,flooded rice field,flooded rice field,ext,++,day
+2499.2,Vietnam,foxhole in jungle,foxhole in jungle,ext,++,day
+2505.16,Vietnam,random rainy jungle,random rainy jungle,ext,++,day
+2508.96,Vietnam,rainy field,rainy field,ext,++,day
+2511.68,Vietnam,flooded jungle,flooded jungle,ext,++,day
+2516.72,Vietnam,rain-swept camp,rain-swept camp,ext,++,night
+2583,Vietnam,rain-swept camp,rain-swept camp,ext,+,night
+2600.84,Greenbow Alabama,Jenny's grandma's trailer,Jenny's grandma's trailer,ext,0,day
+2611.56,Vietnam,rain-swept camp,rain-swept camp,ext,0,night
+2618.76,Vietnam,embattled jungle,embattled embankment,ext,++,day
+2660.32,Vietnam,embattled jungle,embattled embankment,ext,0,day
+2666.12,Vietnam,embattled jungle,embattled embankment,ext,0,day
+2667.84,Vietnam,embattled jungle,embattled embankment,ext,0,day
+2669.2,Vietnam,embattled jungle,embattled embankment,ext,0,day
+2670.6,Vietnam,embattled jungle,embattled embankment,ext,0,day
+2678.72,Vietnam,embattled jungle,embattled embankment,ext,0,day
+2681.04,Vietnam,embattled jungle,embattled embankment,ext,0,day
+2684.84,Vietnam,embattled jungle,embattled embankment,ext,0,day
+2686.64,Vietnam,embattled jungle,embattled embankment,ext,0,day
+2687.44,Vietnam,embattled jungle,embattled embankment,ext,0,day
+2689,Vietnam,embattled jungle,embattled embankment,ext,0,day
+2691.16,Vietnam,embattled jungle,embattled embankment,ext,0,day
+2692.64,Vietnam,embattled jungle,embattled embankment,ext,0,day
+2693.6,Vietnam,embattled jungle,embattled embankment,ext,0,day
+2699.6,Vietnam,embattled jungle,embattled embankment,ext,0,day
+2701.28,Vietnam,embattled jungle,embattled embankment,ext,0,day
+2702.44,Vietnam,embattled jungle,embattled embankment,ext,0,day
+2703.28,Vietnam,embattled jungle,embattled embankment,ext,0,day
+2704.44,Vietnam,embattled jungle,embattled embankment,ext,0,day
+2706.2,Vietnam,embattled jungle,embattled embankment,ext,0,day
+2706.88,Vietnam,embattled jungle,embattled embankment,ext,0,day
+2708.32,Vietnam,embattled jungle,embattled embankment,ext,0,day
+2709.12,Vietnam,embattled jungle,embattled embankment,ext,0,day
+2710.72,Vietnam,embattled jungle,embattled embankment,ext,0,day
+2712.16,Vietnam,embattled jungle,embattled embankment,ext,0,day
+2715.28,Vietnam,embattled jungle,embattled embankment,ext,0,day
+2723,Vietnam,embattled jungle,in the embattled jungle,ext,0,day
+2726.92,Vietnam,embattled jungle,in the embattled jungle,ext,0,day
+2735.16,Vietnam,embattled jungle,in the embattled jungle,ext,0,day
+2744,Vietnam,embattled jungle,in front of embattled jungle,ext,0,day
+2761.76,Vietnam,embattled jungle,in the embattled jungle,ext,0,day
+2766.56,Vietnam,embattled jungle,finding place of Tex,ext,0,day
+2780.48,Vietnam,embattled jungle,finding place of Tex,ext,0,day
+2782.28,Vietnam,embattled jungle,finding place of Tex,ext,0,day
+2783.36,Vietnam,embattled jungle,finding place of Tex,ext,0,day
+2789.48,Vietnam,embattled jungle,finding place of Tex,ext,0,day
+2791.2,Vietnam,embattled jungle,in the embattled jungle,ext,0,day
+2797.64,Vietnam,embattled jungle,glade at river,ext,+,day
+2808.44,Vietnam,embattled jungle,in the embattled jungle,ext,+,day
+2812.76,Vietnam,embattled jungle,glade at river,ext,+,day
+2818.24,Vietnam,embattled jungle,finding place of Dallas,ext,+,day
+2821.12,Vietnam,embattled jungle,glade at river,ext,+,day
+2823.28,Vietnam,embattled jungle,glade at river,ext,0,day
+2826.2,Vietnam,embattled jungle,in the embattled jungle,ext,+,day
+2830.92,Vietnam,embattled jungle,finding place of Dan,ext,0,day
+2856.24,Vietnam,embattled jungle,finding place of Dan,ext,0,day
+2865.4,Vietnam,embattled jungle,glade in embattled jungle,ext,+,day
+2871.6,Vietnam,embattled jungle,glade in embattled jungle,ext,0,day
+2876.24,Vietnam,embattled jungle,glade in embattled jungle,ext,0,day
+2877.92,Vietnam,embattled jungle,glade in embattled jungle,ext,0,day
+2881.24,Vietnam,embattled jungle,in the embattled jungle,ext,+,day
+2883.92,Vietnam,embattled jungle,in the embattled jungle,ext,0,day
+2889.04,Vietnam,embattled jungle,in front of embattled jungle,ext,0,day
+2896.24,Vietnam,embattled jungle,glade at river,ext,0,day
+2901.08,Vietnam,embattled jungle,glade at river,ext,0,day
+2908.2,Vietnam,embattled jungle,glade at river,ext,0,day
+2914.24,Vietnam,embattled jungle,in the embattled jungle,ext,+,day
+2921.52,Vietnam,embattled jungle,finding place of Bubba,ext,0,day
+2929.92,Vietnam,embattled jungle,finding place of Bubba,ext,0,day
+2938.12,Vietnam,embattled jungle,finding place of Bubba,ext,0,day
+2939.96,Vietnam,embattled jungle,finding place of Bubba,ext,0,day
+2965.04,Vietnam,embattled jungle,in the embattled jungle,ext,+,day
+2970.48,Vietnam,embattled jungle,in the embattled jungle,ext,0,day
+2976.72,Vietnam,embattled jungle,in front of embattled jungle,ext,0,day
+3001.8,Vietnam,embattled jungle,glade at river,ext,+,day
+3013.12,Vietnam,embattled jungle,glade at river,ext,0,day
+3027.84,Vietnam,embattled jungle,glade at river,ext,0,day
+3041.44,Vietnam,embattled jungle,glade at river,ext,0,day
+3059.8,Savannah,bench at bus stop,bench at bus stop,ext,++,day
+3073.72,Savannah,bench at bus stop,bench at bus stop,ext,0,day
+3093.92,Vietnam,hospital dormitory,hospital dormitory,int,-,day
+3125.64,Vietnam,hospital dormitory,hospital dormitory,int,0,day
+3140.68,Vietnam,hospital dormitory,hospital dormitory,int,0,day
+3155.92,Vietnam,hospital dormitory,hospital dormitory,int,0,day
+3164.6,Vietnam,hospital dormitory,hospital dormitory,int,0,day
+3171.24,Vietnam,hospital lounge,hospital lounge,int,++,day
+3225.56,Vietnam,hospital lounge,hospital lounge,int,++,day
+3231.48,Vietnam,hospital lounge,hospital lounge,int,0,day
+3234.96,Vietnam,hospital lounge,hospital lounge,int,++,day
+3251.8,Vietnam,hospital lounge,hospital lounge,int,++,day
+3267.76,Vietnam,hospital dormitory,hospital dormitory,int,++,day
+3276.52,Vietnam,hospital dormitory,hospital dormitory,int,0,day
+3294,Washington D.C.,White House,front of White House (broadcast),ext,++,day
+3297.56,Greenbow Alabama,main street,in the barbershop,int,0,day
+3302.4,Greenbow Alabama,main street,in the barbershop,int,0,day
+3305.76,Washington D.C.,White House,room in White House (broadcast),int,0,day
+3307.72,Washington D.C.,White House,room in White House (broadcast),int,0,day
+3309.4,Washington D.C.,White House,room in White House (broadcast),int,0,day
+3314.84,Washington D.C.,White House,room in White House (broadcast),int,0,day
+3316.76,Washington D.C.,White House,room in White House (broadcast),int,0,day
+3323.56,Greenbow Alabama,main street,in the barbershop,int,0,day
+3327.32,Greenbow Alabama,main street,in the barbershop,int,0,day
+3328.68,Washington D.C.,White House,room in White House (broadcast),int,0,day
+3329.6,Washington D.C.,White House,room in White House (broadcast),int,0,day
+3330.6,Washington D.C.,White House,room in White House (broadcast),int,0,day
+3334.64,Washington D.C.,Lincoln Memorial,bus stop near Lincoln Memorial,ext,++,day
+3348.12,Washington D.C.,Lincoln Memorial,bus stop near Lincoln Memorial,ext,0,day
+3358.52,Washington D.C.,Lincoln Memorial,bus stop near Lincoln Memorial,ext,0,day
+3360.24,Washington D.C.,Lincoln Memorial,bus stop near Lincoln Memorial,ext,0,day
+3369.32,Washington D.C.,Lincoln Memorial,behind the stage,ext,0,day
+3397.68,Washington D.C.,Lincoln Memorial,behind the stage,ext,0,day
+3403.28,Washington D.C.,Lincoln Memorial,behind the stage,ext,0,day
+3410.56,Washington D.C.,Lincoln Memorial,behind the stage,ext,0,day
+3413.6,Washington D.C.,Lincoln Memorial,behind the stage,ext,0,day
+3416.6,Washington D.C.,Lincoln Memorial,behind the stage,ext,0,day
+3418,Washington D.C.,Lincoln Memorial,behind the stage,ext,0,day
+3438.4,Washington D.C.,Lincoln Memorial,between Lincoln Memorial and Reflecting Pool,ext,0,day
+3443.08,Washington D.C.,Lincoln Memorial,between Lincoln Memorial and Reflecting Pool,ext,0,day
+3445.44,Washington D.C.,Lincoln Memorial,between Lincoln Memorial and Reflecting Pool,ext,0,day
+3449.2,Washington D.C.,Lincoln Memorial,between Lincoln Memorial and Reflecting Pool,ext,0,day
+3454.96,Washington D.C.,Lincoln Memorial,between Lincoln Memorial and Reflecting Pool,ext,0,day
+3458.6,Washington D.C.,Lincoln Memorial,between Lincoln Memorial and Reflecting Pool,ext,0,day
+3477.88,Washington D.C.,Lincoln Memorial,between Lincoln Memorial and Reflecting Pool,ext,0,day
+3487.8,Washington D.C.,Lincoln Memorial,between Lincoln Memorial and Reflecting Pool,ext,0,day
+3490.28,Washington D.C.,Lincoln Memorial,between Lincoln Memorial and Reflecting Pool,ext,0,day
+3500.76,Washington D.C.,Lincoln Memorial,between Lincoln Memorial and Reflecting Pool,ext,0,day
+3504.2,Washington D.C.,Lincoln Memorial,between Lincoln Memorial and Reflecting Pool,ext,0,day
+3507.4,Washington D.C.,Lincoln Memorial,between Lincoln Memorial and Reflecting Pool,ext,0,day
+3509.28,Washington D.C.,Lincoln Memorial,between Lincoln Memorial and Reflecting Pool,ext,0,day
+3511.84,Washington D.C.,Lincoln Memorial,between Lincoln Memorial and Reflecting Pool,ext,0,day
+3515.96,Washington D.C.,Lincoln Memorial,between Lincoln Memorial and Reflecting Pool,ext,0,day
+3519.84,Washington D.C.,Lincoln Memorial,between Lincoln Memorial and Reflecting Pool,ext,0,day
+3525.92,Washington D.C.,Lincoln Memorial,between Lincoln Memorial and Reflecting Pool,ext,0,day
+3535.84,Washington D.C.,Lincoln Memorial,between Lincoln Memorial and Reflecting Pool,ext,0,day
+3543.04,Washington D.C.,Lincoln Memorial,between Lincoln Memorial and Reflecting Pool,ext,0,day
+3544.2,Washington D.C.,Lincoln Memorial,between Lincoln Memorial and Reflecting Pool,ext,0,day
+3546.16,Washington D.C.,Lincoln Memorial,between Lincoln Memorial and Reflecting Pool,ext,0,day
+3548.04,Washington D.C.,Lincoln Memorial,between Lincoln Memorial and Reflecting Pool,ext,0,day
+3549.68,Washington D.C.,Lincoln Memorial,between Lincoln Memorial and Reflecting Pool,ext,0,day
+3552.08,Washington D.C.,Lincoln Memorial,between Lincoln Memorial and Reflecting Pool,ext,0,day
+3554.24,Washington D.C.,Lincoln Memorial,between Lincoln Memorial and Reflecting Pool,ext,0,day
+3556.16,Washington D.C.,Lincoln Memorial,between Lincoln Memorial and Reflecting Pool,ext,0,day
+3558.08,Washington D.C.,Lincoln Memorial,between Lincoln Memorial and Reflecting Pool,ext,0,day
+3559.24,Washington D.C.,Lincoln Memorial,between Lincoln Memorial and Reflecting Pool,ext,0,day
+3563.88,Washington D.C.,Lincoln Memorial,between Lincoln Memorial and Reflecting Pool,ext,0,day
+3567.56,Washington D.C.,Lincoln Memorial,between Lincoln Memorial and Reflecting Pool,ext,0,day
+3578.4,Washington D.C.,protester's camp,protester's camp,ext,++,night
+3587.08,Washington D.C.,Black Panther's HQ,Black Panther's HQ,int,++,night
+3593.52,Washington D.C.,Black Panther's HQ,Black Panther's HQ,int,0,night
+3639.44,Washington D.C.,Black Panther's HQ,Black Panther's HQ,int,0,night
+3643.16,Washington D.C.,Black Panther's HQ,Black Panther's HQ,int,0,night
+3645.2,Washington D.C.,Black Panther's HQ,Black Panther's HQ,int,0,night
+3645.88,Washington D.C.,Black Panther's HQ,Black Panther's HQ,int,0,night
+3646.96,Washington D.C.,Black Panther's HQ,Black Panther's HQ,int,0,night
+3652.6,Washington D.C.,Black Panther's HQ,Black Panther's HQ,int,0,night
+3653.8,Washington D.C.,Black Panther's HQ,Black Panther's HQ,int,0,night
+3654.28,Washington D.C.,Black Panther's HQ,Black Panther's HQ,int,0,night
+3654.92,Washington D.C.,Black Panther's HQ,Black Panther's HQ,int,0,night
+3655.6,Washington D.C.,Black Panther's HQ,Black Panther's HQ,int,0,night
+3656.16,Washington D.C.,Black Panther's HQ,Black Panther's HQ,int,0,night
+3657.68,Washington D.C.,Black Panther's HQ,Black Panther's HQ,int,0,night
+3658.88,Washington D.C.,Black Panther's HQ,Black Panther's HQ,int,0,night
+3661.32,Washington D.C.,Black Panther's HQ,Black Panther's HQ,int,0,night
+3662.6,Washington D.C.,Black Panther's HQ,Black Panther's HQ,int,0,night
+3663.8,Washington D.C.,Black Panther's HQ,Black Panther's HQ,int,0,night
+3680.32,Washington D.C.,Black Panther's HQ,Black Panther's HQ,int,0,night
+3682.96,Washington D.C.,Black Panther's HQ,Black Panther's HQ,int,0,night
+3692.84,Washington D.C.,Black Panther's HQ,Black Panther's HQ,int,0,night
+3694.44,Washington D.C.,Black Panther's HQ,Black Panther's HQ,int,0,night
+3698,Washington D.C.,Black Panther's HQ,Black Panther's HQ,int,0,night
+3700.6,Washington D.C.,White House,front of White House,ext,+,night
+3752.08,United States,flashback highway,flashback highway,ext,-,day
+3754.36,United States,flashback highway,flashback highway,ext,0,day
+3756.72,United States,hippie camp,turn on tune in drop out,ext,++,night
+3763.96,Hollywood,Walk of Fame,in front of cinema,ext,++,day
+3772.68,Hollywood,Walk of Fame,in front of cinema,ext,0,day
+3774.92,Hollywood,Walk of Fame,in front of cinema,ext,0,day
+3776.36,Hollywood,Walk of Fame,in front of cinema,ext,0,day
+3777.72,Washington D.C.,Tidal Basin with Jefferson Memorial,Tidal Basin with Jefferson Memorial,ext,++,day
+3785.44,Washington D.C.,bus stop,bus stop,ext,+,day
+3806.04,Washington D.C.,bus stop,bus stop,ext,0,day
+3817.88,Washington D.C.,bus stop,bus stop,ext,0,day
+3832.4,Washington D.C.,bus stop,bus stop,ext,0,day
+3844.8,Washington D.C.,bus stop,bus stop,ext,0,day
+3850.44,Washington D.C.,bus stop,bus stop,ext,0,day
+3857,Washington D.C.,bus stop,bus stop,ext,0,day
+3860.04,Washington D.C.,bus stop,bus stop,ext,0,day
+3863.56,Washington D.C.,bus stop,bus stop,ext,0,day
+3868.4,Washington D.C.,bus stop,bus stop,ext,0,day
+3871.92,Washington D.C.,bus stop,bus stop,ext,0,day
+3880.04,Washington D.C.,bus stop,bus stop,ext,0,day
+3881.44,Washington D.C.,bus stop,bus stop,ext,0,day
+3882.8,Washington D.C.,bus stop,bus stop,ext,0,day
+3884.08,Washington D.C.,bus stop,bus stop,ext,0,day
+3886.04,Washington D.C.,bus stop,bus stop,ext,0,day
+3887.4,Washington D.C.,bus stop,bus stop,ext,0,day
+3888.52,Washington D.C.,bus stop,bus stop,ext,0,day
+3893.92,Washington D.C.,bus stop,bus stop,ext,0,day
+3894.8,Washington D.C.,bus stop,bus stop,ext,0,day
+3896.28,Washington D.C.,bus stop,bus stop,ext,0,day
+3897.84,Washington D.C.,bus stop,bus stop,ext,0,day
+3900.24,Washington D.C.,bus stop,bus stop,ext,0,day
+3905.08,Washington D.C.,bus stop,bus stop,ext,0,day
+3911.8,United States,veteran's hospital,veteran's hospital lounge,int,++,day
+3938.4,Savannah,bench at bus stop,bench at bus stop,ext,++,day
+3941.44,China,Ping Pong Tournament,inside stadium,int,-,day
+3946.96,China,Ping Pong Tournament,inside stadium,int,0,day
+3950.16,China,Ping Pong Tournament,inside stadium,int,0,day
+3952.48,China,Ping Pong Tournament,inside stadium,int,0,day
+3958.04,Savannah,bench at bus stop,bench at bus stop,ext,++,day
+3959.96,Savannah,bench at bus stop,bench at bus stop,ext,0,day
+3962.88,New York,TV studio,TV studio (broadcast),int,-,day
+3966.28,New York,TV studio,TV studio (broadcast),int,0,day
+3974.64,New York,TV studio,TV studio (broadcast),int,0,day
+3986.32,New York,TV studio,TV studio (broadcast),int,0,day
+3992.56,New York,TV studio,TV studio (broadcast),int,0,day
+3994.76,New York,TV studio,TV studio (broadcast),int,0,day
+4000.88,New York,TV studio,TV studio (broadcast),int,0,day
+4004.4,New York,TV studio,TV studio (broadcast),int,0,day
+4020.6,New York,outside the TV studio,outside the TV studio,ext,+,day
+4031.16,New York,outside the TV studio,outside the TV studio,ext,0,day
+4033.76,New York,outside the TV studio,outside the TV studio,ext,0,day
+4038.68,New York,outside the TV studio,outside the TV studio,ext,0,day
+4043.4,New York,outside the TV studio,outside the TV studio,ext,0,day
+4054.6,New York,outside the TV studio,outside the TV studio,ext,0,day
+4056.88,New York,outside the TV studio,outside the TV studio,ext,0,day
+4063.28,New York,outside the TV studio,outside the TV studio,ext,0,day
+4065.72,New York,outside the TV studio,outside the TV studio,ext,0,day
+4069.08,New York,outside the TV studio,outside the TV studio,ext,0,day
+4070.44,New York,outside the TV studio,outside the TV studio,ext,0,day
+4071.52,New York,outside the TV studio,outside the TV studio,ext,0,day
+4072.88,New York,outside the TV studio,outside the TV studio,ext,0,day
+4075.12,New York,outside the TV studio,outside the TV studio,ext,0,day
+4076,New York,outside the TV studio,outside the TV studio,ext,0,day
+4078.44,New York,red light district,red light district,ext,++,night
+4089.08,New York,red light district,red light district,ext,0,night
+4112,New York,Dan's apartment,Dan's apartment,int,+,night
+4117.32,New York,Dan's apartment,Dan's apartment,int,0,night
+4124.04,New York,Dan's apartment,Dan's apartment,int,0,night
+4131.76,New York,Dan's apartment,Dan's apartment,int,0,night
+4134.96,New York,Dan's apartment,Dan's apartment,int,0,night
+4138.52,New York,Dan's apartment,Dan's apartment,int,0,night
+4144.12,New York,Dan's apartment,Dan's apartment,int,0,night
+4159.92,New York,Dan's apartment,Dan's apartment,int,0,night
+4163.28,New York,Dan's apartment,Dan's apartment,int,0,night
+4190,New York,Dan's apartment,Dan's apartment,int,0,night
+4195.24,New York,Dan's apartment,Dan's apartment,int,0,night
+4200.68,New York,Dan's apartment,Dan's apartment,int,0,night
+4207.96,New York,Dan's apartment,Dan's apartment,int,0,night
+4210.4,New York,Dan's apartment,Dan's apartment,int,0,night
+4212.08,New York,Dan's apartment,Dan's apartment,int,0,night
+4213.16,New York,bar in New York,bar in New York,int,++,night
+4310.08,California,apartment with mirrored wall,apartment with mirrored wall,int,0,night
+4342.88,New York,bar in New York,bar in New York,int,0,night
+4374.2,Washington D.C.,White House,front of White House (broadcast),ext,++,day
+4378.84,Savannah,bench at bus stop,bench at bus stop,ext,++,day
+4391.12,Washington D.C.,White House,unknown_2 (broadcast),int,-,day
+4408.52,Washington D.C.,Watergate Hotel,room in Watergate Hotel,int,++,night
+4431.4,United States,gymnasium,gymnasium,int,++,day
+4452.72,United States,gymnasium,gymnasium,int,0,day
+4487.92,Gump property,Gump House,front of Gump House,ext,++,day
+4504.04,Gump property,Gump House,front of Gump House,ext,0,day
+4507.6,Gump property,Gump House,corridor downstairs,int,0,day
+4544.32,Bayou La Batre,Bubba's Home,Bubba's Home,ext,++,day
+4554.96,Bayou La Batre,Bubba's Home,Bubba's Home,ext,+,day
+4559.32,Bayou La Batre,Bubba's Home,Bubba's Home,ext,0,day
+4561.56,Bayou La Batre,Bubba's Home,Bubba's Home,ext,0,day
+4563.4,Bayou La Batre,Bubba's Grave,Bubba's Grave,ext,+,day
+4566.88,Bayou La Batre,Bubba's Grave,Bubba's Grave,ext,0,day
+4571.68,Bayou La Batre,Bubba's Grave,Bubba's Grave,ext,0,day
+4588.6,Bayou La Batre,harbor,gangplank to ships,ext,+,day
+4597.72,Bayou La Batre,harbor,stall,ext,+,day
+4604.68,Bayou La Batre,Bubba's Grave,Bubba's Grave,ext,+,day
+4614.48,Bayou La Batre,Bubba's Grave,Bubba's Grave,ext,0,day
+4629.04,Bayou La Batre,on the boat,on the boat,ext,++,day
+4644.96,Bayou La Batre,on the boat,on the boat,ext,0,day
+4658.88,Bayou La Batre,harbor,landing stages,ext,++,day
+4681.2,Bayou La Batre,harbor,landing stages,ext,0,day
+4689.04,California,Disco,Disco,int,+,night
+4708.36,Bayou La Batre,on the boat,on the boat,ext,+,day
+4713.8,California,apartment with balcony,bedroom,int,+,night
+4737.2,California,apartment with balcony,bedroom,int,0,night
+4742.28,California,apartment with balcony,balcony,ext,0,night
+4749.4,California,apartment with balcony,balcony,ext,0,night
+4761.96,California,apartment with balcony,balcony,ext,0,night
+4764.44,California,apartment with balcony,balcony,ext,0,night
+4768,California,apartment with balcony,balcony,ext,0,night
+4770.96,California,apartment with balcony,balcony,ext,0,night
+4772.72,California,apartment with balcony,balcony,ext,0,night
+4774.8,California,apartment with balcony,balcony,ext,0,night
+4776.16,California,apartment with balcony,balcony,ext,0,night
+4782.52,California,apartment with balcony,balcony,ext,0,night
+4800.6,Bayou La Batre,on the boat,on the boat,ext,0,night
+4818.76,Bayou La Batre,harbor,jetty,ext,++,day
+4830.36,Bayou La Batre,harbor,jetty,ext,0,day
+4832.8,Bayou La Batre,harbor,jetty,ext,0,day
+4837.72,Bayou La Batre,harbor,jetty,ext,0,day
+4839.44,Bayou La Batre,harbor,jetty,ext,0,day
+4840.96,Bayou La Batre,harbor,jetty,ext,0,day
+4844,Bayou La Batre,harbor,jetty,ext,0,day
+4850,Bayou La Batre,harbor,jetty,ext,0,day
+4871,Bayou La Batre,harbor,jetty,ext,0,day
+4873.32,Bayou La Batre,harbor,jetty,ext,0,day
+4875.4,Bayou La Batre,harbor,jetty,ext,0,day
+4884.08,Bayou La Batre,harbor,jetty,ext,0,day
+4889.56,Bayou La Batre,harbor,jetty,ext,0,day
+4897.44,Bayou La Batre,harbor,jetty,ext,0,day
+4900.44,Bayou La Batre,harbor,jetty,ext,0,day
+4902.56,Bayou La Batre,harbor,jetty,ext,0,day
+4916.96,Bayou La Batre,on the boat,on the boat,ext,++,day
+4922.68,Bayou La Batre,on the boat,on the boat,ext,0,day
+4935.4,Bayou La Batre,on the boat,on the boat,ext,0,day
+4943.48,Bayou La Batre,on the boat,on the boat,ext,0,day
+4951.16,Bayou La Batre,on the boat,on the boat,ext,+,day
+4973.56,Bayou La Batre,Foursquare Church,Foursquare Church,int,++,day
+4982.16,Bayou La Batre,Foursquare Church,Foursquare Church,int,0,day
+4989.16,Bayou La Batre,on the boat,on the boat,ext,++,day
+5014.44,Bayou La Batre,on the boat,on the boat,ext,++,day
+5031.72,Bayou La Batre,on the boat,on the boat,ext,0,day
+5043.96,Bayou La Batre,on the boat,on the boat,ext,0,day
+5047.8,Bayou La Batre,on the boat,on the boat,ext,0,day
+5053.24,Bayou La Batre,on the boat,on the boat,ext,0,day
+5058.76,Bayou La Batre,on the boat,on the boat,ext,0,day
+5064.56,Gump property,Gump House,living room,int,++,day
+5066.6,Bayou La Batre,harbor,yet another jetty,ext,0,day
+5074.16,Gump property,Gump House,living room,int,0,day
+5084.6,Gump property,Gump House,living room,int,0,day
+5087.04,Gump property,Gump House,living room,int,0,day
+5090.08,Bayou La Batre,on the boat,on the boat,ext,++,day
+5091.36,Bayou La Batre,on the boat,on the boat,ext,++,day
+5092.8,Bayou La Batre,on the boat,on the boat,ext,++,day
+5099.68,Savannah,bench at bus stop,bench at bus stop,ext,++,day
+5118.64,Savannah,bench at bus stop,bench at bus stop,ext,0,day
+5123.24,Savannah,bench at bus stop,bench at bus stop,ext,0,day
+5141.32,Savannah,bench at bus stop,bench at bus stop,ext,0,day
+5144.84,Savannah,bench at bus stop,bench at bus stop,ext,0,day
+5161.96,Savannah,bench at bus stop,bench at bus stop,ext,0,day
+5163.88,Savannah,bench at bus stop,bench at bus stop,ext,0,day
+5166.76,Bayou La Batre,on the boat,on the boat,ext,-,day
+5168.48,Bayou La Batre,on the boat,on the boat,ext,0,day
+5171.08,Bayou La Batre,on the boat,on the boat,ext,0,day
+5177.4,Bayou La Batre,on the boat,on the boat,ext,0,day
+5178.76,Bayou La Batre,on the boat,on the boat,ext,0,day
+5181.4,Bayou La Batre,on the boat,on the boat,ext,0,day
+5182.68,Bayou La Batre,on the boat,on the boat,ext,0,day
+5193.08,Bayou La Batre,on the boat,on the boat,ext,0,day
+5197.96,Bayou La Batre,on the boat,on the boat,ext,0,day
+5207.84,Savannah,bench at bus stop,bench at bus stop,ext,++,day
+5237.76,Greenbow Alabama,football field,on the football field,ext,-,day
+5242.36,Gump property,access-road,at the mail boxes,ext,++,day
+5253.04,Savannah,bench at bus stop,bench at bus stop,ext,++,day
+5257.32,Bayou La Batre,Foursquare Church,Foursquare Church,int,-,day
+5263.16,Bayou La Batre,Foursquare Church,in front of Foursquare Church,ext,++,day
+5272.52,Bayou La Batre,Gump Medical Center,Gump Medical Center,ext,++,day
+5278.8,Bayou La Batre,Bubba's Home,Bubba's Home,ext,++,day
+5290.4,Savannah,bench at bus stop,bench at bus stop,ext,++,day
+5292.08,Bayou La Batre,Bubba's mother's dining room,Bubba's mother's dining room,int,-,day
+5298.48,Greenbow Alabama,football field,on the football field,ext,++,day
+5307.2,Gump property,Gump House,front of Gump House,ext,++,night
+5318.04,Gump property,Gump House,front of Gump House,ext,0,night
+5327,Gump property,Gump House,front of Gump House,ext,0,night
+5349.12,Gump property,Gump House,garden,ext,+,day
+5368.04,Gump property,Gump House,front of Gump House,ext,0,day
+5381.76,Gump property,Gump House,garden,ext,0,day
+5387.48,Gump property,Gump House,garden,ext,0,day
+5390.24,Gump property,Gump House,garden,ext,0,day
+5399.64,Gump property,Gump House,garden,ext,0,day
+5401.88,Gump property,Gump House,garden,ext,0,day
+5404.2,Gump property,Gump House,garden,ext,0,day
+5409.32,Gump property,Gump House,garden,ext,0,day
+5411.36,Gump property,Gump House,garden,ext,0,day
+5414.36,Gump property,Gump House,garden,ext,0,day
+5417.48,Gump property,Gump House,garden,ext,0,day
+5422.84,Gump property,Gump House,garden,ext,0,day
+5429.92,Gump property,Gump House,Jenny's bedroom,int,++,day
+5445.84,Greenbow Alabama,random meadow,random meadow,ext,++,day
+5463.72,Greenbow Alabama,tree on a field,tree on a field,ext,++,day
+5474,Gump property,Gump House,unknown_1,int,++,day
+5481.4,Gump property,Gump House,front of Gump House,ext,++,day
+5488.68,Gump property,Gump House,front of Gump House,ext,++,day
+5508.04,Greenbow Alabama,riverside,riverside,ext,++,day
+5521,Gump property,Gump House,living room,int,++,night
+5548.56,Gump property,Gump House,corridor downstairs,int,0,night
+5560.96,Gump property,Gump House,corridor downstairs,int,0,night
+5565.32,Gump property,Gump House,corridor downstairs,int,0,night
+5569.36,Gump property,Gump House,corridor downstairs,int,0,night
+5573.96,Gump property,Gump House,corridor downstairs,int,0,night
+5579.24,Gump property,Gump House,corridor downstairs,int,0,night
+5581.52,Gump property,Gump House,corridor downstairs,int,0,night
+5592.68,Gump property,Gump House,corridor downstairs,int,0,night
+5594.64,Gump property,Gump House,corridor downstairs,int,0,night
+5598.08,Gump property,Gump House,corridor downstairs,int,0,night
+5601.72,Gump property,Gump House,corridor downstairs,int,0,night
+5605.04,Gump property,Gump House,front of Gump House,ext,+,night
+5609.04,Gump property,Gump House,Forrest's bedroom,int,+,night
+5630,Gump property,Gump House,Forrest's bedroom,int,0,night
+5651.48,Gump property,Gump House,Forrest's bedroom,int,0,night
+5662.64,Gump property,Gump House,front of Gump House,ext,++,day
+5679.64,Gump property,Gump House,front of Gump House,ext,0,day
+5689.4,Gump property,Gump House,Forrest's bedroom,int,0,day
+5706.56,Gump property,Gump House,unknown_2,int,++,day
+5720.04,Gump property,Gump House,Jenny's bedroom,int,++,day
+5728.68,Gump property,Gump House,living room,int,++,day
+5737,Gump property,Gump House,front of Gump House,ext,++,day
+5756.4,Gump property,Gump House,front of Gump House,ext,0,day
+5772.72,Gump property,access-road,alley to Gump House,ext,0,day
+5779.28,Gump property,access-road,at the mail boxes,ext,+,day
+5785.92,Greenbow Alabama,main street,in the barbershop,int,+,day
+5790.52,Greenbow Alabama,road with bridge,road with bridge,ext,+,day
+5798.84,Mississippi,road with Mississippi sign,road with Mississippi sign,ext,++,day
+5804.44,Savannah,bench at bus stop,bench at bus stop,ext,++,day
+5810.8,Santa Monica,yacht harbor,yacht harbor,ext,-,day
+5815,Santa Monica,yacht harbor,yacht harbor's jetty,ext,+,day
+5824.72,Atlantic Ocean,beacon,beacon,ext,++,day
+5836.24,Atlantic Ocean,beacon,beacon,ext,0,day
+5841.6,Savannah,bench at bus stop,bench at bus stop,ext,++,day
+5847.24,Savannah,bench at bus stop,bench at bus stop,ext,0,day
+5850.52,Savannah,bench at bus stop,bench at bus stop,ext,0,day
+5853.56,United States,road at a river,road at a river,ext,-,day
+5862.96,United States,road between wheat fields,road between wheat fields,ext,++,day
+5869.88,Rocky Mountains,stone bridge,stone bridge,ext,++,day
+5877.36,United States,road between fences,road between fences,ext,++,day
+5884.28,United States,autumn forrest,autumn forrest with houses,ext,++,day
+5894.32,United States,autumn forrest,road trough autumn forrest,ext,+,day
+5900.36,Greenbow Alabama,main street,in the barbershop,int,+,day
+5906.64,Greenbow Alabama,main street,in the barbershop,int,+,day
+5908.88,Savannah,restaurant,restaurant,int,+,day
+5922.32,Mississippi,bridge at mississippi river,bridge at mississippi river,ext,0,day
+5938.96,Savannah,bench at bus stop,bench at bus stop,ext,++,day
+5940.6,United States,street with houses,street with houses,ext,-,day
+5945.08,Savannah,bench at bus stop,bench at bus stop,ext,++,day
+5950.44,United States,street with houses,street with houses,ext,-,day
+5962.48,United States,street in mountains,street in mountains,ext,++,day
+5967.84,United States,street in desert,street in desert,ext,++,day
+5973.36,Savannah,bench at bus stop,bench at bus stop,ext,++,day
+5980.16,United States,street with sidewalk,street with sidewalk,ext,-,day
+6012.2,United States,street with crashing cars,street with crashing cars,ext,++,day
+6015.4,United States,truck stop,truck stop,ext,-,day
+6036.76,United States,truck stop,truck stop,ext,0,day
+6041.72,United States,truck stop,truck stop,ext,0,day
+6045.64,Monument Valley,road through Monument Valley,road through Monument Valley,ext,++,day
+6078.24,Monument Valley,road through Monument Valley,road through Monument Valley,ext,0,day
+6088,Monument Valley,road through Monument Valley,road through Monument Valley,ext,0,day
+6106.76,Monument Valley,road through Monument Valley,road through Monument Valley,ext,0,day
+6134.68,Washington D.C.,Hilton Hotel,Ronald Reagon (broadcast),ext,++,day
+6141.12,Gump property,Gump House,living room,int,0,day
+6153.68,Savannah,bench at bus stop,bench at bus stop,ext,++,day
+6190,Savannah,bench at bus stop,bench at bus stop,ext,0,day
+6200.12,Savannah,Jenny's apartment,Jenny's apartment's front door,int,+,day
+6202.32,Savannah,Jenny's apartment,Jenny's apartment,int,0,day
+6205.44,Savannah,Jenny's apartment,Jenny's apartment,int,0,day
+6207.16,Savannah,Jenny's apartment,Jenny's apartment,int,0,day
+6228.48,Savannah,Jenny's apartment,Jenny's apartment,int,0,day
+6232.24,Savannah,Jenny's apartment,Jenny's apartment,int,0,day
+6238.04,Savannah,Jenny's apartment,Jenny's apartment,int,0,day
+6245.52,Savannah,Jenny's apartment,Jenny's apartment,int,0,day
+6284.56,Savannah,Jenny's apartment,Jenny's apartment,int,0,day
+6287.96,Savannah,Jenny's apartment,Jenny's apartment,int,0,day
+6298.96,Savannah,Jenny's apartment,Jenny's apartment,int,0,day
+6302.08,Savannah,Jenny's apartment,Jenny's apartment,int,0,day
+6303.92,Savannah,Jenny's apartment,Jenny's apartment,int,0,day
+6311.36,Savannah,Jenny's apartment,Jenny's apartment,int,0,day
+6339,Savannah,Jenny's apartment,Jenny's apartment,int,0,day
+6343.2,Savannah,Jenny's apartment,Jenny's apartment,int,0,day
+6355.2,Savannah,Jenny's apartment,Jenny's apartment,int,0,day
+6359.32,Savannah,Jenny's apartment,Jenny's apartment,int,0,day
+6391.08,Savannah,Jenny's apartment,Jenny's apartment,int,0,day
+6405.84,Savannah,Jenny's apartment,Jenny's apartment,int,0,day
+6411.92,Savannah,Jenny's apartment,Jenny's apartment,int,0,day
+6418.04,Savannah,park with playground,park with playground,ext,+,day
+6441.68,Savannah,park with playground,park with playground,ext,0,day
+6462.32,Savannah,park with playground,park with playground,ext,0,day
+6466.48,Savannah,park with playground,park with playground,ext,0,day
+6474.04,Gump property,Gump House,front of Gump House,ext,++,day
+6512,Gump property,Gump House,front of Gump House,ext,0,day
+6515.72,Gump property,Gump House,front of Gump House,ext,0,day
+6518,Gump property,Gump House,front of Gump House,ext,0,day
+6521.16,Gump property,Gump House,front of Gump House,ext,0,day
+6525.56,Gump property,Gump House,front of Gump House,ext,0,day
+6533.76,Gump property,Gump House,front of Gump House,ext,0,day
+6536.32,Gump property,Gump House,front of Gump House,ext,0,day
+6543.76,Gump property,Gump House,front of Gump House,ext,0,day
+6551.28,Gump property,Gump House,front of Gump House,ext,0,day
+6554.4,Gump property,Gump House,front of Gump House,ext,0,day
+6560.52,Gump property,Gump House,front of Gump House,ext,0,day
+6565.32,Gump property,Gump House,front of Gump House,ext,0,day
+6567.4,Gump property,Gump House,front of Gump House,ext,0,day
+6575.64,Gump property,Gump House,front of Gump House,ext,0,day
+6580.04,Gump property,Gump House,front of Gump House,ext,0,day
+6582.08,Gump property,Gump House,front of Gump House,ext,0,day
+6584.44,Gump property,Gump House,garden,ext,+,day
+6599.4,Gump property,access-road,alley to Gump House,ext,++,day
+6613.64,Gump property,Gump House,Forrest's mother's bedroom,int,++,day
+6622.4,Gump property,Gump House,Forrest's mother's bedroom,int,0,day
+6629.52,Gump property,Gump House,Forrest's mother's bedroom,int,0,day
+6632.4,Gump property,Gump House,Forrest's mother's bedroom,int,0,day
+6652.08,Gump property,Gump House,Forrest's mother's bedroom,int,0,day
+6658.76,Vietnam,yet another jungle,yet another jungle,ext,-,night
+6670.4,Gump property,Gump House,Forrest's mother's bedroom,int,++,day
+6671.88,Gump property,Gump House,Forrest's mother's bedroom,int,0,day
+6676.28,Bayou La Batre,on the boat,on the boat,ext,-,day
+6684.68,Rocky Mountains,street at a lake,street at a lake,ext,++,day
+6692.96,Gump property,Gump House,Forrest's mother's bedroom,int,++,day
+6696.28,Monument Valley,road through Monument Valley,road through Monument Valley,ext,-,day
+6709,Gump property,Gump House,Forrest's mother's bedroom,int,++,day
+6711.84,Gump property,Gump House,Forrest's mother's bedroom,int,0,day
+6715.8,Gump property,Gump House,Forrest's mother's bedroom,int,0,day
+6720.84,Gump property,Gump House,Forrest's mother's bedroom,int,0,day
+6724.28,Gump property,Gump House,Forrest's mother's bedroom,int,0,day
+6727.36,Gump property,Gump House,Forrest's mother's bedroom,int,0,day
+6729.56,Gump property,Gump House,Forrest's mother's bedroom,int,0,day
+6732.28,Gump property,Gump House,Forrest's mother's bedroom,int,0,day
+6739.2,Greenbow Alabama,tree on a field,Jenny's Grave,ext,++,day
+6746.12,Greenbow Alabama,tree on a field,Jenny's Grave,ext,0,day
+6754.68,Greenbow Alabama,Jenny's house,front of Jenny's house,ext,-,day
+6759.92,Greenbow Alabama,tree on a field,Jenny's Grave,ext,++,day
+6765.88,Greenbow Alabama,tree on a field,Jenny's Grave,ext,0,day
+6771.24,Greenbow Alabama,tree on a field,Jenny's Grave,ext,0,day
+6778.24,Gump property,Gump House,Forrest's bedroom,int,-,night
+6786.8,Greenbow Alabama,tree on a field,Jenny's Grave,ext,++,day
+6800.56,Gump property,Gump House,front of Gump House,ext,-,night
+6807.28,Greenbow Alabama,riverside,riverside,ext,++,day
+6813.6,Greenbow Alabama,tree on a field,Jenny's Grave,ext,++,day
+6839.08,Greenbow Alabama,tree on a field,Jenny's Grave,ext,0,day
+6843.96,Greenbow Alabama,tree on a field,Jenny's Grave,ext,0,day
+6855.48,Greenbow Alabama,tree on a field,Jenny's Grave,ext,0,day
+6919.24,Greenbow Alabama,tree on a field,Jenny's Grave,ext,0,day
+6944.84,Gump property,access-road,at the mail boxes,ext,++,day
+6952.16,Gump property,access-road,at the mail boxes,ext,0,day
+6961.56,Gump property,access-road,at the mail boxes,ext,0,day
+6965.68,Gump property,access-road,at the mail boxes,ext,0,day
+6968.32,Gump property,access-road,at the mail boxes,ext,0,day
+6974.68,Gump property,access-road,at the mail boxes,ext,0,day
+6977.76,Gump property,access-road,at the mail boxes,ext,0,day
+6979.32,Gump property,access-road,at the mail boxes,ext,0,day
+6980.84,Gump property,access-road,at the mail boxes,ext,0,day
+6985.92,Gump property,access-road,at the mail boxes,ext,0,day
+6987.88,Gump property,access-road,at the mail boxes,ext,0,day
+6991.72,Gump property,access-road,at the mail boxes,ext,0,day
+6993.12,Gump property,access-road,at the mail boxes,ext,0,day
+7004.32,Gump property,access-road,at the mail boxes,ext,0,day
+7005.88,Gump property,access-road,at the mail boxes,ext,0,day
+7008,Gump property,access-road,at the mail boxes,ext,0,day
+7013,Gump property,access-road,at the mail boxes,ext,0,day
+7022,Gump property,access-road,at the mail boxes,ext,0,day
+7082.2,FIRST BLACK FRAME,,,,,
