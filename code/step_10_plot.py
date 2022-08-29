@@ -31,42 +31,75 @@ pmc_3colors = ["#B1DFB1","#8DD18D","#499B49"]
 matplotlib.rcParams['pdf.fonttype'] = 42
 matplotlib.rcParams['ps.fonttype'] = 42
 
-# Figure 1A
-import statsmodels.api as sm
-data=utils.load_demo_data()[6] # get subject 7's demo data
+def figure_1():
+    # Figure 1A
+    import statsmodels.api as sm
+    data=utils.load_demo_data()[6] # get subject 7's demo data
 
-# Autocorrelation function
-A_vox = np.empty_like(data)
-n_timepoints, n_voxels = data.shape
-for v in range(n_voxels):
-    x = data[:, v]
-    A_vox[:, v] = sm.tsa.acf(x, fft=False, nlags=len(x)-1)
-A_avg = np.mean(A_vox, axis=1)
-y = np.convolve(A_avg, np.ones(smooth_window), 'same') / smooth_window
-dropoff=np.where(y < 0)[0][0]
-sns.set(style='white')
-fig,ax=plt.subplots(1,1,figsize=(5,4))
-_=ax.plot(A_vox[1:56], alpha=0.05, c='lightpink')
-ax.plot(y[1:56], c='maroon')
-ax.axhline(0, color='k', linestyle='--')
-sns.despine(top=True,right=True)
-ax.set(xlim=[0,20], xlabel='Lags', ylabel="Autocorrelation")
-ax.set(xticks=np.arange(0,21,10), yticks=[-0.25,0,0.25,0.5,0.75,1.0], yticklabels=[-0.25,0,'',0.5,'',1.0])
-ax.plot([dropoff,dropoff],[-0.25,1.0],'gray',ls='--',linewidth=3)
-plt.savefig('../plots/figure1A_line.png')
-plt.close()
+    # Autocorrelation function
+    A_vox = np.empty_like(data)
+    n_timepoints, n_voxels = data.shape
+    for v in range(n_voxels):
+        x = data[:, v]
+        A_vox[:, v] = sm.tsa.acf(x, fft=False, nlags=len(x)-1)
+    A_avg = np.mean(A_vox, axis=1)
+    y = np.convolve(A_avg, np.ones(smooth_window), 'same') / smooth_window
+    dropoff=np.where(y < 0)[0][0]
+    sns.set(style='white')
+    fig,ax=plt.subplots(1,1,figsize=(5,4))
+    _=ax.plot(A_vox[1:56], alpha=0.05, c='lightpink')
+    ax.plot(y[1:56], c='maroon')
+    ax.axhline(0, color='k', linestyle='--')
+    sns.despine(top=True,right=True)
+    ax.set(xlim=[0,20], xlabel='Lags', ylabel="Autocorrelation")
+    ax.set(xticks=np.arange(0,21,10), yticks=[-0.25,0,0.25,0.5,0.75,1.0], yticklabels=[-0.25,0,'',0.5,'',1.0])
+    ax.plot([dropoff,dropoff],[-0.25,1.0],'gray',ls='--',linewidth=3)
+    plt.savefig('../plots/figure1A_line.png')
+    plt.close()
 
-# fmri activity mtx
-data=data[100:180, 200:300]
-fig,ax=plt.subplots(figsize=(8,8))
-g=sns.heatmap(data,square=True,xticklabels=False,yticklabels=False,cbar=False )
-g.set_ylabel("Timepoints", fontsize=30)
-g.set_xlabel("Voxels", fontsize=30)
-g.set_title("fMRI activity",fontsize=40)
-plt.savefig('../plots/figure1A_fmri_activity.png')
+    # fmri activity mtx
+    data=data[100:180, 200:300]
+    fig,ax=plt.subplots(figsize=(8,8))
+    g=sns.heatmap(data,square=True,xticklabels=False,yticklabels=False,cbar=False , ax=ax)
+    g.set_ylabel("Timepoints", fontsize=30)
+    g.set_xlabel("Voxels", fontsize=30)
+    g.set_title("fMRI activity",fontsize=40)
+    plt.savefig('../plots/figure1A_fmri_activity.png')
+    plt.close()
 
-# fit tphate
+    # fit tphate
+    tphate_op = tphate.TPHATE(n_components=2, smooth_window=4)
+    tphate_op.fit(data)
+    temporal_view = tphate_op.autocorr_op
+    phate_view = tphate_op.phate_diffop
 
-# autocorrelation view
+    # autocorrelation view
+    fig, ax = plt.subplots(figsize=(8, 8))
+    g = sns.heatmap(temporal_view, square=True, xticklabels=False, yticklabels=False, cbar=False, ax=ax)
+    g.set_ylabel("Timepoints", fontsize=30)
+    g.set_xlabel("Timepoints", fontsize=30)
+    g.set_title("Autocorrelation view", fontsize=30)
+    plt.savefig('../plots/figure1A_autocorr_view.png')
+    plt.close()
+
+    #phate view
+    fig, ax = plt.subplots(figsize=(8, 8))
+    g = sns.heatmap(phate_view, square=True, xticklabels=False, yticklabels=False, cbar=False, ax=ax)
+    g.set_ylabel("Timepoints", fontsize=30)
+    g.set_xlabel("Timepoints", fontsize=30)
+    g.set_title("PHATE view", fontsize=30)
+    plt.savefig('../plots/figure1A_phate_view.png')
+    plt.close()
+
+    P = np.matmul(phate_view.T, temporal_view)
+    fig, ax = plt.subplots(figsize=(8, 8))
+
+    g = sns.heatmap(P, square=True, xticklabels=False, yticklabels=False, cbar=False, ax=ax)
+    g.set_ylabel("Timepoints", fontsize=30)
+    g.set_xlabel("Timepoints", fontsize=30)
+    g.set_title("T-PHATE diffusion operator", fontsize=30)
+    plt.savefig('../plots/figure1A_tphate_view.png')
+
+    # figure 1B things already run in step 9
 
 
