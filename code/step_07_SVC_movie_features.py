@@ -1,13 +1,13 @@
 import numpy as np
 import pandas as pd
 import os, sys, glob, random
-import utils
+import utils, config
 import embedding_helpers as mf
 import scipy.stats
 from joblib import Parallel, delayed
 from sklearn.svm import SVC
 from sklearn.model_selection import KFold
-
+from config import NJOBS
 
 def random_upsample_train_data(X_train, Y_train):
     (unique, counts) = np.unique(Y_train, return_counts=True)
@@ -43,7 +43,7 @@ def shift_labels(labels, shift_by, rep_number):
 def load_embeddings(voxel_data_allsubj):
     embeddings = np.zeros((voxel_data_allsubj.shape[0], voxel_data_allsubj.shape[1], DIM))
     for i, s, ds in zip(np.arange(embeddings.shape[0]), SUBJECTS, voxel_data_allsubj):
-        embed_fn = f'{embedding_dir}/sub-{s:02d}_{ROI}_{searchstr}_{DIM}dimension_embedding_{METHOD}.npy'
+        embed_fn = f'{EMBED_DIR}/sub-{s:02d}_{ROI}_{SEARCHSTR}_{DIM}dimension_embedding_{METHOD}.npy'
         embedding = mf.return_subject_embedding(embed_fn, ds, DIM, METHOD)
         embeddings[i, :, :] = embedding
     return embeddings
@@ -116,40 +116,20 @@ if __name__ == "__main__":
     DATASET = sys.argv[1]
     ROI = sys.argv[2]
     METHOD = sys.argv[3]
-    NJOBS = 16
     DIM = 20 if METHOD != "TSNE" else 3
     n_folds_per_shift = 3
     num_reps = 1000
-    demo = False
 
-    if DATASET == "sherlock":
-        REGRESSORS = {'IndoorOutdoor': utils.load_coded_sherlock_regressors('IndoorOutdoor'),
-                      'MusicPresent': utils.load_coded_sherlock_regressors('MusicPresent')}
-        SUBJECTS = utils.sherlock_subjects
-        NTPTS = utils.sherlock_timepoints
-        LOADFN = utils.load_sherlock_movie_ROI_data
-        base_dir = utils.sherlock_dir
-        searchstr = 'sherlock_movie'
-    else:
-        REGRESSORS = {'IoE_coded': utils.load_coded_forrest_movie_regressors('IoE_coded'),
-                      'FoT_coded': utils.load_coded_forrest_movie_regressors("FoT_coded")}
-        SUBJECTS = utils.forrest_subjects
-        NTPTS = utils.forrest_movie_timepoints
-        LOADFN = utils.load_forrest_movie_ROI_data
-        base_dir = utils.forrest_dir
-        searchstr = 'forrest_movie'
+    BASE_DIR = config.DATA_FOLDERS[DATASET]
+    DATA_DIR = f'{BASE_DIR}/demo_ROI_data' if DATASET == 'demo' else f'{BASE_DIR}/ROI_data/{ROI}/data'
+    EMBED_DIR = f'{BASE_DIR}/demo_embeddings' if DATASET == 'demo' else f'{BASE_DIR}/ROI_data/{ROI}/embeddings'
+    OUT_DIR = config.RESULTS_FOLDERS[DATASET]
+    SEARCHSTR = config.FILE_STRINGS[DATASET]
+    NTPTS = config.TIMEPOINTS[DATASET]
+    REGRESSOR_NAMES = config.REGRESSOR_NAMES[DATASET]
+    REGRESSORS = {REG: utils.load_coded_regressors(DATASET, REG) for REG in REGRESSOR_NAMES}
 
-    if len(sys.argv) > 4:
-        demo = True
-        outdir = '../results/demo_results/source'
-        base_dir = utils.demo_dir
-        embedding_dir = f'{base_dir}/demo_embeddings/'
-        LOADFN=utils.load_demo_data
-    else:
-        outdir = '../results/source'
-        embedding_dir = f'{base_dir}/ROI_data/{ROI}/embeddings/'
-
-    outfn = f'{outdir}/{DATASET}_{ROI}_{METHOD}_SVC_movie_zstat_results.csv'
+    outfn = f'{OUT_DIR}/source/{DATASET}_{ROI}_{METHOD}_SVC_movie_zstat_results.csv'
     print(f"Running {ROI} {DATASET} {METHOD} | saving to {outfn}")
     main()
 

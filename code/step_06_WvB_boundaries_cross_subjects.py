@@ -18,14 +18,14 @@ where demo is any additional argument, but runs the demo version.
 
 import numpy as np
 import pandas as pd
-import utils
+import utils, config
 import os, sys, glob
 from scipy.stats import zscore
 from joblib import Parallel, delayed
 import embedding_helpers as mf
 from scipy.spatial.distance import pdist, cdist, squareform
 from step_03_HMM_optimizeM_embeddings import compute_event_boundaries_diff_temporally_balanced
-
+from config import NJOBS
 
 ## Tests the fit of event boundaries from each of N-1 subjects on the Nth subject
 def run_single_subject(data, training_subject_boundaries, test_subject_ID):
@@ -51,7 +51,7 @@ def load_embeddings(subject_IDs, CV_Ms):
 
 
 def main():
-    global SUBJECTS
+
     if METHOD == 'voxel':
         allsubj_data = LOADFN(ROI)
     else:
@@ -64,36 +64,18 @@ def main():
     formatAll = lambda string: formatArr(formatList(string))
     # parse from the dataframe that you stored dumbly
     boundary_TRs_formatted = []
-    failed = []
     subset_bounds = param_df['boundary_TRs'].values
     for i, boundaries in enumerate(subset_bounds):
-        try:
-            arr = formatAll(boundaries)
-            boundary_TRs_formatted.append(np.array(arr))
-        except:
-            print(f'failed on {i}')
-            failed.append(i)
-            continue
+        arr = formatAll(boundaries)
+        boundary_TRs_formatted.append(np.array(arr))
 
-    # handle subjects with missing boundaries & remove from subsequent analyses
-    if len(failed) != 0:
-        mask = []
-        A = len(SUBJECTS)
-        for j in np.arange(A):
-            if j not in failed:
-                mask.append(1)
-            else:
-                mask.append(0)
-        SUBJECTS = SUBJECTS[mask]
-    print("loaded boundaries", len(boundary_TRs_formatted), SUBJECTS)
 
     joblist = []
     for sub_idx, sub in enumerate(SUBJECTS):
         dat = allsubj_data[sub_idx]
-        other_subject_idx = np.setdiff1d(np.arange(len(SUBJECTS)), sub_idx)
-        other_subs = np.setdiff1d(SUBJECTS, sub)
-        other_subj_boundaries = [boundary_TRs_formatted[i] for i in other_subject_idx]
-        joblist.append(delayed(run_single_subject)(dat, other_subj_boundaries, sub))
+        train_subject_idx = np.setdiff1d(np.arange(len(SUBJECTS)), sub_idx)
+        train_subj_boundaries = [boundary_TRs_formatted[i] for i in train_subject_idx]
+        joblist.append(delayed(run_single_subject)(dat, train_subj_boundaries, sub))
 
     print("starting jobs")
     with Parallel(n_jobs=NJOBS) as parallel:
@@ -111,35 +93,17 @@ if __name__ == '__main__':
     DATASET = sys.argv[1]
     ROI = sys.argv[2]
     METHOD = sys.argv[3]
+    BASE_DIR = config.DATA_FOLDERS[DATASET]
+    DATA_DIR = f'{BASE_DIR}/demo_ROI_data' if DATASET == 'demo' else f'{BASE_DIR}/ROI_data/{ROI}/data'
+    EMBED_DIR = f'{BASE_DIR}/demo_embeddings' if DATASET == 'demo' else f'{BASE_DIR}/ROI_data/{ROI}/embeddings'
+    OUT_DIR = RESULTS_FOLDERS[DATASET]
+    SEARCHSTR = FILE_STRINGS[DATASET]
 
-    demo = False
-    if len(sys.argv) > 4:
-        demo=True
-        DATASET = "sherlock"
-        ROI = "early_visual"
-        METHOD="TPHATE"
-        base_dir = utils.demo_dir
-        data_dir = base_dir+'/demo_embeddings'
-        outdir = '../results/demo_results'
-        searchstr = 'sherlock_movie'
-        param_df = pd.read_csv(f"{outdir}/within_sub_neural_event_WB_tempBalance.csv",index_col=0)
-    else:
-        SUBJECTS = utils.sherlock_subjects if DATASET == 'sherlock' else utils.forrest_subjects
-        NTPTS = utils.sherlock_timepoints if DATASET == 'sherlock' else utils.forrest_movie_timepoints
-        LOADFN = utils.load_sherlock_movie_ROI_data if DATASET == 'sherlock' else utils.load_forrest_movie_ROI_data
-        base_dir = utils.sherlock_dir if DATASET == 'sherlock' else utils.forrest_dir
-        data_dir = os.path.join(base_dir, utils.data_version, 'ROI_data', ROI)
-        searchstr = 'sherlock_movie' if DATASET == 'sherlock' else 'forrest_movie'
-        data_dir = os.path.join(data_dir, 'data') if METHOD == "voxel" else os.path.join(data_dir, 'embeddings')
-        outdir='../results/'
-        param_df = pd.read_csv(f"{outdir}/within_sub_neural_event_WB_tempBalance.csv",index_col=0)
+    param_df = pd.read_csv(f"{OUT_DIR}/within_sub_neural_event_WB_tempBalance.csv", index_col=0)
 
-    print(DATASET, ROI, METHOD, data_dir)
-
-    NJOBS = 16
     param_df = param_df[(param_df['dataset'] == DATASET) & (param_df['ROI'] == ROI)
                         & (param_df['embed_method'] == METHOD)]
     SUBJECTS = param_df['subject'].values
-    outfn = f'{outdir}/source/{ROI}_{DATASET}_{METHOD}_between_sub_neural_event_WB_tempBalance.csv'
+    outfn = f'{OUT_DIR}/source/{ROI}_{DATASET}_{METHOD}_between_sub_neural_event_WB_tempBalance.csv'
     main()
 
