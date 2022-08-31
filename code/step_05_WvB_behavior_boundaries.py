@@ -17,7 +17,7 @@ Saves a csv file for the region to results directory.
 
 import numpy as np
 import pandas as pd
-import utils
+import utils, config
 import os, sys, glob
 import brainiak.eventseg.event
 from scipy.stats import zscore
@@ -26,52 +26,44 @@ from joblib import Parallel, delayed
 import embedding_helpers as mf
 from scipy.spatial.distance import pdist, cdist, squareform
 from step_03_HMM_optimizeM_embeddings import compute_event_boundaries_diff_temporally_balanced
+from config import NJOBS
 
 # this can only be performed for the sherlock data
 def get_embedding_data(method, M_list):
     data = []
-    for s,M in zip(utils.sherlock_subjects, M_list):
-        fn = glob.glob(f'{embed_dir}/sub-{s:02d}*sherlock_movie*_{M}dimension_embedding_{method}.npy')[0]
+    for s,M in zip(config.SUBJECTS[DATASET], M_list):
+        fn = glob.glob(f'{EMBED_DIR}/sub-{s:02d}*sherlock_movie*_{M}dimension_embedding_{method}.npy')[0]
         data.append(np.load(fn))
     return data
 
 def get_scene_boundaries():
-    sherlock_scenes_labels = utils.load_coded_sherlock_regressors('SceneTitleCoded')
+    sherlock_scenes_labels = utils.load_coded_regressors(DATASET, 'SceneTitleCoded')
     sherlock_scene_boundaries = [1] + list(np.where(np.diff(sherlock_scenes_labels))[0]) + [len(sherlock_scenes_labels)]
     return sherlock_scene_boundaries
 
 if __name__ == "__main__":
-    ROI = sys.argv[1]
-    demo=True
+    DATASET=sys.argv[1]
+    ROI = sys.argv[2]
+    BASE_DIR = config.DATA_FOLDERS[DATASET]
+    DATA_DIR = f'{BASE_DIR}/demo_ROI_data' if DATASET == 'demo' else f'{BASE_DIR}/ROI_data/{ROI}/data'
+    EMBED_DIR = f'{BASE_DIR}/demo_embeddings' if DATASET == 'demo' else f'{BASE_DIR}/ROI_data/{ROI}/embeddings'
+    METHODS= ['TPHATE'] if DATASET == 'demo' else config.METHODS+['voxel']
+    OUT_DIR = RESULTS_FOLDERS[DATASET]
+
+    info_df = pd.read_csv(f'{OUT_DIR}/within_sub_neural_event_WB_tempBalance.csv', index_col=0)
+    info_df = info_df[(info_df['dataset'] == 'sherlock') & (info_df['ROI'] == ROI)]
 
     sherlock_scene_boundaries = get_scene_boundaries()
-    print("Got boundaries")
-
-    if len(sys.argv) > 2:
-        demo=True
-        print("Running demo; will adjust parameters")
-        info_df = pd.read_csv('../results/demo_results/within_sub_neural_event_WB_tempBalance.csv', index_col=0)
-        embed_dir = f'{utils.demo_dir}/demo_embeddings/'
-        out_fn = f'../results/demo_results/source/{ROI}_demo_behavior_event_boundaries_WB_tempBalance.csv'
-        METHODS=['TPHATE']
-    else:
-        info_df = pd.read_csv('../results/within_sub_neural_event_WB_tempBalance.csv', index_col=0)
-        embed_dir = f'{utils.sherlock_dir}/ROI_data/{ROI}/embeddings/'
-        out_fn = f'../results/source/{ROI}_behavior_event_boundaries_WB_tempBalance.csv'
-        METHODS=utils.embedding_methods+['voxel']
-
-    # read in to get the number of dimensions for embedding
-    info_df = info_df[(info_df['dataset'] == 'sherlock') & (info_df['ROI'] == ROI)]
-    results = pd.DataFrame(columns=['subject','embed_method','CV_M','avg_within','avg_between','avg_difference','ROI'])
 
 
-    for METHOD in METHODS:
-        info_df_here = info_df[(info_df['embed_method'] == METHOD)]
+    for method in METHODS:
+        info_df_here = info_df[(info_df['embed_method'] == method)]
         M_list = info_df_here.sort_values(by='subject',axis=0)['CV_M'].values
+
         if METHOD == 'voxel':
             data = utils.load_sherlock_movie_ROI_data(ROI)
         else:
-            data = get_embedding_data(METHOD, M_list)
+            data = get_embedding_data(method, M_list)
 
         for subject, ds in zip(utils.sherlock_subjects, data):
             d, w, b, comparisons = compute_event_boundaries_diff_temporally_balanced(ds, sherlock_scene_boundaries)
@@ -79,11 +71,14 @@ if __name__ == "__main__":
             avg_between = np.nanmean(b)
             avg_diff = np.nanmean(d)
             results.loc[len(results)] = {'subject': subject,
-                                         'embed_method': METHOD,
+                                         'embed_method': method,
                                          'CV_M': ds.shape[1],
                                          'avg_within': avg_within,
                                          'avg_between': avg_between,
                                          'avg_difference': avg_diff,
                                          'ROI': ROI}
+
+
+    out_fn = f'{OUT_DIR}/source/{ROI}_behavior_event_boundaries_WB_tempBalance.csv'
     results.to_csv(out_fn)
 

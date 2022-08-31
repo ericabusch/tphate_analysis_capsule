@@ -4,11 +4,13 @@
 This script runs the analyses for figures 4 and 5 for the manifold embedding data.
 It takes, for each subject, the cross-validated number of neural events identified by
 step_02, and performs a similar cross-validation procedure to learn the M parameter -- the
- number of dimensions for each manifold that optiized the Within-vs-between event boundary difference.
+ number of dimensions for each manifold that optimized the Within-vs-between event boundary difference.
 Using the final CV_K and CV_M, for each subject, a new HMM is fit and the within-vs-between event boundary
-difference is calculated, balancing the temporal distance between timepoints to assure fair comparison.
+difference is calculated, balancing the temporal distance between timepoints to assure fair comparison. This is run only
+for dimensionality-reduced methods, to learn the # dimensions to reduce each method to, allowing for distinctions
+across methods.
 Saves this output, along with the log-likelihood of best model fit, to a csv file for each region, method, dataset.
-
+T
 Runs from the command line as:
 python step_03_HMM_optimizeM_embeddings.py $DATASET $ROI $METHOD $DEMO
 where demo is any additional argument, but runs the demo version.
@@ -18,7 +20,8 @@ where demo is any additional argument, but runs the demo version.
 
 import numpy as np
 import pandas as pd
-import utils
+import utils, config
+from config import NJOBS
 import os, sys, glob
 import brainiak.eventseg.event
 from scipy.stats import zscore
@@ -41,17 +44,20 @@ def expand_boundary_labels(boundary_TRs, total_TRs):
 
 
 def WvB_evalation(timeseries_data, boundary_TRs, buffer_size=4):
-    # create a mask to buffer out 4 trs
+
     tpts = timeseries_data.shape[0]
     test_corrmat = 1 - squareform(pdist(timeseries_data, 'correlation'))
-    mask_arr = np.ones((tpts, tpts))
-    for i in range(tpts):
-        for j in range(tpts):
-            if np.abs(i - j) <= buffer_size:
-                mask_arr[i][j] = np.nan
+    mask_arr = np.zeros((tpts, tpts))
+    mask_arr[np.triu_indices_from(mask_arr, buffer_size)] = 1
+    mask_arr+=mask_arr.T
+    mask_arr[mask_arr==0]=np.nan
+
+
     corrmat_masked = test_corrmat * mask_arr
     W, B = [], []
     boundary_labels = expand_boundary_labels(boundary_TRs, tpts)
+    # create a mask to buffer out `buffer_size` TRs
+
     for t0 in range(tpts):
         for t1 in range(t0, tpts):
             r = corrmat_masked[t0][t1]
@@ -73,9 +79,7 @@ def compute_event_boundaries_diff_temporally_balanced(timeseries_data, boundary_
 
     timepoint_corrmat = 1 - squareform(pdist(timeseries_data, 'correlation'))
     # how long is the longest event?
-    longest_event = np.max(np.diff(boundary_TRs))
-    max_distance = longest_event
-    print('Longest event ', max_distance)
+    max_distance = np.max(np.diff(boundary_TRs))
     boundary_labels = expand_boundary_labels(boundary_TRs, total_TRs)
     # anchor on each timepoint
     comparisons_made = []
@@ -115,12 +119,8 @@ def test_boundaries_corr_diff(data, K, subject=None, balance_distance=False):
     _, ll = HMM.find_events(data)
 
     boundary_TRs = np.where(np.diff(np.argmax(HMM.segments_[0], axis=1)))[0]
-    try:
-        if not boundary_TRs[0] == 0:
-            boundary_TRs = [0] + list(boundary_TRs) + [total_TRs]
-    except:
-        print(f"===== broke on {subject} k={K} data of shape {data.shape}")
-        return np.nan, np.nan, np.nan, np.nan, np.nan, np.nan
+    if not boundary_TRs[0] == 0:
+        boundary_TRs = [0] + list(boundary_TRs) + [total_TRs]
 
     if balance_distance:
         d, w, b, comparisons = compute_event_boundaries_diff_temporally_balanced(data, boundary_TRs)
@@ -149,15 +149,13 @@ def check_events(backward_event, anchor_event, forward_event, backward_timepoint
 
 
 def main():
-    global SUBJECTS
     learnM_df = pd.DataFrame(columns=['avg_within_event_corr', 'avg_between_event_corr', 'avg_difference',
                                'M', 'test_subject', 'dataset', 'K', 'embed_method', 'ROI', 'boundary_TRs',
                                'model_LogLikelihood'])
     data = LOADFN(ROI)
-    learnM_fn = f"{output_dir}/{ROI}_{DATASET}_{METHOD}_learnM.csv"
     if os.path.exists(learnM_fn):
         print(f"Loading {learnM_fn}")
-        learnM_df=pd.read_csv(learnM_fn)
+        learnM_df=pd.read_csv(learnM_fn) # if this has already been run, don't repeat
     else:
         ## drive paralel analysis
         joblist, parameters = [], []
@@ -165,7 +163,7 @@ def main():
             bestK_cv = int(K_by_subject[i])
             test_data = data[i]
             for M in M2Test:
-                embed_fn = f'{embed_dir}/sub-{subject:02d}_{ROI}_{DATASET}_movie_{M}dimension_embedding_{METHOD}.npy'
+                embed_fn = f'{EMBED_DIR}/sub-{subject:02d}_{ROI}_{DATASET}_movie_{M}dimension_embedding_{METHOD}.npy'
                 embedding = mf.return_subject_embedding(embed_fn, test_data, M, METHOD)
                 joblist.append(delayed(test_boundaries_corr_diff)(embedding, bestK_cv, subject=subject))
                 parameters.append([M, subject, DATASET, bestK_cv, METHOD, ROI])
@@ -189,41 +187,25 @@ def main():
 
     # now we have the dataframe with the best M's - find the best by subject
     bestM_within_subject = []
-    incl = []
-    SUBJECTS = utils.sherlock_subjects if DATASET == 'sherlock' else utils.forrest_subjects
     for j, subject in enumerate(SUBJECTS):
         sub_df = learnM_df[learnM_df['test_subject'] == subject]
         max_diff = np.max(sub_df['avg_difference'].values)
         bestM = sub_df[sub_df['avg_difference'] == max_diff]['M'].values[0]
-        incl.append(subject)
         bestM_within_subject.append(bestM)
-        # # get the highest difference value
-        # try:
-        #     max_diff = np.max(sub_df['avg_difference'].values)
-        #     bestM = sub_df[sub_df['avg_difference'] == max_diff]['M'].values[0]
-        #     incl.append(subject)
-        #     bestM_within_subject.append(bestM)
-        # except:
-        #     print(f"excluding {subject}")
-        #     continue
-    SUBJECTS = incl
 
     final_df = pd.DataFrame(columns=['subject', 'ROI', 'dataset', 'avg_within_event_corr', 'avg_between_event_corr', 'avg_difference',
                  'CV_M', 'CV_K', 'embed_method', 'boundary_TRs', 'model_LogLikelihood', 'compared_timepoints'])
 
     # now cross validate - each subject gets the mean of all the others
-    for i, subject in enumerate(SUBJECTS):
+    for i, test_subject in enumerate(SUBJECTS):
         test_data = data[i]
         bestK_cv = int(K_by_subject[i])
-        others = np.setdiff1d(np.arange(len(SUBJECTS)), i)
-        bestM_cv = int(np.round(np.nanmean([bestM_within_subject[j] for j in others])))
-        print(
-            f'bestM_cv for subject {subject} method {METHOD} dataset {DATASET} roi {ROI} is {bestM_cv}; bestK {bestK_cv}')
-        embed_fn = f'{embed_dir}/sub-{subject:02d}_{ROI}_{DATASET}_movie_{bestM_cv}dimension_embedding_{METHOD}.npy'
+        train_subject_inds = np.setdiff1d(np.arange(len(SUBJECTS)), i)
+        bestM_cv = int(np.round(np.nanmean([bestM_within_subject[j] for j in train_subject_inds])))
+        embed_fn = f'{EMBED_DIR}/sub-{subject:02d}_{ROI}_{DATASET}_movie_{bestM_cv}dimension_embedding_{METHOD}.npy'
         embedding = mf.return_subject_embedding(embed_fn, test_data, bestM_cv, METHOD)
-
         avg_within, avg_between, avg_diff, boundary_TRs, ll, comparisons = test_boundaries_corr_diff(embedding, bestK_cv, balance_distance=True)
-        final_df.loc[len(final_df)] = {'subject': subject,
+        final_df.loc[len(final_df)] = {'subject': test_subject,
                                        'ROI': ROI,
                                        'dataset': DATASET,
                                        'avg_within_event_corr': avg_within,
@@ -243,39 +225,24 @@ if __name__ == "__main__":
     DATASET = sys.argv[1]
     ROI = sys.argv[2]
     METHOD = sys.argv[3]
-    NJOBS=16
-    if len(sys.argv) > 4:
-        print("Running demo; adjusting parameters accordingly")
-        ROI='early_visual'
-        METHOD='TPHATE'
-        DATASET='sherlock'
-        SUBJECTS=utils.sherlock_subjects
-        NTPTS=utils.sherlock_timepoints
-        LOADFN=utils.load_sherlock_movie_ROI_data
-        base_dir = "../data/demo_data/"
-        data_dir = f'{base_dir}/demo_ROI_data/'
-        LOADFN = utils.load_demo_data
-        embed_dir = f'{base_dir}/demo_embeddings/'
-        output_dir='../intermediate_data/demo/HMM_learnK'
-        results_dir = '../results/demo_results/source'
-    else:
-        SUBJECTS = utils.sherlock_subjects if DATASET == 'sherlock' else utils.forrest_subjects
-        NTPTS = utils.sherlock_timepoints if DATASET == 'sherlock' else utils.forrest_movie_timepoints
-        LOADFN = utils.load_sherlock_movie_ROI_data if DATASET == 'sherlock' else utils.load_forrest_movie_ROI_data
-        SUBJECTS = utils.sherlock_subjects if DATASET == 'sherlock' else utils.forrest_subjects
-        NTPTS = utils.sherlock_timepoints if DATASET == 'sherlock' else utils.forrest_movie_timepoints
-        LOADFN = utils.load_sherlock_movie_ROI_data if DATASET == 'sherlock' else utils.load_forrest_movie_ROI_data
-        base_dir = utils.sherlock_dir if DATASET == 'sherlock' else utils.forrest_dir
-        embed_dir = f'{base_dir}/ROI_data/{ROI}/embeddings/'
-        output_dir = '../intermediate_data/HMM_learnK'
-        results_dir = '../results/source'
 
-    bestK_df_fn = f'{output_dir}/{DATASET}_{ROI}_bestK_LOSO.csv'
+    SUBJECTS = config.SUBJECTS[DATASET]
+    NTPTS = config.TIMEPOINTS[DATASET]
+    LOADFN = utils.LOAD_FMRI_FUNCTIONS[DATASET]
+    BASE_DIR = config.DATA_FOLDERS[DATASET]
+    DATA_DIR = f'{BASE_DIR}/demo_ROI_data' if DATASET == 'demo' else f'{BASE_DIR}/ROI_data/{ROI}/data'
+    EMBED_DIR = f'{BASE_DIR}/demo_embeddings' if DATASET == 'demo' else f'{BASE_DIR}/ROI_data/{ROI}/embeddings'
+    K2Test = config.HMM_K_TO_TEST[DATASET]
+    M2Test = config.DIMENSIONS_TO_TEST if METHOD != 'TSNE' else [2,3]
+    OUT_DIR = INTERMEDIATE_DATA_FOLDERS[DATASET] + '/HMM_learnK'
+    RESULTS_DIR =config.RESULTS_FOLDERS[DATASET]+'/source'
+
+    bestK_df_fn = f'{OUT_DIR}/{DATASET}_{ROI}_bestK_LOSO.csv'
+    learnK_df_fn = f'{OUT_DIR}/{DATASET}_{ROI}_samplingK_LOSO.csv'
+    learnM_fn = f"{OUT_DIR}/{ROI}_{DATASET}_{METHOD}_learnM.csv"
     outfn_name = f'{results_dir}/{ROI}_{DATASET}_{METHOD}_tempBalance_crossValid_WB_results.csv'
     bestK_df = pd.read_csv(bestK_df_fn, index_col=0)  # this has the best K when holding out each subject
     bestK_df = bestK_df[(bestK_df['ROI'] == ROI)]
     K_by_subject = bestK_df['CV_K'].values
-    SUBJECTS=list(SUBJECTS)
-    M2Test = np.arange(2, 11, 1) if METHOD != 'TSNE' else np.arange(2, 4) # tsne can only embed in 2 or 3
     main()
 

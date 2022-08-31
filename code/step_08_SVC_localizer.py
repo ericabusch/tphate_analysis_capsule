@@ -9,10 +9,10 @@ from sklearn.svm import SVC
 from sklearn.model_selection import PredefinedSplit
 
 
-def get_embeddings(voxel_data_allsubj, embed_dir):
+def get_embeddings(voxel_data_allsubj):
     embeddings = np.zeros((voxel_data_allsubj.shape[0], voxel_data_allsubj.shape[1], DIM))
     for i, s, ds in zip(np.arange(len(SUBJECTS)), SUBJECTS, voxel_data_allsubj):
-        embed_fn = f'{embed_dir}/sub-{s:02d}_{ROI}_localizer_{DIM}dimension_embedding_{METHOD}.npy'
+        embed_fn = f'{EMBED_DIR}/sub-{s:02d}_{ROI}_localizer_{DIM}dimension_embedding_{METHOD}.npy'
         embed = mf.return_subject_embedding(embed_fn, ds, DIM, METHOD)
         embeddings[i, :, :] = embed
     return embeddings
@@ -64,10 +64,12 @@ if __name__ == '__main__':
     METHOD = sys.argv[1]
     NJOBS = 16
     LABELS = utils.load_forrest_localizer_labels()  # list of one set of labels per subject
-    SUBJECTS = utils.forrest_subjects
-    NTPTS = utils.forrest_movie_timepoints
+    SUBJECTS = config.SUBJECTS['forrest']
+    NTPTS = config.LOCALIZER_TIMEPOINTS
     LOADFN = utils.load_forrest_localizer_ROI_data
-    base_dir = utils.forrest_dir
+    base_dir = config.DATA_FOLDERS['forrest']
+    OUT_DIR = config.RESULTS_FOLDERS[DATASET]
+
     searchstr = 'localizer'
     n_folds = 5
     ROIs = ['early_visual', 'high_Visual']
@@ -78,7 +80,7 @@ if __name__ == '__main__':
         print(f"Running {ROI} {DIM} {METHOD}")
         ROI_dir = os.path.join(base_dir, utils.data_version, 'ROI_data', ROI)
         embed_dir = f'{utils.forrest_dir}/ROI_data/{ROI}/embeddings'
-        outfn = f'../results/source/forrest_{ROI}_{METHOD}_SVC_localizer_results.csv'
+        outfn = f'{OUT_DIR}/source/forrest_{ROI}_{METHOD}_SVC_localizer_results.csv'
         r = main(ROI)
         r.to_csv(outfn)
         print(f'saved {outfn}')

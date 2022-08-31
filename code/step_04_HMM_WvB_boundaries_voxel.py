@@ -10,10 +10,11 @@ reduction.
 import numpy as np
 import pandas as pd
 import os, sys, glob
-import utils
+import utils, config
 from joblib import Parallel, delayed
 from scipy.stats import zscore
 from step_03_HMM_optimizeM_embeddings import test_boundaries_corr_diff
+from config import NJOBS
 
 
 def main():
@@ -23,7 +24,6 @@ def main():
     bestK_df = pd.read_csv(bestK_df_fn, index_col=0)  # this has the best K when holding out each subject
     bestK_df = bestK_df[(bestK_df['ROI'] == ROI)]
     K_by_subject = bestK_df['CV_K'].values
-    SUBJECTS = list(SUBJECTS)
 
     data=LOADFN(ROI)
     final_df = pd.DataFrame(
@@ -41,7 +41,6 @@ def main():
 
     with Parallel(n_jobs=NJOBS) as parallel:
         results = parallel(joblist)
-    print('finished parallel')
     for p, r in zip(parameters, results):
         avg_within, avg_between, avg_diff, boundary_TRs, ll, comparisons = r
 
@@ -67,32 +66,18 @@ def main():
 
 
 if __name__ == "__main__":
+    DATASET = sys.argv[1]
+    ROI = sys.argv[2]
+    SUBJECTS = config.SUBJECTS[DATASET]
+    NTPTS = config.TIMEPOINTS[DATASET]
+    LOADFN = utils.LOAD_FMRI_FUNCTIONS[DATASET]
+    BASE_DIR = config.DATA_FOLDERS[DATASET]
+    DATA_DIR = f'{BASE_DIR}/demo_ROI_data' if DATASET == 'demo' else f'{BASE_DIR}/ROI_data/{ROI}/data'
+    K2Test = config.HMM_K_TO_TEST[DATASET]
+    OUT_DIR = config.INTERMEDIATE_DATA_FOLDERS[DATASET] + '/HMM_learnK'
+    RESULTS_DIR =config.RESULTS_FOLDERS[DATASET]+'/source'
 
-    if len(sys.argv) > 3:
-        print("Running demo; adjusting parameters accordingly")
-        DATASET = 'sherlock'
-        ROI = 'early_visual'
-        SUBJECTS = utils.sherlock_subjects
-        NTPTS = utils.sherlock_timepoints
-        LOADFN = utils.load_sherlock_movie_ROI_data
-        base_dir = "../data/demo_data/"
-        data_dir = f'{base_dir}/demo_ROI_data/'
-        LOADFN = utils.load_demo_data
-        embed_dir = f'{base_dir}/demo_embeddings/'
-        output_dir = '../intermediate_data/demo/HMM_learnK'
-        results_dir = '../results/demo_results/source/'
-    else:
-        DATASET = sys.argv[1]
-        ROI = sys.argv[2]
-        SUBJECTS = utils.sherlock_subjects if DATASET == 'sherlock' else utils.forrest_subjects
-        NTPTS = utils.sherlock_timepoints if DATASET == 'sherlock' else utils.forrest_movie_timepoints
-        LOADFN = utils.load_sherlock_movie_ROI_data if DATASET == 'sherlock' else utils.load_forrest_movie_ROI_data
-        SUBJECTS = utils.sherlock_subjects if DATASET == 'sherlock' else utils.forrest_subjects
-        NTPTS = utils.sherlock_timepoints if DATASET == 'sherlock' else utils.forrest_movie_timepoints
-        LOADFN = utils.load_sherlock_movie_ROI_data if DATASET == 'sherlock' else utils.load_forrest_movie_ROI_data
-        base_dir = utils.sherlock_dir if DATASET == 'sherlock' else utils.forrest_dir
-        embed_dir = f'{base_dir}/ROI_data/{ROI}/embeddings/'
-        output_dir = '../intermediate_data/HMM_learnK'
-        results_dir = '../results/source/'
-    NJOBS=16
+    bestK_df_fn = f'{OUT_DIR}/{DATASET}_{ROI}_bestK_LOSO.csv'
+    learnK_df_fn = f'{OUT_DIR}/{DATASET}_{ROI}_samplingK_LOSO.csv'
+
     main()

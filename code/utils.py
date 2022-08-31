@@ -5,25 +5,7 @@ import numpy as np
 from scipy.stats import zscore
 import pandas as pd
 import os
-
-## set up paths
-sherlock_dir = '../data/sherlock/'
-forrest_dir = '../data/StudyForrest/'
-forrest_localizer_labels = '../data/StudyForrest/localizer_labels/'
-sherlock_features = '../data/sherlock/behavioral_data/'
-forrest_features = '../data/StudyForrest/behavioral_data/'
-ROI_dir = '../data/ROIs/'
-demo_dir = '../data/demo_data/'
-
-# Variables for each dataset
-forrest_subjects = np.array([1,2,3,4,6,9,10,14,15,16,17,18,19,20])
-sherlock_subjects = np.arange(1,17)
-forrest_movie_timepoints = 3599
-sherlock_timepoints = 1976
-forrest_localizer_timepoints = 156*4 # four runs of 156 timepoints
-
-ROIs = ['aud_early','early_visual','pmc_nn','high_Visual']
-embedding_methods = ['PHATE', 'TPHATE', 'UMAP', 'PCA', 'LLE', 'ISOMAP', 'SMOOTH_PHATE',  "PHATE_TIME", "TSNE"]
+from config import *
 
 ################## data loading helper functions #######################
 def load_demo_data(ROI): # placeholder argument here to match the others
@@ -32,14 +14,10 @@ def load_demo_data(ROI): # placeholder argument here to match the others
     :return: list of numpy arrays
     """
     dss=[]
-    for s in sherlock_subjects:
-        fn = f'{demo_dir}/demo_ROI_data/sub-{s:02d}_early_visual_sherlock_movie.npy'
-        d = np.load(fn)
-        d = np.nan_to_num(zscore(d, axis=0))
-        dss.append(d)
+    for s in SUBJECTS['demo']:
+        fn = DATA_FOLDERS['demo']+f'/demo_ROI_data/sub-{s:02d}_early_visual_sherlock_movie.npy'
+        dss.append(np.nan_to_num(zscore(np.load(fn), axis=0)))
     return dss
-
-
 
 def load_sherlock_movie_ROI_data(ROI_name, subjects='all', z=True):
     """
@@ -50,9 +28,9 @@ def load_sherlock_movie_ROI_data(ROI_name, subjects='all', z=True):
     :param z: do you want to zscore the data after loading
     :return: a list of numpy arrays of shape [n_subjects, n_timepoints, n_voxels]
     """
-    data_dir = f'{sherlock_dir}/ROI_data/{ROI_name}/data'
+    data_dir = DATA_FOLDERS['sherlock']+f'/ROI_data/{ROI_name}/data'
     dss = []
-    SUBJECTS = sherlock_subjects if subjects == 'all' else subjects
+    SUBJECTS = SUBJECTS['sherlock'] if subjects == 'all' else subjects
     for s in SUBJECTS:
         fn = f'{data_dir}/sub-{s:02d}_{ROI_name}_sherlock_movie.npy'
         d = np.load(fn)
@@ -68,9 +46,9 @@ def load_forrest_localizer_ROI_data(ROI_name, subjects='all', z=True):
    :param z: do you want to zscore the data after loading
    :return: a list of numpy arrays of shape [n_subjects, 156*4, n_voxels]
     """
-    data_dir = f'{forrest_dir}/ROI_data/{ROI_name}/data'
+    data_dir = DATA_FOLDERS['forrest']+f'/ROI_data/{ROI_name}/data'
     dss = []
-    SUBJECTS = forrest_subjects if subjects == 'all' else subjects
+    SUBJECTS = SUBJECTS['forrest'] if subjects == 'all' else subjects
     for s in SUBJECTS:
         try:
             #these data were already concatenated across run and normalized within run
@@ -100,10 +78,23 @@ def load_forrest_localizer_labels(sub_id=0, run='all'):
         labels.append(these_labels)
     return labels
 
+def load_forrest_movie_ROI_data(ROI_name, subjects='all',z=True):
+    """
+       :param ROI_name: one of the 4 ROI names
+       :param subjects: can be either a list of subject #s from forrest or 'all'
+       :param z: do you want to zscore the data after loading
+       :return: a list of numpy arrays of shape [n_subjects, 3599, n_voxels]
+        """
+    data_dir = DATA_FOLDERS['forrest'] + f'/ROI_data/{ROI_name}/data'
+    dss = []
+    SUBJECTS = SUBJECTS['forrest'] if subjects == 'all' else subjects
+    for s in SUBJECTS:
+        fn = f'{data_dir}/sub-{s:02d}_{ROI_name}_movie_all_runs.npy'
+        d = np.nan_to_num(zscore(np.load(fn), axis=0)) if z else d
+        dss.append(d)
+    return dss
 
 
-
-# extract data from a ROI
 def apply_volume_ROI(ROI_nii, volume_image, outfn=False, z=True, zaxis=0):
     # if the affine of the mask and volume don't match, resample thhe mask to the volume
     resampled_ROI = resample_img(ROI_nii, target_affine=volume_image.affine, target_shape=volume_image.shape[:-1]).get_fdata()
@@ -120,26 +111,16 @@ def apply_volume_ROI(ROI_nii, volume_image, outfn=False, z=True, zaxis=0):
 
 
 
-
-
-
-
 ################# handle movie annotations for both datasets ############
 
-## this helps for loading binarized, expanded-to-each-timepoint sherlock labels
-def load_coded_sherlock_regressors(regressor=None):
+## this helps for loading binarized, expanded-to-each-timepoint labels
+def load_coded_regressors(dataset, regressor=None):
     import pandas as pd
-    regressors = pd.read_csv(f"{sherlock_features}/sherlock_labels_coded_expanded.csv")
+    regressors=pd.read_csv(FEATURES_FILES[dataset], index_col=0)
     if regressor:
         regressors = regressors[regressor].values
     return regressors
 
-def load_coded_forrest_movie_regressors(regressor=None):
-    import pandas as pd
-    regressors = pd.read_csv(f"{forrest_features}/forrest_movie_labels_coded_expanded.csv")
-    if regressor:
-        regressors = regressors[regressor].values
-    return regressors
 
 def label_each_TR(seg_start_TRs, event_onset_TRs, nTRs, nSeg):
     """
@@ -172,7 +153,7 @@ def preprocess_forrest_labels():
     """
     import pandas as pd
 
-    orig_df = pd.read_csv(f"{forrest_features}/ForrestGumpAnnotations.csv")
+    orig_df = pd.read_csv(FEATURES_FILES_ORIGINAL['forrest'])
     orig_df['TR'] = orig_df['time'] // 2  # 2s TR
     # recode interior and exterior : 1 = indoor, 0 = outdoor
     IndoorOutdoor = orig_df['int_or_ext'].values
@@ -201,9 +182,7 @@ def preprocess_forrest_labels():
         col_data = labels[col_label].values
         df_expanded[col_label] = label_each_TR(TRs, col_data, 3599, len(labels))
     df_expanded['TR'] = np.arange(len(df_expanded))
-    df_expanded.to_csv(f'{forrest_features}/forrest_movie_labels_coded_expanded.csv')
-
-
+    df_expanded.to_csv(FEATURES_FILES['forrest'])
 
 
 def preprocess_sherlock_labels():
@@ -216,7 +195,7 @@ def preprocess_sherlock_labels():
 
     """
     import pandas as pd
-    orig_df = pd.read_csv(f"{sherlock_features}/Sherlock_Segments_master.csv")
+    orig_df = pd.read_csv(FEATURES_FILES_ORIGINAL['sherlock'])
     orig_df = orig_df[:998] # need to trim this bc lots of blank rows
     nSegments = len(orig_df)
     seg_start_TR = orig_df['Start TR']
@@ -285,4 +264,9 @@ def preprocess_sherlock_labels():
     newRegressors['ValenceCoded'] = newRegressors['ValenceCoded'].astype(int)
     newRegressors['LocationCoded'] = newRegressors['LocationCoded'].astype(int)
     newRegressors['Arousal'] = newRegressors['Arousal'].astype(int)
-    newRegressors.to_csv(f'{sherlock_features}/sherlock_labels_coded_expanded.csv')
+    newRegressors.to_csv(FEATURES_FILES['sherlock'])
+
+##########################
+LOAD_FMRI_FUNCTIONS = {'demo':load_demo_data,
+                       'sherlock':load_sherlock_movie_ROI_data,
+                       'forrest':load_forrest_movie_ROI_data}
