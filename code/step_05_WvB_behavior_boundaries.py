@@ -10,7 +10,7 @@ human rater labels.
 
 To run as a demo, insert any second command-line argument
 
-Runs from the command line as python step_05_WvB_behavior_boundaries.py $ROI $DEMO
+Runs from the command line as python step_05_WvB_behavior_boundaries.py $DATASET $ROI
 
 Saves a csv file for the region to results directory.
 """

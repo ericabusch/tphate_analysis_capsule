@@ -9,8 +9,7 @@ metric of boundary fit.
 
 
 Runs from the command line as:
-python step_06_WvB_boundaries_cross_subjects.py $DATASET $ROI $METHOD $DEMO
-where demo is any additional argument, but runs the demo version.
+python step_06_WvB_boundaries_cross_subjects.py $DATASET $ROI $METHOD
 
 """
 
