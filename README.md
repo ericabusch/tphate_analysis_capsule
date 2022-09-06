@@ -11,15 +11,22 @@ The T-PHATE algorithm is available as a python package [here](https://github.com
 ## Running demo pipeline
 Demo data are provided for one of four ROIs in one of two datasets (early visual ROI, _sherlock_ dataset). We provide the TPHATE embeddings needed for each of these files to complete the following analyses, which could be generated from the original data using `step_00_apply_ROIs.py` and `step_01_run_embeddings.py` for all other methods/regions/datasets.
 
-Set following variable for demo:   
-DATASET=sherlock      
-ROI = early_visual   
-METHOD=TPHATE   
-DEMO=demo
+Parameters set for the demo pipeline:
+DATASET=demo
+ROI=early_visual
+METHOD=TPHATE
 
-
-1. `python step_02_HMM_optimizeK_voxel.py sherlock early_visual demo`
-    - Fits and tests HMMs for event segmentation with leave-one-subject-out cross validation on voxel-resolution data to select HMM hyperparameter `K` for each subject, to be used in fitting HMMs on dimensionality-reduced data in subsequent analyses.
+To run the demo pipeline:
+1. `python step_02_HMM_optimizeK_voxel.py $DATASET $ROI`
+    - Fits and tests HMMs for event segmentation with leave-one-subject-out cross validation on voxel-resolution data to select HMM hyperparameter __K__ for each subject, to be used in fitting HMMs on dimensionality-reduced data in subsequent analyses.
     - Saves files `intermediate_data/demo/HMM_learnK/{DATASET}_{ROI}_samplingK_LOSO.csv` and `intermediate_data/demo/HMM_learnK/{DATASET}_{ROI}_bestK_LOSO.csv`.
-2. `python step_03_HMM_optimizeM_embeddings.py $DATASET $ROI $METHOD $DEMO` 
-    - Takes the `${DATASET}_${ROI}_bestK_LOSO.csv` file and scrapes it to get the best K value (# neural events identified by HMM for a given region) and uses that value to re-fit HMMs to the TPHATE embeddings for that region.
+2. `python step_03_HMM_optimizeM_embeddings.py $DATASET $ROI ` 
+    - Takes the `${DATASET}_${ROI}_bestK_LOSO.csv` file and scrapes it to get the best K value (# neural events identified by HMM for a given region). Uses that value to re-fit HMMs to reduced-dimension embeddings of the neural data for the region and evaluate within-vs-between event-boundary distances, then choose the number of embedding dimensions __M__ that maximizes the within-vs-between event-boundary distances. 
+    - The __M__ value learned for each subject is then cross-validated across subjects in the same fashion as the __K__ hyperparameter. These are then used to fit a final HMM per subject and compute the within-vs-between event-boundary distance & model fit reported in figures 4 and 5. 
+3. `python step_04_HMM_WvB_boundaries_voxel.py $DATASET $ROI`
+    - Performs the same analysis as in `step_03_HMM_optimizeM_embeddings` but without the optimization of the number of dimensions __M__, instead keeping the full voxel-resolution dataset.
+4. `python step_04p5_scrape_HMM_results.py` 
+    - When running the full version, scrapes all the results of step 2 and 3 across ROIs and datasets into one file for convenience in future analyses. 
+5. `python step_05_WvB_behavior_boundaries.py $DATASET $ROI` 
+    - Instead of using HMMs to identify event boundaries as in steps 2 and 3, this analysis uses event boundaries identified by a separate cohort of human raters. Applies those boundaries to the voxel resolution and embedding data and then evaluates their fit as measured in previous analyses. 
+
