@@ -1,17 +1,23 @@
 from os.path import *
 import numpy as np
 
-NJOBS=1
+NJOBS=16
+VERBOSE = True
 
 ROOT = '/gpfs/milgram/scratch60/turk-browne/neuromanifold'
+
+DATASETS = ['sherlock','forrest']
 
 RAW_DATA_FOLDERS = {'sherlock':join(ROOT, "sherlock/MNI152_3mm_data/denoised_filtered_smoothed/whole_brain_data/"),
                     'forrest':join(ROOT, "StudyForrest/MNI152_3mm_data/denoised_filtered_smoothed/whole_brain_data/")}
 
-DATA_FOLDERS={'demo':'../data/demo_data/',
+DATA_FOLDERS_CAPSULE={'demo':'../data/demo_data/',
             'sherlock':'../data/sherlock/',
            'forrest':'../data/StudyForrest/'}
 
+DATA_FOLDERS={'demo':join(ROOT, "sherlock/MNI152_3mm_data/denoised_filtered_smoothed"),
+            'sherlock':join(ROOT, "sherlock/MNI152_3mm_data/denoised_filtered_smoothed"),
+           'forrest':join(ROOT, "StudyForrest/MNI152_3mm_data/denoised_filtered_smoothed")}
 
 FEATURES_FILES = {'demo':'../data/sherlock/behavioral_data/sherlock_labels_coded_expanded.csv',
                    'sherlock':'../data/sherlock/behavioral_data/sherlock_labels_coded_expanded.csv',
@@ -58,7 +64,7 @@ TIMEPOINTS = {'demo':1976,
 
 LOCALIZER_TIMEPOINTS=156*4
 
-HMM_K_TO_TEST = {'demo':np.arange(10, 121, 1),
-                 'sherlock': np.arange(10, 121, 1),
-                 'forrest':np.arange(20, 201, 1)}
+HMM_K_TO_TEST = {'demo':np.arange(10, 121, 2),
+                 'sherlock': np.arange(10, 70, 2),
+                 'forrest':np.arange(30, 161, 2)}
 DIMENSIONS_TO_TEST = np.arange(2, 11)

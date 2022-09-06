@@ -1,0 +1,3 @@
+[submodule "code/TPHATE"]
+	path = code/TPHATE
+	url = https://github.com/KrishnaswamyLab/TPHATE/

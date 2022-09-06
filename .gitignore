@@ -3,3 +3,11 @@ __pycache__/
 .ipynb_checkpoints
 *log/
 *.o
+intermediate_data/HMM_learnK_nested/*csv
+intermediate_data/HMM_learnK_nested/*npy
+intermediate_data/HMM_learnK/*csv
+results/source/*
+results/LOSO_K/*tempBalance*
+results/*tempBalance*
+*.out
+code/Untitled*
