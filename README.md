@@ -11,10 +11,10 @@ The T-PHATE algorithm is available as a python package [here](https://github.com
 ## Running demo pipeline
 Demo data are provided for one of four ROIs in one of two datasets (early visual ROI, _sherlock_ dataset). We provide the TPHATE embeddings needed for each of these files to complete the following analyses, which could be generated from the original data using `step_00_apply_ROIs.py` and `step_01_run_embeddings.py` for all other methods/regions/datasets.
 
-Parameters set for the demo pipeline:
-DATASET=demo
-ROI=early_visual
-METHOD=TPHATE
+Parameters set for the demo pipeline:      
+DATASET=demo      
+ROI=early_visual     
+METHOD=TPHATE       
 
 To run the demo pipeline:
 - `python step_02_HMM_optimizeK_voxel.py $DATASET $ROI`
