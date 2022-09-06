@@ -69,7 +69,7 @@ if __name__ == '__main__':
     LOADFN = utils.load_forrest_localizer_ROI_data
     base_dir = config.DATA_FOLDERS['forrest']
     OUT_DIR = config.RESULTS_FOLDERS[DATASET]
-
+    EMBED_DIR = f'{BASE_DIR}/ROI_data/{ROI}/embeddings'
     searchstr = 'localizer'
     n_folds = 5
     ROIs = ['early_visual', 'high_Visual']
@@ -79,10 +79,10 @@ if __name__ == '__main__':
     for ROI in ROIs:
         print(f"Running {ROI} {DIM} {METHOD}")
         ROI_dir = os.path.join(base_dir, utils.data_version, 'ROI_data', ROI)
-        embed_dir = f'{utils.forrest_dir}/ROI_data/{ROI}/embeddings'
+        EMBED_DIR = f'{utils.forrest_dir}/ROI_data/{ROI}/embeddings'
         outfn = f'{OUT_DIR}/source/forrest_{ROI}_{METHOD}_SVC_localizer_results.csv'
-        r = main(ROI)
-        r.to_csv(outfn)
+        res = main(ROI)
+        res.to_csv(outfn)
         print(f'saved {outfn}')
 
 

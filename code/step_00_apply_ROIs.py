@@ -1,5 +1,3 @@
-## TO DO: UPDATE TO NEW FILE STRUCTURE
-
 import numpy as np
 import pandas as pd
 import os, sys, glob
@@ -7,6 +5,7 @@ import nibabel as nib
 import nilearn
 import utils
 from scipy.stats import zscore
+import config
 from config import *
 
 def load_ROI(ROI_name):
@@ -15,7 +14,7 @@ def load_ROI(ROI_name):
 
 def mask_sherlock(ROI_name):
     indata_dir = RAW_DATA_FOLDERS['sherlock']
-    outdata_dir = DATA_FOLDERS['sherlock']
+    outdata_dir = DATA_FOLDERS['sherlock']+f'/ROI_data/{ROI_name}/data'
     os.makedirs(outdata_dir, exist_ok=True)
     ROI_mask = load_ROI(ROI_name)
     for subject in SUBJECTS['sherlock']:
@@ -30,7 +29,7 @@ def mask_sherlock(ROI_name):
 
 def mask_forrest(ROI_name):
     indata_dir = RAW_DATA_FOLDERS['forrest']
-    outdata_dir = DATA_FOLDERS['forrest']
+    outdata_dir = DATA_FOLDERS['forrest']+f'/ROI_data/{ROI_name}/data'
     os.makedirs(outdata_dir, exist_ok=True)
     ROI_mask = load_ROI(ROI_name)
     for subject in SUBJECTS['forrest']:

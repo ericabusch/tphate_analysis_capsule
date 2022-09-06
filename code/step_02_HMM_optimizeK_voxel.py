@@ -53,7 +53,7 @@ def outerloop_selectK(all_subjects_data):
     bestK_dataset = pd.DataFrame(columns=['ROI', 'dataset', 'test_subject', 'bestK'])
     joblist = []
     for split, (train_indices, test_index) in enumerate(LOO.split(np.arange(n_subjects))):
-        test_subject = SUBJECTS[test_index][0]
+        test_subject = SUBJECTS[test_index[0]]
         train_data, test_data = all_subjects_data[train_indices], all_subjects_data[test_index]
         train_data, test_data = np.mean(train_data, axis=0), np.squeeze(test_data)
         joblist.append(delayed(innerloop_optimize_K_voxel)(train_data, test_data, test_subject))
@@ -96,11 +96,12 @@ if __name__ == "__main__":
     BASE_DIR=config.DATA_FOLDERS[DATASET]
     DATA_DIR = f'{BASE_DIR}/demo_ROI_data' if DATASET == 'demo' else f'{BASE_DIR}/ROI_data/{ROI}/data'
     K2Test = config.HMM_K_TO_TEST[DATASET]
-    OUT_DIR = INTERMEDIATE_DATA_FOLDERS[DATASET]+'/HMM_learnK'
+    OUT_DIR = config.INTERMEDIATE_DATA_FOLDERS[DATASET]+'/HMM_learnK'
     bestK_df_fn = f'{OUT_DIR}/{DATASET}_{ROI}_bestK_LOSO.csv'
     learnK_df_fn = f'{OUT_DIR}/{DATASET}_{ROI}_samplingK_LOSO.csv'
 
     data = np.array(LOADFN(ROI))
+    print(data.shape, SUBJECTS, OUT_DIR, BASE_DIR, bestK_df_fn)
     bestK_dataset, selectK_results = outerloop_selectK(data)
     bestK_dataset.to_csv(bestK_df_fn)
     selectK_results.to_csv(learnK_df_fn)

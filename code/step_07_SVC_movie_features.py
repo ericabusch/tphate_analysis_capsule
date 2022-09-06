@@ -121,14 +121,16 @@ if __name__ == "__main__":
     num_reps = 1000
 
     BASE_DIR = config.DATA_FOLDERS[DATASET]
+    SUBJECTS=config.SUBJECTS[DATASET]
     DATA_DIR = f'{BASE_DIR}/demo_ROI_data' if DATASET == 'demo' else f'{BASE_DIR}/ROI_data/{ROI}/data'
+    LOADFN = utils.LOAD_FMRI_FUNCTIONS[DATASET]
     EMBED_DIR = f'{BASE_DIR}/demo_embeddings' if DATASET == 'demo' else f'{BASE_DIR}/ROI_data/{ROI}/embeddings'
     OUT_DIR = config.RESULTS_FOLDERS[DATASET]
     SEARCHSTR = config.FILE_STRINGS[DATASET]
     NTPTS = config.TIMEPOINTS[DATASET]
     REGRESSOR_NAMES = config.REGRESSOR_NAMES[DATASET]
     REGRESSORS = {REG: utils.load_coded_regressors(DATASET, REG) for REG in REGRESSOR_NAMES}
-
+    
     outfn = f'{OUT_DIR}/source/{DATASET}_{ROI}_{METHOD}_SVC_movie_zstat_results.csv'
     print(f"Running {ROI} {DATASET} {METHOD} | saving to {outfn}")
     main()

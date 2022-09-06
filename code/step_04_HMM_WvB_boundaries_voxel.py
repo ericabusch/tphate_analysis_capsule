@@ -18,9 +18,8 @@ from config import NJOBS
 
 
 def main():
-    global SUBJECTS
-    bestK_df_fn = f'{output_dir}/{DATASET}_{ROI}_bestK_LOSO.csv'
-    outdf_fn = f'{results_dir}/{ROI}_{DATASET}_voxel_tempBalance_crossValid_WB_results.csv'
+    bestK_df_fn = f'{OUT_DIR}/{DATASET}_{ROI}_bestK_LOSO.csv'
+    outdf_fn = f'{RESULTS_DIR}/{ROI}_{DATASET}_voxel_tempBalance_crossValid_WB_results.csv'
     bestK_df = pd.read_csv(bestK_df_fn, index_col=0)  # this has the best K when holding out each subject
     bestK_df = bestK_df[(bestK_df['ROI'] == ROI)]
     K_by_subject = bestK_df['CV_K'].values
@@ -36,7 +35,7 @@ def main():
         parameters.append({'subject': subject, 'ROI': ROI,
                            'dataset': DATASET, 'CV_M': test_data.shape[1],
                            'CV_K': bestK_cv})
-        print(f'subject {subject} voxel dataset {DATASET} roi {ROI}; bestK {bestK_cv}')
+#         print(f'subject {subject} voxel dataset {DATASET} roi {ROI}; bestK {bestK_cv}')
         joblist.append(delayed(test_boundaries_corr_diff)(test_data, bestK_cv, balance_distance=True))
 
     with Parallel(n_jobs=NJOBS) as parallel:
