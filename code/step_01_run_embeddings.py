@@ -1,4 +1,5 @@
 import numpy as np
+import sys
 import utils, config
 import embedding_helpers as mf
 from joblib import Parallel, delayed
@@ -34,12 +35,15 @@ def drive_localizer_embeddings():
 if __name__ == "__main__":
     DATASET = sys.argv[1]
     ROI = sys.argv[2]
-    SUBJECT = sys.argv[3]
+    SUBJECT = int(sys.argv[3])
 
     NJOBS = 16
     LOADFN = utils.LOAD_FMRI_FUNCTIONS[DATASET]
+    if DATASET == 'demo':
+        EMBED_DIR = config.DATA_FOLDERS[DATASET]+'/demo_embeddings/'
+    else:
+        EMBED_DIR = config.DATA_FOLDERS[DATASET]+f"/ROI_data/{ROI}/embeddings/"
     drive_embeddings()
-
     if DATASET=='forrest':
         drive_localizer_embeddings()
 

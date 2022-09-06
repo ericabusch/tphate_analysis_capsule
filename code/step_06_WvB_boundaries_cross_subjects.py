@@ -14,8 +14,6 @@ where demo is any additional argument, but runs the demo version.
 
 """
 
-
-
 import numpy as np
 import pandas as pd
 import utils, config
@@ -45,7 +43,7 @@ def run_single_subject(data, training_subject_boundaries, test_subject_ID):
 def load_embeddings(subject_IDs, CV_Ms):
     embeddings = []
     for sub, M in zip(subject_IDs, CV_Ms):
-        embed_fn = os.path.join(data_dir, f'sub-{sub:02d}_{ROI}_{searchstr}_{M}dimension_embedding_{METHOD}.npy')
+        embed_fn = os.path.join(EMBED_DIR, f'sub-{sub:02d}_{ROI}_{SEARCHSTR}_{M}dimension_embedding_{METHOD}.npy')
         embeddings.append(np.load(embed_fn))
     return embeddings
 
@@ -57,7 +55,6 @@ def main():
     else:
         CV_Ms = param_df['CV_M'].values
         allsubj_data = load_embeddings(SUBJECTS, CV_Ms)
-
     # define some functions for handling string parsing
     formatList = lambda string: string.replace('[', '').replace(']', '').split(', ')
     formatArr = lambda myList: [int(i) for i in myList]
@@ -68,8 +65,7 @@ def main():
     for i, boundaries in enumerate(subset_bounds):
         arr = formatAll(boundaries)
         boundary_TRs_formatted.append(np.array(arr))
-
-
+    
     joblist = []
     for sub_idx, sub in enumerate(SUBJECTS):
         dat = allsubj_data[sub_idx]
@@ -80,7 +76,7 @@ def main():
     print("starting jobs")
     with Parallel(n_jobs=NJOBS) as parallel:
         results_df_list = parallel(joblist)
-
+    print(results_df_list)
     results_df = pd.concat(results_df_list)
     results_df['ROI'] = np.repeat(ROI, len(results_df))
     results_df['embed_method'] = np.repeat(METHOD, len(results_df))
@@ -94,14 +90,14 @@ if __name__ == '__main__':
     ROI = sys.argv[2]
     METHOD = sys.argv[3]
     BASE_DIR = config.DATA_FOLDERS[DATASET]
+    LOADFN = utils.LOAD_FMRI_FUNCTIONS[DATASET]
     DATA_DIR = f'{BASE_DIR}/demo_ROI_data' if DATASET == 'demo' else f'{BASE_DIR}/ROI_data/{ROI}/data'
     EMBED_DIR = f'{BASE_DIR}/demo_embeddings' if DATASET == 'demo' else f'{BASE_DIR}/ROI_data/{ROI}/embeddings'
-    OUT_DIR = RESULTS_FOLDERS[DATASET]
-    SEARCHSTR = FILE_STRINGS[DATASET]
-
-    param_df = pd.read_csv(f"{OUT_DIR}/within_sub_neural_event_WB_tempBalance.csv", index_col=0)
-
-    param_df = param_df[(param_df['dataset'] == DATASET) & (param_df['ROI'] == ROI)
+    OUT_DIR = config.RESULTS_FOLDERS[DATASET]
+    SEARCHSTR = config.FILE_STRINGS[DATASET]
+    param_df = pd.read_csv(f"{OUT_DIR}/within_sub_neural_event_WB_tempBalance_results.csv", index_col=0)
+    D = "sherlock" if DATASET == "demo" else DATASET
+    param_df = param_df[(param_df['dataset'] == D) & (param_df['ROI'] == ROI)
                         & (param_df['embed_method'] == METHOD)]
     SUBJECTS = param_df['subject'].values
     outfn = f'{OUT_DIR}/source/{ROI}_{DATASET}_{METHOD}_between_sub_neural_event_WB_tempBalance.csv'

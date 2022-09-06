@@ -1,16 +1,17 @@
 from os.path import *
 import numpy as np
 
-NJOBS=16
+NJOBS=1
 
 ROOT = '/gpfs/milgram/scratch60/turk-browne/neuromanifold'
 
-RAW_DATA_FOLDERS = {'sherlock':join(ROOT, "sherlock/MNI152_3mm_data/denoised_filtered_smoothed/whole_brain_data/")
-                    'forrest':join(ROOT, "StudyForrest/MNI152_3mm_data/denoised_filtered_smoothed/whole_brain_data/"}
+RAW_DATA_FOLDERS = {'sherlock':join(ROOT, "sherlock/MNI152_3mm_data/denoised_filtered_smoothed/whole_brain_data/"),
+                    'forrest':join(ROOT, "StudyForrest/MNI152_3mm_data/denoised_filtered_smoothed/whole_brain_data/")}
 
 DATA_FOLDERS={'demo':'../data/demo_data/',
             'sherlock':'../data/sherlock/',
            'forrest':'../data/StudyForrest/'}
+
 
 FEATURES_FILES = {'demo':'../data/sherlock/behavioral_data/sherlock_labels_coded_expanded.csv',
                    'sherlock':'../data/sherlock/behavioral_data/sherlock_labels_coded_expanded.csv',
@@ -26,9 +27,10 @@ INTERMEDIATE_DATA_FOLDERS={'demo':'../intermediate_data/demo',
 RESULTS_FOLDERS={'demo':'../results/demo_results',
                            'sherlock':'../results',
                            'forrest':'../results'}
-
-
-
+FILE_STRINGS = {'demo':'sherlock_movie',
+               'sherlock':'sherlock_movie',
+                'forrest':'forrest_movie'
+               }
 
 LOCALIZER_FOLDER = '../data/StudyForrest/localizer_labels'
 
@@ -45,6 +47,10 @@ ROI_FILES = {'aud_early':'../data/ROIs/aud_early.nii',
 SUBJECTS  = {'demo': list(np.arange(1,17)),
              'sherlock': list(np.arange(1,17)),
              'forrest': [1,2,3,4,6,9,10,14,15,16,17,18,19,20]}
+REGRESSOR_NAMES = {'demo':['IndoorOutdoor','MusicPresent'],
+                  'sherlock':['IndoorOutdoor','MusicPresent'],
+                  'forrest':['IoE_coded','FoT_coded']}
+
 
 TIMEPOINTS = {'demo':1976,
               'sherlock':1976,

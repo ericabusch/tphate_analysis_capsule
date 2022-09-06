@@ -48,9 +48,9 @@ if __name__ == "__main__":
     DATA_DIR = f'{BASE_DIR}/demo_ROI_data' if DATASET == 'demo' else f'{BASE_DIR}/ROI_data/{ROI}/data'
     EMBED_DIR = f'{BASE_DIR}/demo_embeddings' if DATASET == 'demo' else f'{BASE_DIR}/ROI_data/{ROI}/embeddings'
     METHODS= ['TPHATE'] if DATASET == 'demo' else config.METHODS+['voxel']
-    OUT_DIR = RESULTS_FOLDERS[DATASET]
+    OUT_DIR = config.RESULTS_FOLDERS[DATASET]
 
-    info_df = pd.read_csv(f'{OUT_DIR}/within_sub_neural_event_WB_tempBalance.csv', index_col=0)
+    info_df = pd.read_csv(f'{OUT_DIR}/within_sub_neural_event_WB_tempBalance_results.csv', index_col=0)
     info_df = info_df[(info_df['dataset'] == 'sherlock') & (info_df['ROI'] == ROI)]
 
     sherlock_scene_boundaries = get_scene_boundaries()
@@ -60,12 +60,12 @@ if __name__ == "__main__":
         info_df_here = info_df[(info_df['embed_method'] == method)]
         M_list = info_df_here.sort_values(by='subject',axis=0)['CV_M'].values
 
-        if METHOD == 'voxel':
+        if method == 'voxel':
             data = utils.load_sherlock_movie_ROI_data(ROI)
         else:
             data = get_embedding_data(method, M_list)
 
-        for subject, ds in zip(utils.sherlock_subjects, data):
+        for subject, ds in zip(config.SUBJECTS[DATASET], data):
             d, w, b, comparisons = compute_event_boundaries_diff_temporally_balanced(ds, sherlock_scene_boundaries)
             avg_within = np.nanmean(w)
             avg_between = np.nanmean(b)

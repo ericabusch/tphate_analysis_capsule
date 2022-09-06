@@ -1,5 +1,5 @@
 # utils.py
-from nilearn.input_data import NiftiMasker
+from nilearn.maskers import NiftiMasker
 from nilearn.image import math_img, resample_img
 import numpy as np
 from scipy.stats import zscore
@@ -8,13 +8,14 @@ import os
 from config import *
 
 ################## data loading helper functions #######################
-def load_demo_data(ROI): # placeholder argument here to match the others
+def load_demo_data(ROI, subjects='all', z=True): # placeholder argument here to match the others
     """
     Loads in the demo data (which is sherlock early visual)
     :return: list of numpy arrays
     """
+    SUBS = SUBJECTS['demo'] if subjects == 'all' else subjects
     dss=[]
-    for s in SUBJECTS['demo']:
+    for s in SUBS:
         fn = DATA_FOLDERS['demo']+f'/demo_ROI_data/sub-{s:02d}_early_visual_sherlock_movie.npy'
         dss.append(np.nan_to_num(zscore(np.load(fn), axis=0)))
     return dss
@@ -30,8 +31,8 @@ def load_sherlock_movie_ROI_data(ROI_name, subjects='all', z=True):
     """
     data_dir = DATA_FOLDERS['sherlock']+f'/ROI_data/{ROI_name}/data'
     dss = []
-    SUBJECTS = SUBJECTS['sherlock'] if subjects == 'all' else subjects
-    for s in SUBJECTS:
+    SUBS = SUBJECTS['sherlock'] if subjects == 'all' else subjects
+    for s in SUBS:
         fn = f'{data_dir}/sub-{s:02d}_{ROI_name}_sherlock_movie.npy'
         d = np.load(fn)
         d = np.nan_to_num(zscore(d,axis=0)) if z else d
@@ -48,8 +49,8 @@ def load_forrest_localizer_ROI_data(ROI_name, subjects='all', z=True):
     """
     data_dir = DATA_FOLDERS['forrest']+f'/ROI_data/{ROI_name}/data'
     dss = []
-    SUBJECTS = SUBJECTS['forrest'] if subjects == 'all' else subjects
-    for s in SUBJECTS:
+    SUBS = SUBJECTS['forrest'] if subjects == 'all' else subjects
+    for s in SUBS:
         try:
             #these data were already concatenated across run and normalized within run
             fn = f'{data_dir}/sub-{s:02d}_{ROI_name}_localizer_all_runs.npy'

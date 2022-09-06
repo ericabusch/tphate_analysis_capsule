@@ -152,18 +152,20 @@ def main():
     learnM_df = pd.DataFrame(columns=['avg_within_event_corr', 'avg_between_event_corr', 'avg_difference',
                                'M', 'test_subject', 'dataset', 'K', 'embed_method', 'ROI', 'boundary_TRs',
                                'model_LogLikelihood'])
+    D = 'sherlock' if DATASET == 'demo' else DATASET
     data = LOADFN(ROI)
     if os.path.exists(learnM_fn):
         print(f"Loading {learnM_fn}")
         learnM_df=pd.read_csv(learnM_fn) # if this has already been run, don't repeat
     else:
         ## drive paralel analysis
+        
         joblist, parameters = [], []
         for i, subject in enumerate(SUBJECTS):
             bestK_cv = int(K_by_subject[i])
             test_data = data[i]
             for M in M2Test:
-                embed_fn = f'{EMBED_DIR}/sub-{subject:02d}_{ROI}_{DATASET}_movie_{M}dimension_embedding_{METHOD}.npy'
+                embed_fn = f'{EMBED_DIR}/sub-{subject:02d}_{ROI}_{D}_movie_{M}dimension_embedding_{METHOD}.npy'
                 embedding = mf.return_subject_embedding(embed_fn, test_data, M, METHOD)
                 joblist.append(delayed(test_boundaries_corr_diff)(embedding, bestK_cv, subject=subject))
                 parameters.append([M, subject, DATASET, bestK_cv, METHOD, ROI])
@@ -202,7 +204,7 @@ def main():
         bestK_cv = int(K_by_subject[i])
         train_subject_inds = np.setdiff1d(np.arange(len(SUBJECTS)), i)
         bestM_cv = int(np.round(np.nanmean([bestM_within_subject[j] for j in train_subject_inds])))
-        embed_fn = f'{EMBED_DIR}/sub-{subject:02d}_{ROI}_{DATASET}_movie_{bestM_cv}dimension_embedding_{METHOD}.npy'
+        embed_fn = f'{EMBED_DIR}/sub-{subject:02d}_{ROI}_{D}_movie_{bestM_cv}dimension_embedding_{METHOD}.npy'
         embedding = mf.return_subject_embedding(embed_fn, test_data, bestM_cv, METHOD)
         avg_within, avg_between, avg_diff, boundary_TRs, ll, comparisons = test_boundaries_corr_diff(embedding, bestK_cv, balance_distance=True)
         final_df.loc[len(final_df)] = {'subject': test_subject,
@@ -234,13 +236,12 @@ if __name__ == "__main__":
     EMBED_DIR = f'{BASE_DIR}/demo_embeddings' if DATASET == 'demo' else f'{BASE_DIR}/ROI_data/{ROI}/embeddings'
     K2Test = config.HMM_K_TO_TEST[DATASET]
     M2Test = config.DIMENSIONS_TO_TEST if METHOD != 'TSNE' else [2,3]
-    OUT_DIR = INTERMEDIATE_DATA_FOLDERS[DATASET] + '/HMM_learnK'
-    RESULTS_DIR =config.RESULTS_FOLDERS[DATASET]+'/source'
-
+    OUT_DIR = config.INTERMEDIATE_DATA_FOLDERS[DATASET] + '/HMM_learnK'
+    RESULTS_DIR =config.RESULTS_FOLDERS[DATASET]+'/source'    
     bestK_df_fn = f'{OUT_DIR}/{DATASET}_{ROI}_bestK_LOSO.csv'
     learnK_df_fn = f'{OUT_DIR}/{DATASET}_{ROI}_samplingK_LOSO.csv'
     learnM_fn = f"{OUT_DIR}/{ROI}_{DATASET}_{METHOD}_learnM.csv"
-    outfn_name = f'{results_dir}/{ROI}_{DATASET}_{METHOD}_tempBalance_crossValid_WB_results.csv'
+    outfn_name = f'{RESULTS_DIR}/{ROI}_{DATASET}_{METHOD}_tempBalance_crossValid_WB_results.csv'
     bestK_df = pd.read_csv(bestK_df_fn, index_col=0)  # this has the best K when holding out each subject
     bestK_df = bestK_df[(bestK_df['ROI'] == ROI)]
     K_by_subject = bestK_df['CV_K'].values
