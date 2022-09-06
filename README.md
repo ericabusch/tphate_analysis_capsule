@@ -40,4 +40,4 @@ boundaries _across_ subjects. Since we'd expect a degree of coherence between-su
 - `python step_09_demap_simulations.py`
     - Generates simulated data and replicates results for the analysis in figure 1 and figure S1A, to show denoised manifold preservation.
  
-Additional scripts are included as helpers for housing common functions, variable names, and SLURM submission scripts.
+Additional scripts are included as helpers for housing common functions, variable names, and SLURM submission scripts. Command line arguments change with scripts to speed up run-time and assist with memory allocation in job submission.
