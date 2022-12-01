@@ -88,8 +88,8 @@ def load_forrest_movie_ROI_data(ROI_name, subjects='all',z=True):
         """
     data_dir = DATA_FOLDERS['forrest'] + f'/ROI_data/{ROI_name}/data'
     dss = []
-    SUBJECTS = SUBJECTS['forrest'] if subjects == 'all' else subjects
-    for s in SUBJECTS:
+    SUBS = SUBJECTS['forrest'] if subjects == 'all' else subjects
+    for s in SUBS:
         fn = f'{data_dir}/sub-{s:02d}_{ROI_name}_movie_all_runs.npy'
         d = np.nan_to_num(zscore(np.load(fn), axis=0)) if z else d
         dss.append(d)

@@ -4,6 +4,7 @@ from sklearn.manifold import Isomap, LocallyLinearEmbedding, TSNE
 import phate, umap
 from TPHATE.tphate import tphate
 import os
+import statsmodels.api as sm
 
 
 def return_subject_embedding(embed_fn, timeseries_data, manifold_dim, manifold_method, return_embd=True):
@@ -25,9 +26,20 @@ def return_subject_embedding(embed_fn, timeseries_data, manifold_dim, manifold_m
     np.save(embed_fn, embed)
     if return_embd:
         return embed
+    
+# smooth PHATE with kernel width of TPHATE
+def embed_smoothed_phate(data, n_components):
+    new_data = np.zeros_like(data)
+    acf = sm.tsa.acf(np.nanmean(data,axis=1), fft=False, nlags=data.shape[0]-1, missing='drop')
+    dropoff=np.where(acf<0)[0][0]
+    for i in range(data.shape[1]):
+        new_data[:, i] = np.convolve(data[:, i], np.ones(dropoff), 'same') / dropoff
+    embedding = phate.PHATE(n_components=n_components, n_jobs=-1, verbose=0, n_landmark=data.shape[0]).fit_transform(
+        new_data)
+    return embedding
 
 # Smooth PHATE implementation (set to 2 to match HRF)
-def embed_smoothed_phate(data, n_components, smooth_window=2):
+def embed_smoothed_HRF_phate(data, n_components, smooth_window=2):
     new_data = np.zeros_like(data)
     for i in range(data.shape[1]):
         new_data[:, i] = np.convolve(data[:, i], np.ones(smooth_window), 'same') / smooth_window

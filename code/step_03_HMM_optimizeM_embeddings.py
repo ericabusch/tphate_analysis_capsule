@@ -109,7 +109,7 @@ def compute_event_boundaries_diff_temporally_balanced(timeseries_data, boundary_
                 between_event_correlations.append(backward_corr)
                 within_event_correlations.append(forward_corr)
                 diffs.append(forward_corr - backward_corr)
-    return diffs, within_event_correlations, between_event_correlations, comparisons_made
+    return diffs, within_event_correlations, between_event_correlations, comparisons_made, boundary_labels
 
 
 def test_boundaries_corr_diff(data, K, subject=None, balance_distance=False):
@@ -123,7 +123,7 @@ def test_boundaries_corr_diff(data, K, subject=None, balance_distance=False):
         boundary_TRs = [0] + list(boundary_TRs) + [total_TRs]
 
     if balance_distance:
-        d, w, b, comparisons = compute_event_boundaries_diff_temporally_balanced(data, boundary_TRs)
+        d, w, b, comparisons, event_labels = compute_event_boundaries_diff_temporally_balanced(data, boundary_TRs)
         avg_within = np.nanmean(w)
         avg_between = np.nanmean(b)
         avg_diff = np.nanmean(d)
@@ -131,16 +131,18 @@ def test_boundaries_corr_diff(data, K, subject=None, balance_distance=False):
         avg_within, avg_between = WvB_evalation(data, boundary_TRs)
         avg_diff = np.nan_to_num(avg_within - avg_between)
         comparisons = None
-    return avg_within, avg_between, avg_diff, boundary_TRs, ll, comparisons
+        event_labels = None
+    return avg_within, avg_between, avg_diff, boundary_TRs, ll, comparisons, event_labels
 
-
+# Check whether two timepoints are a valid comparison:
+# One has to be within the same event as the anchor and one across events, they hve to be equidistant from the anchor TP
+# and they have to be not already compared
 def check_events(backward_event, anchor_event, forward_event, backward_timepoint, forward_timepoint, comparisons_made):
     VALID = -1
     # first, check if these two timepoints were already compared
     if [backward_timepoint, forward_timepoint] in comparisons_made:
-        print(f'{backward_timepoint}, {forward_timepoint} already compared')
+        if config.VERBOSE: print(f'{backward_timepoint}, {forward_timepoint} already compared')
         return VALID
-
     if backward_event == anchor_event:
         VALID *= -1
     if forward_event == anchor_event:
@@ -155,11 +157,10 @@ def main():
     D = 'sherlock' if DATASET == 'demo' else DATASET
     data = LOADFN(ROI)
     if os.path.exists(learnM_fn):
-        print(f"Loading {learnM_fn}")
+        if config.VERBOSE: print(f"Loading {learnM_fn}")
         learnM_df=pd.read_csv(learnM_fn) # if this has already been run, don't repeat
     else:
         ## drive paralel analysis
-        
         joblist, parameters = [], []
         for i, subject in enumerate(SUBJECTS):
             bestK_cv = int(K_by_subject[i])
@@ -185,7 +186,7 @@ def main():
                                'ROI': p[5]}
         # this is where we cross-validate the dimensionality
         learnM_df.to_csv(learnM_fn)
-        print(f"saved to {learnM_fn}")
+        if config.VERBOSE: print(f"saved to {learnM_fn}")
 
     # now we have the dataframe with the best M's - find the best by subject
     bestM_within_subject = []
@@ -195,8 +196,10 @@ def main():
         bestM = sub_df[sub_df['avg_difference'] == max_diff]['M'].values[0]
         bestM_within_subject.append(bestM)
 
-    final_df = pd.DataFrame(columns=['subject', 'ROI', 'dataset', 'avg_within_event_corr', 'avg_between_event_corr', 'avg_difference',
-                 'CV_M', 'CV_K', 'embed_method', 'boundary_TRs', 'model_LogLikelihood', 'compared_timepoints'])
+    final_df = pd.DataFrame(columns=['subject', 'ROI', 'dataset', 'avg_within_event_corr', 
+                                     'avg_between_event_corr', 'avg_difference', 'CV_M', 
+                                     'CV_K', 'embed_method', 'boundary_TRs', 'model_LogLikelihood', 
+                                     'compared_timepoints'])
 
     # now cross validate - each subject gets the mean of all the others
     for i, test_subject in enumerate(SUBJECTS):
@@ -206,7 +209,17 @@ def main():
         bestM_cv = int(np.round(np.nanmean([bestM_within_subject[j] for j in train_subject_inds])))
         embed_fn = f'{EMBED_DIR}/sub-{subject:02d}_{ROI}_{D}_movie_{bestM_cv}dimension_embedding_{METHOD}.npy'
         embedding = mf.return_subject_embedding(embed_fn, test_data, bestM_cv, METHOD)
-        avg_within, avg_between, avg_diff, boundary_TRs, ll, comparisons = test_boundaries_corr_diff(embedding, bestK_cv, balance_distance=True)
+        avg_within, avg_between, avg_diff, boundary_TRs, ll, comparisons, event_labels = test_boundaries_corr_diff(embedding, bestK_cv, balance_distance=True)
+        # save boundaryTRs in intermediate data dir for subsequent analysis
+        saveto = f"{OUT_DIR}/sub-{subject:02d}_{ROI}_{D}_movie_{bestM_cv}dimension_embedding_{METHOD}_HMM_boundaries.npy"
+        np.save(saveto, boundary_TRs)
+        # save event labels in intermediate data dir for subsequent analysis
+        saveto = f"{OUT_DIR}/sub-{subject:02d}_{ROI}_{D}_movie_{bestM_cv}dimension_embedding_{METHOD}_HMM_boundaries.npy"
+        np.save(saveto, boundary_TRs)
+        # save compared TRs in intermediate data dir for subsequent analysis
+        saveto = f"{OUT_DIR}/sub-{subject:02d}_{ROI}_{D}_movie_{bestM_cv}dimension_embedding_{METHOD}_WvB_comparisons.npy"
+        np.save(saveto, comparisons)
+        
         final_df.loc[len(final_df)] = {'subject': test_subject,
                                        'ROI': ROI,
                                        'dataset': DATASET,
@@ -219,8 +232,10 @@ def main():
                                        'boundary_TRs': boundary_TRs,
                                        'model_LogLikelihood': ll,
                                        'compared_timepoints': comparisons}
+        if config.VERBOSE: print(f"finished {test_subject}")
+            
     final_df.to_csv(outfn_name)
-    print(f'saved {outfn_name}')
+    if config.VERBOSE: print(f'saved {outfn_name}')
 
 
 if __name__ == "__main__":
@@ -234,14 +249,14 @@ if __name__ == "__main__":
     BASE_DIR = config.DATA_FOLDERS[DATASET]
     DATA_DIR = f'{BASE_DIR}/demo_ROI_data' if DATASET == 'demo' else f'{BASE_DIR}/ROI_data/{ROI}/data'
     EMBED_DIR = f'{BASE_DIR}/demo_embeddings' if DATASET == 'demo' else f'{BASE_DIR}/ROI_data/{ROI}/embeddings'
-    K2Test = config.HMM_K_TO_TEST[DATASET]
     M2Test = config.DIMENSIONS_TO_TEST if METHOD != 'TSNE' else [2,3]
-    OUT_DIR = config.INTERMEDIATE_DATA_FOLDERS[DATASET] + '/HMM_learnK'
+    
+    OUT_DIR = config.INTERMEDIATE_DATA_FOLDERS[DATASET] + '/HMM_learnK_nested'
     RESULTS_DIR =config.RESULTS_FOLDERS[DATASET]+'/source'    
-    bestK_df_fn = f'{OUT_DIR}/{DATASET}_{ROI}_bestK_LOSO.csv'
-    learnK_df_fn = f'{OUT_DIR}/{DATASET}_{ROI}_samplingK_LOSO.csv'
+    bestK_df_fn = f'{OUT_DIR}/{DATASET}_{ROI}_bestK_nestedCV.csv'
     learnM_fn = f"{OUT_DIR}/{ROI}_{DATASET}_{METHOD}_learnM.csv"
     outfn_name = f'{RESULTS_DIR}/{ROI}_{DATASET}_{METHOD}_tempBalance_crossValid_WB_results.csv'
+    if config.VERBOSE: print(f"loaded {bestK_df_fn}; results to {outfn_name}")
     bestK_df = pd.read_csv(bestK_df_fn, index_col=0)  # this has the best K when holding out each subject
     bestK_df = bestK_df[(bestK_df['ROI'] == ROI)]
     K_by_subject = bestK_df['CV_K'].values
