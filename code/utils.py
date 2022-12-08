@@ -20,6 +20,11 @@ def load_demo_data(ROI, subjects='all', z=True): # placeholder argument here to 
         dss.append(np.nan_to_num(zscore(np.load(fn), axis=0)))
     return dss
 
+def get_scene_boundaries():
+    sherlock_scenes_labels = load_coded_regressors('sherlock', 'SceneTitleCoded')
+    sherlock_scene_boundaries = [0] + list(np.where(np.diff(sherlock_scenes_labels))[0]) + [len(sherlock_scenes_labels)]
+    return sherlock_scene_boundaries
+
 def load_sherlock_movie_ROI_data(ROI_name, subjects='all', z=True):
     """
     Loads all data for a given region of interest. This data has already been extracted from the whole-brain
@@ -70,11 +75,11 @@ def load_forrest_localizer_labels(sub_id=0, run='all'):
     else:
         to_load = [run]
     if sub_id != 0: # this means we're extracting just a single subject's labels
-        fns = [os.path.join(forrest_dir, 'localizer_labels', f'sub-{sub_id:02d}_run_{r}_tr_labels.npy') for r in to_load]
+        fns = [os.path.join(LOCALIZER_FOLDER,  f'sub-{sub_id:02d}_run_{r}_tr_labels.npy') for r in to_load]
         labels = np.concatenate([np.load(f) for f in fns])
         return labels
-    for sub_id in forrest_subjects:
-        fns = [os.path.join(forrest_dir, 'localizer_labels', f'sub-{sub_id:02d}_run_{r}_tr_labels.npy') for r in to_load]
+    for sub_id in SUBJECTS['forrest']:
+        fns = [os.path.join(LOCALIZER_FOLDER,f'sub-{sub_id:02d}_run_{r}_tr_labels.npy') for r in to_load]
         these_labels = np.concatenate([np.load(f) for f in fns])
         labels.append(these_labels)
     return labels

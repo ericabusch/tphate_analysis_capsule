@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import os, sys, glob,random
-import utils
+import utils, config
 import embedding_helpers as mf
 from scipy.stats import zscore
 from joblib import Parallel, delayed
@@ -39,10 +39,15 @@ def run_classifier(X, y, run_ids):
 
 def main(ROI):
     results_df = pd.DataFrame(
-        columns=['subject', 'embedding_dimensions', 'embed_method', 'clf_accuracy', 'clf_sd', 'ROI'])
-    data = np.array(LOADFN(ROI))
-    if METHOD != 'voxel':
-        data = get_embeddings(data, embed_dir)
+        columns=['subject', 'embedding_dimensions', 
+                 'embed_method', 'clf_accuracy', 'clf_sd', 'ROI'])
+    EMBED_DIR = f'{BASE_DIR}/ROI_data/{ROI}/embeddings'
+    data = []
+    for sub in SUBJECTS:
+        fn = f'{EMBED_DIR}/sub-{sub:02d}_{ROI}_localizer_20dimension_embedding_{METHOD}.npy'
+        data.append(np.load(fn))
+    data = np.array(data)
+    if config.VERBOSE: print(f'loaded data of shape {data.shape}')
     run_ids = np.repeat(np.arange(4), TRs_per_run)
     joblist = []
     for i in range(len(data)):
@@ -62,14 +67,14 @@ def main(ROI):
 
 if __name__ == '__main__':
     METHOD = sys.argv[1]
+    DATASET='forrest'
     NJOBS = 16
     LABELS = utils.load_forrest_localizer_labels()  # list of one set of labels per subject
     SUBJECTS = config.SUBJECTS['forrest']
     NTPTS = config.LOCALIZER_TIMEPOINTS
     LOADFN = utils.load_forrest_localizer_ROI_data
-    base_dir = config.DATA_FOLDERS['forrest']
+    BASE_DIR = config.DATA_FOLDERS['forrest']
     OUT_DIR = config.RESULTS_FOLDERS[DATASET]
-    EMBED_DIR = f'{BASE_DIR}/ROI_data/{ROI}/embeddings'
     searchstr = 'localizer'
     n_folds = 5
     ROIs = ['early_visual', 'high_Visual']
@@ -78,8 +83,6 @@ if __name__ == '__main__':
 
     for ROI in ROIs:
         print(f"Running {ROI} {DIM} {METHOD}")
-        ROI_dir = os.path.join(base_dir, utils.data_version, 'ROI_data', ROI)
-        EMBED_DIR = f'{utils.forrest_dir}/ROI_data/{ROI}/embeddings'
         outfn = f'{OUT_DIR}/source/forrest_{ROI}_{METHOD}_SVC_localizer_results.csv'
         res = main(ROI)
         res.to_csv(outfn)
