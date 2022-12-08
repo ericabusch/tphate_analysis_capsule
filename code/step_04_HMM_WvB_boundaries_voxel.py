@@ -88,4 +88,5 @@ if __name__ == "__main__":
     OUT_DIR = config.INTERMEDIATE_DATA_FOLDERS[DATASET] + '/HMM_learnK_nested'
     RESULTS_DIR =config.RESULTS_FOLDERS[DATASET]+'/source'
     bestK_df_fn = f'{OUT_DIR}/{DATASET}_{ROI}_bestK_nestedCV.csv'
+    if config.VERBOSE: print(f'{DATASET} {ROI} voxel')
     main()

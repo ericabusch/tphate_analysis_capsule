@@ -37,26 +37,26 @@ def get_embedding_data(method, M_list):
     return data
 
 def get_scene_boundaries():
-    sherlock_scenes_labels = utils.load_coded_regressors(DATASET, 'SceneTitleCoded')
+    sherlock_scenes_labels = utils.load_coded_regressors('sherlock', 'SceneTitleCoded')
     sherlock_scene_boundaries = [1] + list(np.where(np.diff(sherlock_scenes_labels))[0]) + [len(sherlock_scenes_labels)]
     return sherlock_scene_boundaries
 
 if __name__ == "__main__":
-    DATASET=sys.argv[1]
-    ROI = sys.argv[2]
+    ROI = sys.argv[1]
+    DATASET = "sherlock"
     BASE_DIR = config.DATA_FOLDERS[DATASET]
     DATA_DIR = f'{BASE_DIR}/demo_ROI_data' if DATASET == 'demo' else f'{BASE_DIR}/ROI_data/{ROI}/data'
     EMBED_DIR = f'{BASE_DIR}/demo_embeddings' if DATASET == 'demo' else f'{BASE_DIR}/ROI_data/{ROI}/embeddings'
-    METHODS= ['TPHATE'] if DATASET == 'demo' else config.METHODS+['voxel']
     OUT_DIR = config.RESULTS_FOLDERS[DATASET]
 
     info_df = pd.read_csv(f'{OUT_DIR}/within_sub_neural_event_WB_tempBalance_results.csv', index_col=0)
-    info_df = info_df[(info_df['dataset'] == 'sherlock') & (info_df['ROI'] == ROI)]
+    info_df = info_df[(info_df['dataset'] == DATASET) & (info_df['ROI'] == ROI)]
 
     sherlock_scene_boundaries = get_scene_boundaries()
-
-
-    for method in METHODS:
+    
+    joblist = []
+    parameters = []
+    for method in config.EMBEDDING_METHODS+['voxel']:
         info_df_here = info_df[(info_df['embed_method'] == method)]
         M_list = info_df_here.sort_values(by='subject',axis=0)['CV_M'].values
 
@@ -66,19 +66,27 @@ if __name__ == "__main__":
             data = get_embedding_data(method, M_list)
 
         for subject, ds in zip(config.SUBJECTS[DATASET], data):
-            d, w, b, comparisons = compute_event_boundaries_diff_temporally_balanced(ds, sherlock_scene_boundaries)
-            avg_within = np.nanmean(w)
-            avg_between = np.nanmean(b)
-            avg_diff = np.nanmean(d)
-            results.loc[len(results)] = {'subject': subject,
-                                         'embed_method': method,
-                                         'CV_M': ds.shape[1],
-                                         'avg_within': avg_within,
-                                         'avg_between': avg_between,
-                                         'avg_difference': avg_diff,
-                                         'ROI': ROI}
+            joblist.append(delayed(compute_event_boundaries_diff_temporally_balanced)(ds, sherlock_scene_boundaries))
+            parameters.append({"subject":subject,"method":method,"CV_M":ds.shape[1],"ROI":ROI})
+            
+    with Parallel(n_jobs=config.NJOBS) as parallel:
+        results = parallel(joblist)
+    result_df = pd.DataFrame(columns=['subject','embed_method','CV_M',
+                                      'avg_within','avg_between','avg_difference','ROI'])    
+    for r, p in zip(results, parameters):
+        d, w, b, comparisons, _ = r
+        avg_within = np.nanmean(w)
+        avg_between = np.nanmean(b)
+        avg_diff = np.nanmean(d)
+        result_df.loc[len(result_df)] = {'subject': p['subject'],
+                                     'embed_method': p['method'],
+                                     'CV_M': p['CV_M'],
+                                     'avg_within': avg_within,
+                                     'avg_between': avg_between,
+                                     'avg_difference': avg_diff,
+                                     'ROI': p['ROI']}
 
 
     out_fn = f'{OUT_DIR}/source/{ROI}_behavior_event_boundaries_WB_tempBalance.csv'
-    results.to_csv(out_fn)
+    result_df.to_csv(out_fn)
 

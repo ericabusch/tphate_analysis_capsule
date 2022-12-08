@@ -33,6 +33,7 @@ INTERMEDIATE_DATA_FOLDERS={'demo':'../intermediate_data/demo',
 RESULTS_FOLDERS={'demo':'../results/demo_results',
                            'sherlock':'../results',
                            'forrest':'../results'}
+
 FILE_STRINGS = {'demo':'sherlock_movie',
                'sherlock':'sherlock_movie',
                 'forrest':'forrest_movie'
@@ -40,7 +41,7 @@ FILE_STRINGS = {'demo':'sherlock_movie',
 
 LOCALIZER_FOLDER = '../data/StudyForrest/localizer_labels'
 
-ROIs = ['aud_early','early_visual','pmc_nn','high_Visual']
+ROIs = ['early_visual','high_Visual','aud_early','pmc_nn']
 
 EMBEDDING_METHODS = ['PHATE', 'TPHATE', 'UMAP', 'PCA', 'LLE',
                      'ISOMAP', 'SMOOTH_PHATE',  "PHATE_TIME", "TSNE"]
@@ -68,3 +69,13 @@ HMM_K_TO_TEST = {'demo':np.arange(10, 121, 2),
                  'sherlock': np.arange(10, 70, 2),
                  'forrest':np.arange(30, 161, 2)}
 DIMENSIONS_TO_TEST = np.arange(2, 11)
+
+## plotting
+face_colors = [
+              (0.86, 0.33999999999999997, 0.6987999999999996, 1.0),
+              (0.6311999999999998, 0.33999999999999997, 0.86, 1.0),
+              (0.33999999999999997, 0.8287999999999999, 0.86 ,1.0),
+              (0.3738000000000001, 0.86, 0.33999999999999997, 1.0)
+               
+              ]
+edge_colors = face_colors

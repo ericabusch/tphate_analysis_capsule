@@ -11,3 +11,5 @@ results/LOSO_K/*tempBalance*
 results/*tempBalance*
 *.out
 code/Untitled*
+plots/*
+results/*
