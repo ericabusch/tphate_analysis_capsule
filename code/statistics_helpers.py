@@ -65,5 +65,5 @@ def permutation_test(data, n_iterations, alternative='greater'):
     return observed, pvalue, null_distribution
 
 def correct_pvalue(uncorrected_pvalue, n_comparisons):
-    return uncorrected_pvalue / n_comparisons
+    return uncorrected_pvalue * n_comparisons
     
