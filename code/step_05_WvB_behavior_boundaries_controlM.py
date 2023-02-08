@@ -10,7 +10,7 @@ human rater labels.
 
 To run as a demo, insert any second command-line argument
 
-Runs from the command line as python step_05_WvB_behavior_boundaries.py $DATASET $ROI
+Runs from the command line as python step_05_WvB_behavior_boundaries.py $ROI
 
 Saves a csv file for the region to results directory.
 """
@@ -49,29 +49,30 @@ if __name__ == "__main__":
     EMBED_DIR = f'{BASE_DIR}/demo_embeddings' if DATASET == 'demo' else f'{BASE_DIR}/ROI_data/{ROI}/embeddings'
     OUT_DIR = config.RESULTS_FOLDERS[DATASET]
 
-    info_df = pd.read_csv(f'{OUT_DIR}/within_sub_neural_event_WB_tempBalance_results.csv', index_col=0)
+    # info_df = pd.read_csv(f'{OUT_DIR}/within_sub_neural_event_WB_tempBalance_results.csv', index_col=0)
+    # info_df = info_df[(info_df['dataset'] == DATASET) & (info_df['ROI'] == ROI)]
+    info_df = pd.read_csv(f'{OUT_DIR}/within_sub_neural_event_WB_tempBalance_results_controlM.csv', index_col=0)
     info_df = info_df[(info_df['dataset'] == DATASET) & (info_df['ROI'] == ROI)]
 
     sherlock_scene_boundaries = get_scene_boundaries()
     
     joblist = []
     parameters = []
-    for method in config.EMBEDDING_METHODS+['voxel']:
+    for method in ['TPHATE','UMAP','PCA','PHATE']:
+    #for method in config.EMBEDDING_METHODS+['voxel']:
         info_df_here = info_df[(info_df['embed_method'] == method)]
-        M_list = info_df_here.sort_values(by='subject',axis=0)['CV_M'].values
+        M_list = np.repeat(3, len(info_df_here))
 
-        if method == 'voxel':
-            data = utils.load_sherlock_movie_ROI_data(ROI)
-        else:
-            data = get_embedding_data(method, M_list)
+        data = get_embedding_data(method, M_list)
 
         for subject, ds in zip(config.SUBJECTS[DATASET], data):
             joblist.append(delayed(compute_event_boundaries_diff_temporally_balanced)(ds, sherlock_scene_boundaries))
             parameters.append({"subject":subject,"method":method,"CV_M":ds.shape[1],"ROI":ROI})
-            
+    print('starting jobs')        
     with Parallel(n_jobs=config.NJOBS) as parallel:
         results = parallel(joblist)
-    result_df = pd.DataFrame(columns=['subject','embed_method','CV_M',
+    print('finished jobs')
+    result_df = pd.DataFrame(columns=['subject','embed_method','M',
                                       'avg_within','avg_between','avg_difference','ROI'])    
     for r, p in zip(results, parameters):
         d, w, b, comparisons, _ = r
@@ -80,13 +81,13 @@ if __name__ == "__main__":
         avg_diff = np.nanmean(d)
         result_df.loc[len(result_df)] = {'subject': p['subject'],
                                      'embed_method': p['method'],
-                                     'CV_M': p['CV_M'],
+                                     'M': 3,
                                      'avg_within': avg_within,
                                      'avg_between': avg_between,
                                      'avg_difference': avg_diff,
                                      'ROI': p['ROI']}
 
 
-    out_fn = f'{OUT_DIR}/source/{ROI}_behavior_event_boundaries_WB_tempBalance.csv'
+    out_fn = f'{OUT_DIR}/source/{ROI}_behavior_event_boundaries_WB_tempBalance_controlM.csv'
     result_df.to_csv(out_fn)
 

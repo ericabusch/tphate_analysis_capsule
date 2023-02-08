@@ -6,6 +6,7 @@
 #SBATCH --partition=psych_day
 #SBATCH --account=turk-browne
 
-source activate /gpfs/milgram/project/casey/elb77/conda_envs/tphate_env 
+# module load miniconda
+# source activate /gpfs/milgram/project/casey/elb77/conda_envs/tphate_env 
 
-python -u step_02_HMM_optimizeK_voxel.py sherlock early_visual demo
+python -u step_10_behavior_HMM_continuous_bounds.py

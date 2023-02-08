@@ -1,17 +1,23 @@
 from os.path import *
 import numpy as np
 
-NJOBS=1
+NJOBS=16
+VERBOSE = True
 
 ROOT = '/gpfs/milgram/scratch60/turk-browne/neuromanifold'
+
+DATASETS = ['sherlock','forrest']
 
 RAW_DATA_FOLDERS = {'sherlock':join(ROOT, "sherlock/MNI152_3mm_data/denoised_filtered_smoothed/whole_brain_data/"),
                     'forrest':join(ROOT, "StudyForrest/MNI152_3mm_data/denoised_filtered_smoothed/whole_brain_data/")}
 
-DATA_FOLDERS={'demo':'../data/demo_data/',
+DATA_FOLDERS_CAPSULE={'demo':'../data/demo_data/',
             'sherlock':'../data/sherlock/',
            'forrest':'../data/StudyForrest/'}
 
+DATA_FOLDERS={'demo':join(ROOT, "sherlock/MNI152_3mm_data/denoised_filtered_smoothed"),
+            'sherlock':join(ROOT, "sherlock/MNI152_3mm_data/denoised_filtered_smoothed"),
+           'forrest':join(ROOT, "StudyForrest/MNI152_3mm_data/denoised_filtered_smoothed")}
 
 FEATURES_FILES = {'demo':'../data/sherlock/behavioral_data/sherlock_labels_coded_expanded.csv',
                    'sherlock':'../data/sherlock/behavioral_data/sherlock_labels_coded_expanded.csv',
@@ -27,6 +33,7 @@ INTERMEDIATE_DATA_FOLDERS={'demo':'../intermediate_data/demo',
 RESULTS_FOLDERS={'demo':'../results/demo_results',
                            'sherlock':'../results',
                            'forrest':'../results'}
+
 FILE_STRINGS = {'demo':'sherlock_movie',
                'sherlock':'sherlock_movie',
                 'forrest':'forrest_movie'
@@ -34,7 +41,7 @@ FILE_STRINGS = {'demo':'sherlock_movie',
 
 LOCALIZER_FOLDER = '../data/StudyForrest/localizer_labels'
 
-ROIs = ['aud_early','early_visual','pmc_nn','high_Visual']
+ROIs = ['early_visual','high_Visual','aud_early','pmc_nn']
 
 EMBEDDING_METHODS = ['PHATE', 'TPHATE', 'UMAP', 'PCA', 'LLE',
                      'ISOMAP', 'SMOOTH_PHATE',  "PHATE_TIME", "TSNE"]
@@ -58,7 +65,17 @@ TIMEPOINTS = {'demo':1976,
 
 LOCALIZER_TIMEPOINTS=156*4
 
-HMM_K_TO_TEST = {'demo':np.arange(10, 121, 1),
-                 'sherlock': np.arange(10, 121, 1),
-                 'forrest':np.arange(20, 201, 1)}
+HMM_K_TO_TEST = {'demo':np.arange(10, 121, 2),
+                 'sherlock': np.arange(10, 70, 2),
+                 'forrest':np.arange(30, 161, 2)}
 DIMENSIONS_TO_TEST = np.arange(2, 11)
+
+## plotting
+face_colors = [
+              (0.86, 0.33999999999999997, 0.6987999999999996, 1.0),
+              (0.6311999999999998, 0.33999999999999997, 0.86, 1.0),
+              (0.33999999999999997, 0.8287999999999999, 0.86 ,1.0),
+              (0.3738000000000001, 0.86, 0.33999999999999997, 1.0)
+               
+              ]
+edge_colors = face_colors

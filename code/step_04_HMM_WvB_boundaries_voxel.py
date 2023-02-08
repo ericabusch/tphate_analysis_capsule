@@ -18,7 +18,7 @@ from config import NJOBS
 
 
 def main():
-    bestK_df_fn = f'{OUT_DIR}/{DATASET}_{ROI}_bestK_LOSO.csv'
+    bestK_df_fn = f'{OUT_DIR}/{DATASET}_{ROI}_bestK_nestedCV.csv'
     outdf_fn = f'{RESULTS_DIR}/{ROI}_{DATASET}_voxel_tempBalance_crossValid_WB_results.csv'
     bestK_df = pd.read_csv(bestK_df_fn, index_col=0)  # this has the best K when holding out each subject
     bestK_df = bestK_df[(bestK_df['ROI'] == ROI)]
@@ -26,8 +26,9 @@ def main():
 
     data=LOADFN(ROI)
     final_df = pd.DataFrame(
-        columns=['subject', 'ROI', 'dataset', 'avg_within_event_corr', 'avg_between_event_corr', 'avg_difference',
-                 'CV_M', 'CV_K', 'embed_method', 'boundary_TRs', 'model_LogLikelihood', 'compared_timepoints'])
+        columns=['subject', 'ROI', 'dataset', 'avg_within_event_corr', 'avg_between_event_corr', 
+                 'avg_difference','CV_M', 'CV_K', 'embed_method', 'boundary_TRs', 
+                 'model_LogLikelihood', 'compared_timepoints'])
     joblist, parameters = [], []
     for i, subject in enumerate(SUBJECTS):
         test_data = data[i]
@@ -35,13 +36,23 @@ def main():
         parameters.append({'subject': subject, 'ROI': ROI,
                            'dataset': DATASET, 'CV_M': test_data.shape[1],
                            'CV_K': bestK_cv})
-#         print(f'subject {subject} voxel dataset {DATASET} roi {ROI}; bestK {bestK_cv}')
+        if config.VERBOSE: print(f'subject {subject} voxel dataset {DATASET} roi {ROI}; bestK {bestK_cv}')
         joblist.append(delayed(test_boundaries_corr_diff)(test_data, bestK_cv, balance_distance=True))
 
     with Parallel(n_jobs=NJOBS) as parallel:
         results = parallel(joblist)
     for p, r in zip(parameters, results):
-        avg_within, avg_between, avg_diff, boundary_TRs, ll, comparisons = r
+        avg_within, avg_between, avg_diff, boundary_TRs, ll, comparisons, event_labels = r
+        
+        # save boundaryTRs in intermediate data dir for subsequent analysis
+        saveto = f"{OUT_DIR}/sub-{p['subject']:02d}_{p['ROI']}_{DATASET}_movie_voxel_HMM_boundaries.npy"
+        np.save(saveto, boundary_TRs)
+        # save event labels in intermediate data dir for subsequent analysis
+        saveto = f"{OUT_DIR}/sub-{p['subject']:02d}_{p['ROI']}_{DATASET}_movie_voxel_HMM_boundaries.npy"
+        np.save(saveto, boundary_TRs)
+        # save compared TRs in intermediate data dir for subsequent analysis
+        saveto = f"{OUT_DIR}/sub-{p['subject']:02d}_{p['ROI']}_{DATASET}_movie_voxel_WvB_comparisons.npy"
+        np.save(saveto, comparisons)
 
         final_df.loc[len(final_df)] = {'subject': p['subject'],
                                        'ROI': p['ROI'],
@@ -55,6 +66,7 @@ def main():
                                        'boundary_TRs': boundary_TRs,
                                        'model_LogLikelihood': ll,
                                        'compared_timepoints': comparisons}
+        if config.VERBOSE: print(f'subject {subject} complete')
 
     final_df.to_csv(outdf_fn)
     print(outdf_fn)
@@ -73,10 +85,8 @@ if __name__ == "__main__":
     BASE_DIR = config.DATA_FOLDERS[DATASET]
     DATA_DIR = f'{BASE_DIR}/demo_ROI_data' if DATASET == 'demo' else f'{BASE_DIR}/ROI_data/{ROI}/data'
     K2Test = config.HMM_K_TO_TEST[DATASET]
-    OUT_DIR = config.INTERMEDIATE_DATA_FOLDERS[DATASET] + '/HMM_learnK'
+    OUT_DIR = config.INTERMEDIATE_DATA_FOLDERS[DATASET] + '/HMM_learnK_nested'
     RESULTS_DIR =config.RESULTS_FOLDERS[DATASET]+'/source'
-
-    bestK_df_fn = f'{OUT_DIR}/{DATASET}_{ROI}_bestK_LOSO.csv'
-    learnK_df_fn = f'{OUT_DIR}/{DATASET}_{ROI}_samplingK_LOSO.csv'
-
+    bestK_df_fn = f'{OUT_DIR}/{DATASET}_{ROI}_bestK_nestedCV.csv'
+    if config.VERBOSE: print(f'{DATASET} {ROI} voxel')
     main()

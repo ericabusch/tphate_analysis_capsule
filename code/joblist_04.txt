@@ -1,0 +1,8 @@
+python -u step_04_HMM_WvB_boundaries_voxel.py sherlock aud_early
+python -u step_04_HMM_WvB_boundaries_voxel.py sherlock early_visual
+python -u step_04_HMM_WvB_boundaries_voxel.py sherlock pmc_nn
+python -u step_04_HMM_WvB_boundaries_voxel.py sherlock high_Visual
+python -u step_04_HMM_WvB_boundaries_voxel.py forrest aud_early
+python -u step_04_HMM_WvB_boundaries_voxel.py forrest early_visual
+python -u step_04_HMM_WvB_boundaries_voxel.py forrest pmc_nn
+python -u step_04_HMM_WvB_boundaries_voxel.py forrest high_Visual

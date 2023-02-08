@@ -1,0 +1,3 @@
+python -u step_08_SVC_localizer.py UMAP
+python -u step_08_SVC_localizer.py PCA
+python -u step_08_SVC_localizer.py PHATE

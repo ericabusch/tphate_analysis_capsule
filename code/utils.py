@@ -1,5 +1,5 @@
 # utils.py
-from nilearn.maskers import NiftiMasker
+#from nilearn.maskers import NiftiMasker
 from nilearn.image import math_img, resample_img
 import numpy as np
 from scipy.stats import zscore
@@ -19,6 +19,11 @@ def load_demo_data(ROI, subjects='all', z=True): # placeholder argument here to 
         fn = DATA_FOLDERS['demo']+f'/demo_ROI_data/sub-{s:02d}_early_visual_sherlock_movie.npy'
         dss.append(np.nan_to_num(zscore(np.load(fn), axis=0)))
     return dss
+
+def get_scene_boundaries():
+    sherlock_scenes_labels = load_coded_regressors('sherlock', 'SceneTitleCoded')
+    sherlock_scene_boundaries = [0] + list(np.where(np.diff(sherlock_scenes_labels))[0]) + [len(sherlock_scenes_labels)]
+    return sherlock_scene_boundaries
 
 def load_sherlock_movie_ROI_data(ROI_name, subjects='all', z=True):
     """
@@ -70,11 +75,11 @@ def load_forrest_localizer_labels(sub_id=0, run='all'):
     else:
         to_load = [run]
     if sub_id != 0: # this means we're extracting just a single subject's labels
-        fns = [os.path.join(forrest_dir, 'localizer_labels', f'sub-{sub_id:02d}_run_{r}_tr_labels.npy') for r in to_load]
+        fns = [os.path.join(LOCALIZER_FOLDER,  f'sub-{sub_id:02d}_run_{r}_tr_labels.npy') for r in to_load]
         labels = np.concatenate([np.load(f) for f in fns])
         return labels
-    for sub_id in forrest_subjects:
-        fns = [os.path.join(forrest_dir, 'localizer_labels', f'sub-{sub_id:02d}_run_{r}_tr_labels.npy') for r in to_load]
+    for sub_id in SUBJECTS['forrest']:
+        fns = [os.path.join(LOCALIZER_FOLDER,f'sub-{sub_id:02d}_run_{r}_tr_labels.npy') for r in to_load]
         these_labels = np.concatenate([np.load(f) for f in fns])
         labels.append(these_labels)
     return labels
@@ -88,8 +93,8 @@ def load_forrest_movie_ROI_data(ROI_name, subjects='all',z=True):
         """
     data_dir = DATA_FOLDERS['forrest'] + f'/ROI_data/{ROI_name}/data'
     dss = []
-    SUBJECTS = SUBJECTS['forrest'] if subjects == 'all' else subjects
-    for s in SUBJECTS:
+    SUBS = SUBJECTS['forrest'] if subjects == 'all' else subjects
+    for s in SUBS:
         fn = f'{data_dir}/sub-{s:02d}_{ROI_name}_movie_all_runs.npy'
         d = np.nan_to_num(zscore(np.load(fn), axis=0)) if z else d
         dss.append(d)
