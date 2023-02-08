@@ -277,7 +277,7 @@ def main():
             saveto = f"{OUT_DIR}/sub-{subject:02d}_{ROI}_{D}_movie_control_embedding_{METHOD}_WvB_comparisons.npy"
             np.save(saveto, comparisons)
         
-            control_df.loc[len(control_df)] = {'subject': test_subject,
+            control_df.loc[len(control_df)] = {'subject': subject,
                                            'ROI': ROI,
                                            'dataset': DATASET,
                                            'avg_within_event_corr': avg_within,
