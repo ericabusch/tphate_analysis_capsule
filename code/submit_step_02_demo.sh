@@ -9,4 +9,4 @@
 # module load miniconda
 # source activate /gpfs/milgram/project/casey/elb77/conda_envs/tphate_env 
 
-python -u step_02_HMM_optimizeK_voxel_nestedCV.py sherlock early_visual
+python -u step_10_behavior_HMM_continuous_bounds.py

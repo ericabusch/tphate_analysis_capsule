@@ -24,6 +24,7 @@ def run_classifier(X, y, run_ids):
     scores = []
     for train_index, test_index in ps.split():
         # Split the data according to the predefined split.
+        
         X_train, X_test = X[train_index], X[test_index]
         y_train, y_test = y[train_index], y[test_index]
 
@@ -44,7 +45,7 @@ def main(ROI):
     EMBED_DIR = f'{BASE_DIR}/ROI_data/{ROI}/embeddings'
     data = []
     for sub in SUBJECTS:
-        fn = f'{EMBED_DIR}/sub-{sub:02d}_{ROI}_localizer_20dimension_embedding_{METHOD}.npy'
+        fn = f'{EMBED_DIR}/sub-{sub:02d}_{ROI}_localizer_{DIM}dimension_embedding_{METHOD}.npy'
         data.append(np.load(fn))
     data = np.array(data)
     if config.VERBOSE: print(f'loaded data of shape {data.shape}')

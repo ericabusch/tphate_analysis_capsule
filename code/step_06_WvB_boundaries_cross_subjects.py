@@ -18,6 +18,8 @@ import pandas as pd
 import utils, config
 import os, sys, glob
 from scipy.stats import zscore
+import brainiak.eventseg.event
+
 from joblib import Parallel, delayed
 import embedding_helpers as mf
 from scipy.spatial.distance import pdist, cdist, squareform
@@ -25,21 +27,44 @@ from step_03_HMM_optimizeM_embeddings import compute_event_boundaries_diff_tempo
 from config import NJOBS
 
 ## Tests the fit of event boundaries from each of N-1 subjects on the Nth subject
-def run_single_subject(data, training_subject_boundaries, test_subject_ID):
-    training_subject_IDs = np.setdiff1d(SUBJECTS, test_subject_ID)
-    df_here = pd.DataFrame(columns=["test_subject", "train_subject", "avg_diff", "avg_between", "avg_within", "K"])
-    if config.VERBOSE: print(f'running test sub {test_subject_ID}')
-    for train_sub, boundaries in zip(training_subject_IDs, training_subject_boundaries):
-        diffs, withins, betweens, _, _ = compute_event_boundaries_diff_temporally_balanced(data, boundaries)
-        df_here.loc[len(df_here)] = {"test_subject": test_subject_ID,
+def run_CV_loop(train_subjects, train_idx, test_subject, test_idx):
+    df_here = pd.DataFrame(columns=['test_subject','train_subject','avg_diff','avg_between','avg_within','K','M'])
+    
+    # get CV hyperparameters
+    # this was optimized on this set of training subjects; never saw test subject
+    CV_K = int(param_df[param_df['subject'] == test_subject]['CV_K'])
+    # this was optimized on this set of training subjects; never saw test subject
+    CV_M = int(param_df[param_df['subject'] == test_subject]['CV_M'])
+    
+    # load all data
+    if METHOD == 'voxel':
+        allsubj_data = LOADFN(ROI)
+    else:
+        CV_Ms = param_df['CV_M'].values
+        allsubj_data = load_embeddings(SUBJECTS, np.repeat(CV_M, len(SUBJECTS)))
+    
+    # now we have the data; loop through training subjects
+    test_data = allsubj_data[test_idx]
+    for train_sub, idx in zip(train_subjects, train_idx):
+        train_data = allsubj_data[idx]
+        # fit an HMM with those parameters on the training data
+        HMM = brainiak.eventseg.event.EventSegment(CV_K)
+        HMM.fit(train_data)
+        _, ll = HMM.find_events(train_data)
+        # extract event boundaries
+        boundary_TRs = np.where(np.diff(np.argmax(HMM.segments_[0], axis=1)))[0]
+        # apply those boundaries to the test subject
+        diffs, withins, betweens, _, _ = compute_event_boundaries_diff_temporally_balanced(test_data, boundary_TRs)
+        if config.VERBOSE: print(f'Test={test_subject}, train={train_sub}, diff={np.nanmean(diffs)}')
+        df_here.loc[len(df_here)] = {"test_subject": test_subject,
                                      "train_subject": train_sub,
                                      "avg_diff": np.nanmean(diffs),
                                      "avg_between": np.nanmean(betweens),
                                      "avg_within": np.nanmean(withins),
-                                     "K": len(boundaries) - 1}
-        if config.VERBOSE: print(f'Test={test_subject_ID}, train={train_sub}, diff={np.nanmean(diffs)}')
-    if config.VERBOSE: print(f"Done {test_subject_ID}")
-    return df_here
+                                     "K": CV_K,
+                                    "M":CV_M}
+    if config.VERBOSE: print(f"Done {test_subject}")
+    return df_here 
 
 
 def load_embeddings(subject_IDs, CV_Ms):
@@ -52,33 +77,19 @@ def load_embeddings(subject_IDs, CV_Ms):
 
 
 def main():
-
-    if METHOD == 'voxel':
-        allsubj_data = LOADFN(ROI)
-    else:
-        CV_Ms = param_df['CV_M'].values
-        allsubj_data = load_embeddings(SUBJECTS, CV_Ms)
-    
-    boundary_TRs_formatted = []
-    # load boundary files
-    for s, sub in enumerate(SUBJECTS):
-        if METHOD == 'voxel':
-            fn = f'{TEMP_DIR}/sub-{sub:02d}_{ROI}_{DATASET}_movie_voxel_HMM_boundaries.npy'
-        else:
-            fn = f'{TEMP_DIR}/sub-{sub:02d}_{ROI}_{DATASET}_movie_{CV_Ms[s]}dimension_embedding_{METHOD}_HMM_boundaries.npy'
-        boundary_TRs_formatted.append(np.load(fn))
-    if config.VERBOSE: print("Loaded boundaries")
     
     joblist = []
-    for sub_idx, sub in enumerate(SUBJECTS):
-        dat = allsubj_data[sub_idx]
-        train_subject_idx = np.setdiff1d(np.arange(len(SUBJECTS)), sub_idx)
-        train_subj_boundaries = [boundary_TRs_formatted[i] for i in train_subject_idx]
-        joblist.append(delayed(run_single_subject)(dat, train_subj_boundaries, sub))
+    print(SUBJECTS)
+    for test_sub_idx, test_subject in enumerate(SUBJECTS):
+        train_subjects = np.setdiff1d(SUBJECTS, test_subject)
+        train_idx = np.setdiff1d(np.arange(len(SUBJECTS)), test_sub_idx)
+        joblist.append(delayed(run_CV_loop)(train_subjects, train_idx, test_subject, test_sub_idx))
+        print('appended job')
 
     print("starting jobs")
     with Parallel(n_jobs=NJOBS) as parallel:
         results_df_list = parallel(joblist)
+        
     results_df = pd.concat(results_df_list)
     results_df['ROI'] = np.repeat(ROI, len(results_df))
     results_df['embed_method'] = np.repeat(METHOD, len(results_df))
@@ -105,6 +116,9 @@ if __name__ == '__main__':
                         & (param_df['embed_method'] == METHOD)]
     SUBJECTS = param_df['subject'].values
     TEMP_DIR = f'{config.INTERMEDIATE_DATA_FOLDERS[DATASET]}/HMM_learnK_nested'
-    outfn = f'{OUT_DIR}/source/{ROI}_{DATASET}_{METHOD}_between_sub_neural_event_WB_tempBalance.csv'
+    outfn = f'{OUT_DIR}/source/{ROI}_{DATASET}_{METHOD}_between_sub_neural_event_WB_tempBalance_CV.csv'
+    if os.path.exists(outfn):
+        print(f"Already ran {outfn}")
+        sys.exit()
     main()
 

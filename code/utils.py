@@ -1,5 +1,5 @@
 # utils.py
-from nilearn.maskers import NiftiMasker
+#from nilearn.maskers import NiftiMasker
 from nilearn.image import math_img, resample_img
 import numpy as np
 from scipy.stats import zscore

@@ -12,5 +12,6 @@ results/*tempBalance*
 *.out
 code/Untitled*
 plots/*
+data/*/*.npy
 results/*
 code/step_10*continuous*
