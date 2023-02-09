@@ -1,3 +1,17 @@
+# step_07_SVC_movie_features.py
+"""
+Runs support vector classification of movie features for either dataset on the embedding timeseries data.
+Performs train/test splits within-subject.
+Uses a constant M=20 dimensionality for all embedding data. Performs a rolling-in-time significance
+testing to compare classification accuracy at a given point in time versus shifted points in time, to account
+for the high correlation of labels among nearby timepoints.
+
+Results presented in Figure 2, Supplementary Figure 3.
+
+Runs from the command line as:
+python step_07_SVC_movie_features.py $DATASET $ROI $METHOD
+"""
+
 import numpy as np
 import pandas as pd
 import os, sys, glob, random

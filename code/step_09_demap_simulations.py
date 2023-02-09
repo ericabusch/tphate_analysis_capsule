@@ -2,7 +2,7 @@
 step_09_demap_simulations.py
 
 Script to create the data that is then used for simulations and demap
-analysis, then create plots comparable to figure 1B and figure s1A
+analysis.
 """
 
 import numpy as np
@@ -62,60 +62,3 @@ for alpha in alphas:
 
 demap_df.to_csv('../results/demap_simulation_results.csv')
 
-# ## plot all embedding methods for each end of the noise extreme
-# order=['PCA','LLE','ISOMAP','TSNE','UMAP','PHATE','TPHATE']
-# top_keys = [f'{meth}_4_0.5' for meth in order]
-# bottom_keys = [f'{meth}_4_100' for meth in order]
-# fig,ax=plt.subplots(2,8,figsize=(16, 4))
-# X = np.ones((10,10))*np.arange(10)
-
-# # lower sigma matrix
-# Ys = np.array([f(x, 4, 0.5) for x in X]).T
-# ax[0, 0].imshow(Ys[:,1,:])
-# ax[0,0].set_xticks([])
-# ax[0,0].set_yticks([])
-# for i, key in enumerate(top_keys):
-#     title=key.split("_")[0]
-#     scprep.plot.scatter2d(embeddings[key],
-#                           c=np.arange(samples),
-#                           ticks=False,
-#                           title=title,
-#                           edgecolor='gray',
-#                           ax=ax[0,i+1],
-#                           legend=False,
-#                           cmap='YlGnBu_r')
-
-# # higher sigma matrix
-# Ys = np.array([f(x, 5, 100) for x in X])
-# ax[1,0].imshow(Ys[:,1,:])
-# ax[1,0].set_xticks([])
-# ax[1,0].set_yticks([])
-# for i, key in enumerate(bottom_keys):
-#     title=key.split("_")[0]
-#     scprep.plot.scatter2d(embeddings[key],
-#                           c=np.arange(samples),
-#                           ticks=False,
-#                           title=title,
-#                           edgecolor='gray',
-#                           ax=ax[1,i+1],
-#                           legend=False,
-#                           cmap='YlGnBu_r')
-# plt.savefig('../plots/demap_simulation_scatterplots.png',
-#             bbox_inches = "tight",
-#             transparent=True) # save as png for space
-# plt.close()
-
-# # now plotting the line plot
-# fig,ax=plt.subplots(figsize=(6,6))
-# g=sns.lineplot(data=demap_df, x='sigma', y='rho', hue='method', ci=90, # just for here, setting this really narrow
-#                hue_order=order[::-1], palette='magma')
-# plt.legend(labels=order[::-1], title = "",
-#            fontsize = 'x-large', loc='lower left')
-# g.set_ylabel("DeMAP",Fontsize="large")
-# g.set_xlabel("Sigma",Fontsize="large")
-# g.set(ylim=[0,1], xlim=[0,100])
-# plt.savefig('../plots/demap_simulation_lineplot.png',
-#             bbox_inches = "tight",
-#             transparent=True)
-# plt.close()
-# demap_df.to_csv('../results/demap_simulation_results.csv')

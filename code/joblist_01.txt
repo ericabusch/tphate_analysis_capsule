@@ -1,8 +1,0 @@
-python -u step_01_run_embeddings.py forrest aud_early
-python -u step_01_run_embeddings.py forrest early_visual
-python -u step_01_run_embeddings.py forrest pmc_nn
-python -u step_01_run_embeddings.py forrest high_Visual
-python -u step_01_run_embeddings.py sherlock aud_early
-python -u step_01_run_embeddings.py sherlock early_visual
-python -u step_01_run_embeddings.py sherlock pmc_nn
-python -u step_01_run_embeddings.py sherlock high_Visual

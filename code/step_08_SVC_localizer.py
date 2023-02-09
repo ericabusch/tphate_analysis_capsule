@@ -1,3 +1,16 @@
+# step_08_SVC_localizer.py
+"""
+Runs support vector classification on the object category localizer data from the StudyForrest dataset.
+Performs train/test splits across runs, within-subject, for the two visual ROIs.
+Uses a constant M=20 dimensionality for all embedding data. Reports classifier accuracy averaged across folds, 
+since there's no temporal regularity to the stimuli.
+
+Results presented in Figure 2, Supplementary Figure 3.
+
+Runs from the command line as:
+python step_08_SVC_localizer.py $METHOD
+"""
+
 import numpy as np
 import pandas as pd
 import os, sys, glob,random

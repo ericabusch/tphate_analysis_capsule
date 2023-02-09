@@ -1,14 +1,19 @@
-# step_02_HMM_optimizeK_voxel.py
+# step_02_HMM_optimizeK_voxel_nestedCV_parallel_by_sub.py
 """
 This script begins the HMM event segmentation analysis.
 It uses the voxel resolution data for all subjects in a given region and dataset
-and uses leave-one-subject-out cross validation to optimize the number
+and uses nested leave-one-subject-out cross validation to optimize the number
 of neural events experienced by that region. The best K for a region is chosen as the
-K that minimizes the log-likelihood of model fit on the left-out subject.
+K that minimizes the log-likelihood of model fit on the left-out subject, and is then applied
+to a validation subject.
 
-This K is then held constant for each region across embedding methods.
+As this analysis performs nested leave-one-subject-out cross-validation (repeating the procedure
+N * (N-1) times), this script is parallelized at the validation subject level with DSQ.
 
-Runs from the command line as python step_02_optimizeK_voxel.py $DATASET $ROI
+This K is then held constant for each region across embedding methods for the validation subject.
+
+Runs from the command line as 
+`python step_02_HMM_optimizeK_voxel_nestedCV_parallel_by_sub.py $DATASET $ROI $VALIDATION_SUBJECT`
 Saves two csv files to an intermediate data directory, for this region and dataset:
     1. selectK_results:
     - saves the results of HMM fitting with different K for each test subject, used to
@@ -16,9 +21,6 @@ Saves two csv files to an intermediate data directory, for this region and datas
 
     2. bestK_dataset:
     - saves K for each subject, as well as the CV_K to be used in subsequent analyses
-
-
-
 """
 
 import numpy as np
@@ -79,7 +81,7 @@ def create_loops():
     train_idx_outer = np.setdiff1d(np.arange(n_subjects), validation_idx)
     for test_idx in train_idx_outer:
         train_idx_inner = np.setdiff1d(train_idx_outer, test_idx)
-        print(validation_idx, test_idx, train_idx_inner)
+        if verbose: print(validation_idx, test_idx, train_idx_inner)
         joblist.append(delayed(run_loops)(train_idx_inner, test_idx, validation_idx))
     print(f'starting {len(joblist)} jobs')
     with Parallel(n_jobs=NJOBS) as parallel:
@@ -102,7 +104,10 @@ if __name__ == "__main__":
     verbose = True
     DATASET = sys.argv[1]
     ROI = sys.argv[2]
-    validation_idx = int(sys.argv[3])
+    if len(sys.argv) > 3:
+        validation_idx = int(sys.argv[3])
+    else:
+        validation_idx=0 # set this for the demo
     
     if verbose: print(DATASET, ROI, validation_idx, NJOBS)
         
@@ -110,7 +115,7 @@ if __name__ == "__main__":
     SUBJECTS=config.SUBJECTS[DATASET]
     NTPTS=config.TIMEPOINTS[DATASET]
     LOADFN=utils.LOAD_FMRI_FUNCTIONS[DATASET]
-    BASE_DIR=config.DATA_FOLDERS[DATASET]
+    BASE_DIR=config.DATA_FOLDERS_CAPSULE[DATASET]
     DATA_DIR = f'{BASE_DIR}/demo_ROI_data' if DATASET == 'demo' else f'{BASE_DIR}/ROI_data/{ROI}/data'
     K2Test = config.HMM_K_TO_TEST[DATASET]
     OUT_DIR = config.INTERMEDIATE_DATA_FOLDERS[DATASET]+'/HMM_learnK_nested'

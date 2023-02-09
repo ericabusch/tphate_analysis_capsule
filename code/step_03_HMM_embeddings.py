@@ -1,19 +1,18 @@
-# step_03_HMM_optimizeM_embeddings.py
+# step_03_HMM_embeddings.py
 """
 
-This script runs the analyses for figures 4 and 5 for the manifold embedding data.
-It takes, for each subject, the cross-validated number of neural events identified by
+This script takes, for each subject, the cross-validated number of neural events identified by
 step_02, and performs a similar cross-validation procedure to learn the M parameter -- the
- number of dimensions for each manifold that optimized the Within-vs-between event boundary difference.
+ number of dimensions for each embedding that optimized the within-vs-between event boundary difference.
 Using the final CV_K and CV_M, for each subject, a new HMM is fit and the within-vs-between event boundary
 difference is calculated, balancing the temporal distance between timepoints to assure fair comparison. This is run only
 for dimensionality-reduced methods, to learn the # dimensions to reduce each method to, allowing for distinctions
 across methods.
-Saves this output, along with the log-likelihood of best model fit, to a csv file for each region, method, dataset.
-T
+Saves this output, along with the log-likelihood and AIC of best model fit, to a csv file for each region, method, dataset.
+This script also runs the same analysis without the optimize M step -- instead using a constant 3 dimensional embedding -- and saves as a control dataset to test for the effect of dimensionality. 
+
 Runs from the command line as:
-python step_03_HMM_optimizeM_embeddings.py $DATASET $ROI $METHOD $DEMO
-where demo is any additional argument, but runs the demo version.
+python step_03_HMM_embeddings.py $DATASET $ROI $METHOD
 
 """
 
@@ -304,7 +303,7 @@ if __name__ == "__main__":
     SUBJECTS = config.SUBJECTS[DATASET]
     NTPTS = config.TIMEPOINTS[DATASET]
     LOADFN = utils.LOAD_FMRI_FUNCTIONS[DATASET]
-    BASE_DIR = config.DATA_FOLDERS[DATASET]
+    BASE_DIR = config.DATA_FOLDERS_CAPSULE[DATASET]
     DATA_DIR = f'{BASE_DIR}/demo_ROI_data' if DATASET == 'demo' else f'{BASE_DIR}/ROI_data/{ROI}/data'
     EMBED_DIR = f'{BASE_DIR}/demo_embeddings' if DATASET == 'demo' else f'{BASE_DIR}/ROI_data/{ROI}/embeddings'
     M2Test = config.DIMENSIONS_TO_TEST if METHOD != 'TSNE' else [2,3]

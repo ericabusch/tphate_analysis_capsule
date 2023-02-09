@@ -1,6 +1,6 @@
 # step_05_WvB_behavior_boundaries.py
 """
-This script is to run the analysis presented in figure 7.
+This script is to run the analysis presented in figure 6B and supplementary figure 8.
 In this analysis, event boundaries identified by a separate cohort of human raters are applied
 to the neural data at both voxel resolution and embedded with different methods.
 These are
@@ -44,6 +44,7 @@ def get_scene_boundaries():
 if __name__ == "__main__":
     ROI = sys.argv[1]
     DATASET = "sherlock"
+    
     BASE_DIR = config.DATA_FOLDERS[DATASET]
     DATA_DIR = f'{BASE_DIR}/demo_ROI_data' if DATASET == 'demo' else f'{BASE_DIR}/ROI_data/{ROI}/data'
     EMBED_DIR = f'{BASE_DIR}/demo_embeddings' if DATASET == 'demo' else f'{BASE_DIR}/ROI_data/{ROI}/embeddings'
@@ -89,4 +90,32 @@ if __name__ == "__main__":
 
     out_fn = f'{OUT_DIR}/source/{ROI}_behavior_event_boundaries_WB_tempBalance.csv'
     result_df.to_csv(out_fn)
-
+    
+    ## repeat for constant embedding dimensionality
+    joblist = []
+    parameters = []
+    CONSTANT_M=3
+    for method in config.EMBEDDING_METHODS:
+        data = get_embedding_data(method, np.repeat(CONSTANT_M, len(config.SUBJECTS[DATASET])))
+        for subject, ds in zip(config.SUBJECTS[DATASET], data):
+            joblist.append(delayed(compute_event_boundaries_diff_temporally_balanced)(ds, sherlock_scene_boundaries))
+            parameters.append({"subject":subject,"method":method,"M":CONSTANT_M,"ROI":ROI})
+            
+    with Parallel(n_jobs=config.NJOBS) as parallel:
+        results = parallel(joblist)
+    result_df = pd.DataFrame(columns=['subject','embed_method','M',
+                                      'avg_within','avg_between','avg_difference','ROI'])    
+    for r, p in zip(results, parameters):
+        d, w, b, comparisons, _ = r
+        avg_within = np.nanmean(w)
+        avg_between = np.nanmean(b)
+        avg_diff = np.nanmean(d)
+        result_df.loc[len(result_df)] = {'subject': p['subject'],
+                                     'embed_method': p['method'],
+                                     'CV_M': CONSTANT_M,
+                                     'avg_within': avg_within,
+                                     'avg_between': avg_between,
+                                     'avg_difference': avg_diff,
+                                     'ROI': p['ROI']}
+    out_fn = f'{OUT_DIR}/source/{ROI}_behavior_event_boundaries_WB_tempBalance_controlM.csv'
+    result_df.to_csv(out_fn)                      

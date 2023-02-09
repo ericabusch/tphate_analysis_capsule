@@ -1,3 +1,8 @@
+"""
+Runs the comparisons between the behavioral and HMM identified boundaries reported in Supplementary Figure 9
+for the PMC ROI in the sherlock dataset.
+"""
+
 import numpy as np
 import pandas as pd
 import utils, config

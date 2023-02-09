@@ -16,7 +16,7 @@ def load_demo_data(ROI, subjects='all', z=True): # placeholder argument here to 
     SUBS = SUBJECTS['demo'] if subjects == 'all' else subjects
     dss=[]
     for s in SUBS:
-        fn = DATA_FOLDERS['demo']+f'/demo_ROI_data/sub-{s:02d}_early_visual_sherlock_movie.npy'
+        fn = DATA_FOLDERS_CAPSULE['demo']+f'/demo_ROI_data/sub-{s:02d}_early_visual_sherlock_movie.npy'
         dss.append(np.nan_to_num(zscore(np.load(fn), axis=0)))
     return dss
 
