@@ -182,11 +182,11 @@ def preprocess_forrest_labels():
     orig_df['FoT_coded'] = FoT
 
     df_expanded = pd.DataFrame(columns=['time', 'IoE_coded', 'FoT_coded', 'ToD_coded', 'TR'])
-    TRs = labels['TR'].astype(int)
+    TRs = orig_df['TR'].astype(int)
     # expand every column
     for col_label in ['time', 'IoE_coded', 'FoT_coded', 'ToD_coded']:
-        col_data = labels[col_label].values
-        df_expanded[col_label] = label_each_TR(TRs, col_data, 3599, len(labels))
+        col_data = orig_df[col_label].values
+        df_expanded[col_label] = label_each_TR(TRs, col_data, 3599, len(orig_df))
     df_expanded['TR'] = np.arange(len(df_expanded))
     df_expanded.to_csv(FEATURES_FILES['forrest'])
 
