@@ -4,7 +4,7 @@ import numpy as np
 NJOBS=16
 VERBOSE = True
 
-ROOT = '/gpfs/milgram/scratch60/turk-browne/neuromanifold'
+ROOT = 'ROOT_PROJECT_NAME'
 
 DATASETS = ['sherlock','forrest']
 
