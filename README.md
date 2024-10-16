@@ -1,4 +1,4 @@
-# T-PHATE Analysis Capsule
+# T-PHATE Analysis Capsule - Nat. Comput. Sci.
 
 [![DOI](https://zenodo.org/badge/529971243.svg)](https://zenodo.org/badge/latestdoi/529971243)
 
